@@ -12,3 +12,13 @@ override_dh_auto_clean:
 
 override_dh_auto_configure:
 	CC=$(CC) CXX=$(CXX) ./configure --prefix=/usr --shared --without-npm --without-corepack
+
+
+override_dh_auto_install:
+	dh_auto_install
+	wget https://raw.githubusercontent.com/nodejs/node-addon-api/v5.0.0/napi.h \
+		-O $(DESTDIR)/usr/include/node/napi.h
+	wget https://raw.githubusercontent.com/nodejs/node-addon-api/v5.0.0/napi-inl.h \
+		-O $(DESTDIR)/usr/include/node/napi-inl.h
+	wget https://raw.githubusercontent.com/nodejs/node-addon-api/v5.0.0/napi-inl.deprecated.h \
+		-O $(DESTDIR)/usr/include/node/napi-inl.deprecated.h

@@ -11,5 +11,6 @@ Unlike the distributions built-in packages, these packages:
 * Include [PR#43542](https://github.com/nodejs/node/pull/43542) allowing to embed the Node.js entirely through the binary stable Node-API from both C and C++. This PR might or might not get merged (it is currently under discussions)
 * Are not supported on all hardware platforms
 * Are not restrained by Debian dogma (some of the included dependencies are not fully GPL-compatible - but it is still qualifies as free software)
+* `node-addon-api@5.0.0` is included in `libnode-dev`
 
 The packages have been developed and are maintained as part of GSoC 2022 by the Open Source Geospatial Foundation and are copyright by Google and distributed under MIT License.

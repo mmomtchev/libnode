@@ -7,8 +7,8 @@ RUN set -ex && \
     DEBIAN_FRONTEND=noninteractive apt-get -y install devscripts debhelper build-essential quilt \
         python3 g++-8 make python3-pip wget
 
-RUN wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}.tar.gz && \
-    mv v${NODE_VERSION}.tar.gz node_${NODE_VERSION}.orig.tar.gz && \
+RUN wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}.tar.gz \
+        -O node_${NODE_VERSION}.orig.tar.gz && \
     tar -zxvf node_${NODE_VERSION}.orig.tar.gz
 
 COPY debian /node-${NODE_VERSION}/debian
