@@ -4,7 +4,7 @@ ARG NODE_VERSION=16.15.1
 
 RUN set -ex && \
     DEBIAN_FRONTEND=noninteractive apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get -y install devscripts debhelper build-essential \
+    DEBIAN_FRONTEND=noninteractive apt-get -y install devscripts debhelper build-essential quilt \
         python3 g++-8 make python3-pip wget
 
 RUN wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}.tar.gz && \
