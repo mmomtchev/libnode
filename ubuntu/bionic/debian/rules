@@ -1,0 +1,14 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+
+override_dh_auto_clean:
+	dh_auto_clean
+	find . -name __pycache__ | xargs rm -rf
+	rm -f config.status
+
+
+override_dh_auto_configure:
+	CC=$(CC) CXX=$(CXX) ./configure --prefix=/usr --shared --without-npm --without-corepack

@@ -1,0 +1,3 @@
+node source: source-is-missing tools/node_modules/*
+node source: source-is-missing deps/*
+node source: source-is-missing test/fixtures/*

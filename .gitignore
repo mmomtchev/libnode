@@ -1,0 +1,10 @@
+*.deb
+
+*.tar.gz
+*.tar.xz
+*.build
+*.buildinfo
+*.changes
+*.dsc
+
+/*/*/node-*/
