@@ -19,4 +19,4 @@ jobs:
       with:
         node-version: 16.x
     - name: Build package
-    - run: docker build ubuntu/bionic
+      run: docker build ubuntu/bionic
