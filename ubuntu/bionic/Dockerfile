@@ -23,4 +23,4 @@ COPY debian /node-${NODE_VERSION}/debian
 
 WORKDIR /node-${NODE_VERSION} 
 
-ENTRYPOINT debuild ${DEB_BUILD_ARGS} -us -uc
+ENTRYPOINT debuild ${DEB_BUILD_ARGS} --preserve-envvar=NAPI_VERSION --preserve-envvar=NODE_VERSION -us -uc
