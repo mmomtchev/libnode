@@ -42,6 +42,14 @@ jobs:
     - name: Set fast mode
       run: echo "ARG_FAST=--build-arg FAST=1" >> ${GITHUB_ENV}
       if: github.event.inputs.full == 0
+    - name: Set Node version
+      run: |
+        NODE_VERSION=${{ github.event.inputs.node_version }}
+        echo "::set-output name=value::${NODE_VERSION:-"16.15.1"}"
+    - name: Set node-addon-api version
+      run: |
+        NAPI_VERSION=${{ github.event.inputs.napi_version }}
+        echo "::set-output name=value::${NAPI_VERSION:-"5.0.0"}"
     - name: Build container
       run: |
         docker build --build-arg ${{matrix.release}} ${ARG_FAST} \
@@ -61,14 +69,22 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      name: Download Node.js source tarball
-    - run: |
-        wget https://github.com/nodejs/node/archive/refs/tags/v${{github.event.inputs.node_version}}.tar.gz \
-          -O ubuntu/node_${{github.event.inputs.node_version}}.orig.tar.gz
+    - name: Set Node version
+      run: |
+        NODE_VERSION=${{ github.event.inputs.node_version }}
+        echo "::set-output name=value::${NODE_VERSION:-"16.15.1"}"
+    - name: Set node-addon-api version
+      run: |
+        NAPI_VERSION=${{ github.event.inputs.napi_version }}
+        echo "::set-output name=value::${NAPI_VERSION:-"5.0.0"}"
+    - name: Download Node.js source tarball
+      run: |
+        wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}}.tar.gz \
+          -O ubuntu/node_${NODE_VERSION}.orig.tar.gz
     - name: Extract the tarball
       run: |
         cd ubuntu && \
-        tar zxvf node_${{github.event.inputs.node_version}}.orig.tar.gz && \
-        cp -a debian node-${{github.event.inputs.node_version}}
+        tar zxvf node_${NODE_VERSION}.orig.tar.gz && \
+        cp -a debian node-${NODE_VERSION}
     - name: Build the source package
-      run: cd ubuntu && debuild -S
+      run: cd ubuntu && debuild -S --preserve-envvar=NAPI_VERSION --preserve-envvar=NODE_VERSION
