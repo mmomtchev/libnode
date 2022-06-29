@@ -22,3 +22,4 @@ override_dh_auto_install:
 		-O $(DESTDIR)/usr/include/node/napi-inl.h
 	wget https://raw.githubusercontent.com/nodejs/node-addon-api/v$(NAPI_VERSION)/napi-inl.deprecated.h \
 		-O $(DESTDIR)/usr/include/node/napi-inl.deprecated.h
+	sed s/_VERSION_/$(NODE_VERSION)/ node.pc > $(DESTDIR)/usr/share/pkgconfig/node.pc

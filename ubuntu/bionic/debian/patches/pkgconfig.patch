@@ -1,0 +1,16 @@
+diff --git a/node.pc b/node.pc
+new file mode 100644
+index 0000000000..025844b9ac
+--- /dev/null
++++ b/node.pc
+@@ -0,0 +1,10 @@
++prefix=/usr
++exec_prefix=/usr
++libdir=/usr/lib
++includedir=${prefix}/include/node
++
++Name: node
++Description: Embedded Node.js
++Version: _VERSION_
++Cflags: -I${includedir}/node
++Libs: -L${libdir} -lnode
