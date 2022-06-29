@@ -34,4 +34,4 @@ jobs:
     - name: Build container
       run: docker build ${ARG_FAST} -t mmomtchev/libnode-ubuntu-bionic:latest ubuntu/bionic
     - name: Run container
-      run: docker run -v ${CCACHE_DIR}:/ccache --env CCACHE_DIR=/ccache mmomtchev/libnode-ubuntu-bionic:latest
+      run: docker run -v `ccache --get-config=cache_dir`:/ccache --env CCACHE_DIR=/ccache mmomtchev/libnode-ubuntu-bionic:latest
