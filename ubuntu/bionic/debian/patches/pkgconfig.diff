@@ -1,8 +1,7 @@
-diff --git a/node.pc b/node.pc
-new file mode 100644
-index 0000000000..025844b9ac
+Index: node-16.15.1/node.pc
+===================================================================
 --- /dev/null
-+++ b/node.pc
++++ node-16.15.1/node.pc
 @@ -0,0 +1,10 @@
 +prefix=/usr
 +exec_prefix=/usr
