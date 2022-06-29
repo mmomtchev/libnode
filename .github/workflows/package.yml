@@ -44,10 +44,10 @@ jobs:
       if: github.event.inputs.full == 0
     - name: Build container
       run: |
-        docker build --build-args ${{matrix.release}} ${ARG_FAST} \
-          --build-args RELEASE=${{matrix.release}} \
-          --build-args NODE_VERSION=${{github.event.inputs.node_version}} \
-          --build-args NAPI_VERSION=${{github.event.inputs.napi_version}} \
+        docker build --build-arg ${{matrix.release}} ${ARG_FAST} \
+          --build-arg RELEASE=${{matrix.release}} \
+          --build-arg NODE_VERSION=${{github.event.inputs.node_version}} \
+          --build-arg NAPI_VERSION=${{github.event.inputs.napi_version}} \
           -t mmomtchev/libnode-ubuntu-${{matrix.release}}:latest ubuntu
     - name: Run container
       run: |
@@ -63,9 +63,12 @@ jobs:
     - uses: actions/checkout@v2
       name: Download Node.js source tarball
     - run: |
-        wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}.tar.gz \
-          -O ubuntu/node_${NODE_VERSION}.orig.tar.gz
+        wget https://github.com/nodejs/node/archive/refs/tags/v${{github.event.inputs.node_version}}.tar.gz \
+          -O ubuntu/node_${{github.event.inputs.node_version}}.orig.tar.gz
     - name: Extract the tarball
-      run: cd ubuntu && tar zxvf node_${NODE_VERSION}.orig.tar.gz && cp -a debian node-${NODE_VERSION}
+      run: |
+        cd ubuntu && \
+        tar zxvf node_${{github.event.inputs.node_version}}.orig.tar.gz && \
+        cp -a debian node-${{github.event.inputs.node_version}}
     - name: Build the source package
       run: cd ubuntu && debuild -S
