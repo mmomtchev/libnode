@@ -43,10 +43,12 @@ jobs:
       run: echo "ARG_FAST=--build-arg FAST=1" >> ${GITHUB_ENV}
       if: github.event.inputs.full == 0
     - name: Set Node version
+      id: node_version
       run: |
         NODE_VERSION=${{ github.event.inputs.node_version }}
         echo '::set-output name=value::${NODE_VERSION:-"16.15.1"}'
     - name: Set node-addon-api version
+      id: napi_version
       run: |
         NAPI_VERSION=${{ github.event.inputs.napi_version }}
         echo '::set-output name=value::${NAPI_VERSION:-"5.0.0"}'
@@ -54,8 +56,8 @@ jobs:
       run: |
         docker build --build-arg ${{matrix.release}} ${ARG_FAST} \
           --build-arg RELEASE=${{matrix.release}} \
-          --build-arg NODE_VERSION=${{github.event.inputs.node_version}} \
-          --build-arg NAPI_VERSION=${{github.event.inputs.napi_version}} \
+          --build-arg NODE_VERSION=${{steps.node_version.outputs.value}} \
+          --build-arg NAPI_VERSION=${{steps.napi_version.outputs.value}} \
           -t mmomtchev/libnode-ubuntu-${{matrix.release}}:latest ubuntu
     - name: Run container
       run: |
@@ -70,21 +72,26 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Set Node version
+      id: node_version
       run: |
         NODE_VERSION=${{ github.event.inputs.node_version }}
         echo '::set-output name=value::${NODE_VERSION:-"16.15.1"}'
     - name: Set node-addon-api version
+      id: napi_version
       run: |
         NAPI_VERSION=${{ github.event.inputs.napi_version }}
         echo '::set-output name=value::${NAPI_VERSION:-"5.0.0"}'
     - name: Download Node.js source tarball
       run: |
-        wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}}.tar.gz \
+        wget https://github.com/nodejs/node/archive/refs/tags/v${{steps.node_version.outputs.value}}.tar.gz \
           -O ubuntu/node_${NODE_VERSION}.orig.tar.gz
     - name: Extract the tarball
       run: |
         cd ubuntu && \
-        tar zxvf node_${NODE_VERSION}.orig.tar.gz && \
-        cp -a debian node-${NODE_VERSION}
+        tar zxvf node_${{steps.node_version.outputs.value}}.orig.tar.gz && \
+        cp -a debian node-${{steps.node_version.outputs.value}}
     - name: Build the source package
       run: cd ubuntu && debuild -S --preserve-envvar=NAPI_VERSION --preserve-envvar=NODE_VERSION
+      env:
+        NODE_VERSION: ${{steps.node_version.outputs.value}}
+        NAPI_VERSION: ${{steps.napi_version.outputs.value}}
