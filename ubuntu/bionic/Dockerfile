@@ -7,7 +7,8 @@ ENV NAPI_VERSION=${NAPI_VERSION}
 
 ARG FAST
 ENV DEB_BUILD_OPTIONS=${FAST:+nocheck}
-ENV DEB_BUILD_ARGS=${FAST:+"--preserve-envvar=CCACHE_DIR --prepend-path=/usr/lib/ccache"}
+ENV CCACHE_LOGFILE=/tmp/cache.debug
+ENV DEB_BUILD_ARGS=${FAST:+"--preserve-envvar=CCACHE_DIR --preserve-envvar=CCACHE_LOGFILE --prepend-path=/usr/lib/ccache"}
 
 RUN set -ex && \
     DEBIAN_FRONTEND=noninteractive apt-get update && \
@@ -23,4 +24,4 @@ COPY debian /node-${NODE_VERSION}/debian
 
 WORKDIR /node-${NODE_VERSION} 
 
-ENTRYPOINT debuild ${DEB_BUILD_ARGS} --preserve-envvar=NAPI_VERSION --preserve-envvar=NODE_VERSION -us -uc
+ENTRYPOINT exec debuild ${DEB_BUILD_ARGS} --preserve-envvar=NAPI_VERSION --preserve-envvar=NODE_VERSION -us -uc
