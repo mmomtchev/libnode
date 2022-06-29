@@ -21,4 +21,6 @@ RUN wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}.tar.g
 
 COPY debian /node-${NODE_VERSION}/debian
 
-RUN cd /node-${NODE_VERSION} && debuild ${DEB_BUILD_ARGS} -us -uc
+WORKDIR /node-${NODE_VERSION} 
+
+ENTRYPOINT debuild ${DEB_BUILD_ARGS} -us -uc
