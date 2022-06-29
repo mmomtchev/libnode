@@ -32,4 +32,4 @@ jobs:
       run: echo "ARG_FAST=--build-arg FAST=1" >> ${GITHUB_ENV}
       if: github.event.inputs.full == 0
     - name: Build package
-      run: docker build ${ARG_FAST} ubuntu/bionic
+      run: docker build -v ${CCACHE_DIR}:/ccache --env CCACHE_DIR=/ccache ${ARG_FAST} ubuntu/bionic
