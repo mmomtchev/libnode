@@ -3,11 +3,16 @@ FROM ubuntu:bionic
 ARG NODE_VERSION=16.15.1
 ARG NAPI_VERSION=5.0.0
 ENV NODE_VERSION=${NODE_VERSION}
-ENV NAPI_VERSION=${NAPI_VERSION}}
+ENV NAPI_VERSION=${NAPI_VERSION}
+
+ARG FAST
+ENV DEB_BUILD_OPTIONS=${FAST:+nocheck}
+ENV DEB_BUILD_ARGS=${FAST:+"--preserve-envvar=CCACHE_DIR --prepend-path=/usr/lib/ccache"}
 
 RUN set -ex && \
     DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get -y install devscripts debhelper build-essential quilt \
+        ccache \
         python3 g++-8 make python3-pip wget
 
 RUN wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}.tar.gz \
@@ -16,4 +21,4 @@ RUN wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}.tar.g
 
 COPY debian /node-${NODE_VERSION}/debian
 
-RUN cd /node-${NODE_VERSION} && debuild -us -uc
+RUN cd /node-${NODE_VERSION} && debuild ${DEB_BUILD_ARGS} -us -uc

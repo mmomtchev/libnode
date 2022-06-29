@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+    inputs:
+      full:
+        description: 'Full rebuild without ccache'
+        required: false
+        default: 0
 
 jobs:
   ubuntu-bionic:
@@ -18,5 +23,13 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 16.x
+    - name: ccache
+      uses: hendrikmuhs/ccache-action@v1
+      with:
+        max-size: 1000M
+        key: ubuntu-bionic
+    - name: Set fast mode
+      run: echo "ARG_FAST='--build-arg FAST=1'" >> ${GITHUB_ENV}
+      if: github.event.inputs.full == 0
     - name: Build package
-      run: docker build ubuntu/bionic
+      run: docker build ${ARG_FAST} ubuntu/bionic
