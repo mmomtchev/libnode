@@ -11,27 +11,61 @@ on:
         description: 'Full rebuild without ccache'
         required: false
         default: 0
+      node_version:
+        description: 'Node.js version'
+        required: false
+        default: 16.15.1
+      napi_version:
+        description: 'node-addon-api version'
+        required: false
+        default: 5.0.0
 
 jobs:
-  ubuntu-bionic:
+  ubuntu-binary:
 
     runs-on: ubuntu-20.04
 
+    strategy:
+      matrix:
+        release:
+          - bionic
+          - focal
+          - jammy
+
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js 16.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: 16.x
     - name: ccache
       uses: hendrikmuhs/ccache-action@v1
       with:
-        max-size: 1000M
+        max-size: 2000M
         key: ubuntu-bionic
     - name: Set fast mode
       run: echo "ARG_FAST=--build-arg FAST=1" >> ${GITHUB_ENV}
       if: github.event.inputs.full == 0
     - name: Build container
-      run: docker build ${ARG_FAST} -t mmomtchev/libnode-ubuntu-bionic:latest ubuntu/bionic
+      run: |
+        docker build --build-args ${{matrix.release}} ${ARG_FAST} \
+          --build-args RELEASE=${{matrix.release}} \
+          --build-args NODE_VERSION=${{github.event.inputs.node_version}} \
+          --build-args NAPI_VERSION=${{github.event.inputs.napi_version}} \
+          -t mmomtchev/libnode-ubuntu-${{matrix.release}}:latest ubuntu
     - name: Run container
-      run: docker run -v `ccache --get-config=cache_dir`:/ccache --env CCACHE_DIR=/ccache mmomtchev/libnode-ubuntu-bionic:latest
+      run: |
+        docker run -v `ccache --get-config=cache_dir`:/ccache --env CCACHE_DIR=/ccache \
+          mmomtchev/libnode-ubuntu-${{matrix.release}}:latest
+
+
+  ubuntu-source:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+      name: Download Node.js source tarball
+    - run: |
+        wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}.tar.gz \
+          -O ubuntu/node_${NODE_VERSION}.orig.tar.gz
+    - name: Extract the tarball
+      run: cd ubuntu && tar zxvf node_${NODE_VERSION}.orig.tar.gz && cp -a debian node-${NODE_VERSION}
+    - name: Build the source package
+      run: cd ubuntu && debuild -S

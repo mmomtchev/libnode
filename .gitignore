@@ -7,4 +7,4 @@
 *.changes
 *.dsc
 
-/*/*/node-*/
+/*/node-*/

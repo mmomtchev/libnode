@@ -1,4 +1,5 @@
-FROM ubuntu:bionic
+ARG RELEASE=bionic
+FROM ubuntu:${RELEASE}
 
 ARG NODE_VERSION=16.15.1
 ARG NAPI_VERSION=5.0.0
@@ -6,7 +7,7 @@ ENV NODE_VERSION=${NODE_VERSION}
 ENV NAPI_VERSION=${NAPI_VERSION}
 
 ARG FAST
-ENV DEB_BUILD_OPTIONS=${FAST:+nocheck}
+#ENV DEB_BUILD_OPTIONS=${FAST:+nocheck}
 ENV CCACHE_LOGFILE=/tmp/cache.debug
 ENV DEB_BUILD_ARGS=${FAST:+"--preserve-envvar=CCACHE_DIR --preserve-envvar=CCACHE_LOGFILE --prepend-path=/usr/lib/ccache"}
 

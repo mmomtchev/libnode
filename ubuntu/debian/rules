@@ -24,4 +24,3 @@ override_dh_auto_install:
 		-O debian/tmp/usr/include/node/napi-inl.deprecated.h
 	mkdir -p debian/tmp/usr/share/pkgconfig
 	sed s/_VERSION_/$(NODE_VERSION)/ node.pc > debian/tmp/usr/share/pkgconfig/node.pc
-	cat /tmp/cache.debug
