@@ -1,6 +1,9 @@
 FROM ubuntu:bionic
 
 ARG NODE_VERSION=16.15.1
+ARG NAPI_VERSION=5.0.0
+ENV NODE_VERSION=${NODE_VERSION}
+ENV NAPI_VERSION=${NAPI_VERSION}}
 
 RUN set -ex && \
     DEBIAN_FRONTEND=noninteractive apt-get update && \

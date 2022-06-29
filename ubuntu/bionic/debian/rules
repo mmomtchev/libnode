@@ -16,9 +16,9 @@ override_dh_auto_configure:
 
 override_dh_auto_install:
 	dh_auto_install
-	wget https://raw.githubusercontent.com/nodejs/node-addon-api/v5.0.0/napi.h \
+	wget https://raw.githubusercontent.com/nodejs/node-addon-api/v$(NAPI_VERSION)/napi.h \
 		-O $(DESTDIR)/usr/include/node/napi.h
-	wget https://raw.githubusercontent.com/nodejs/node-addon-api/v5.0.0/napi-inl.h \
+	wget https://raw.githubusercontent.com/nodejs/node-addon-api/v$(NAPI_VERSION)/napi-inl.h \
 		-O $(DESTDIR)/usr/include/node/napi-inl.h
-	wget https://raw.githubusercontent.com/nodejs/node-addon-api/v5.0.0/napi-inl.deprecated.h \
+	wget https://raw.githubusercontent.com/nodejs/node-addon-api/v$(NAPI_VERSION)/napi-inl.deprecated.h \
 		-O $(DESTDIR)/usr/include/node/napi-inl.deprecated.h
