@@ -62,14 +62,14 @@ jobs:
           -t mmomtchev/libnode-ubuntu-${{matrix.release}}:latest ubuntu
     - name: Run build container
       run: |
-        mkdir -p binary-${{matrix.release}}-${{github.event.inputs.node_version}}
+        mkdir -p binary-${{matrix.release}}-${{steps.node_version.outputs.value}}
         docker run -v `ccache --get-config=cache_dir`:/ccache --env CCACHE_DIR=/ccache \
-          -v `pwd`/artifact:/out \
+          -v `pwd`/binary-${{matrix.release}}-${{steps.node_version.outputs.value}}:/out \
           mmomtchev/libnode-ubuntu-${{matrix.release}}:latest
     - uses: actions/upload-artifact@v3
       with:
-        name: binary-${{matrix.release}}-${{github.event.inputs.node_version}}
-        path: binary-${{matrix.release}}-${{github.event.inputs.node_version}}
+        name: binary-${{matrix.release}}-${{steps.node_version.outputs.value}}
+        path: binary-${{matrix.release}}-${{steps.node_version.outputs.value}}
 
 
   ubuntu-source:
@@ -100,9 +100,9 @@ jobs:
           -t mmomtchev/libnode-ubuntu-source:latest ubuntu
     - name: Run build container
       run: |
-        mkdir -p artifact
-        docker run -v `pwd`/artifact:/out mmomtchev/libnode-ubuntu-source:latest
+        mkdir -p source-${{steps.node_version.outputs.value}}
+        docker run -v `pwd`/source-${{steps.node_version.outputs.value}}:/out mmomtchev/libnode-ubuntu-source:latest
     - uses: actions/upload-artifact@v3
       with:
-        name: source-${{github.event.inputs.node_version}}
-        path: source-${{github.event.inputs.node_version}}
+        name: source-${{steps.node_version.outputs.value}}
+        path: source-${{steps.node_version.outputs.value}}
