@@ -20,6 +20,8 @@ The packages have been developed and are maintained as part of GSoC 2022 by the 
 This version of `libnode` can be used from both C and C++ with a simple Node-API interface:
 
 ```c
+// !!! All napi calls must happen from the same thread !!!
+// (except everything napi_threadsafe_function related)
 napi_platform platform;
 napi_env env;
 napi_handle_scope scope;
@@ -43,11 +45,8 @@ if (napi_create_environment(platform, NULL, main_script, &env) != napi_ok) {
     return -1;
 }
 
-
 // Here you can interact with the environment through Node-API env
 // (refer to the Node-API doc)
-
-
 if (napi_get_global(env, &global) != napi_ok) {
     fprintf(stderr, "Failed accessing the global object\n");
     return -1;
@@ -61,11 +60,13 @@ if (napi_get_property(env, global, key, &cb) != napi_ok) {
 // This cycle can be repeated
 {
     // Call a JS function
+    // V8 will run in this thread
     if (napi_call_function(env, global, cb, 0, NULL, &result) != napi_ok) {
         fprintf(stderr, "Failed calling JS callback\n");
         return -1;
     }
-    // Call this to flush all pending async callbacks
+    // (optional) Call this to flush all pending async callbacks
+    // V8 will run in this thread
     if (napi_run_environment(env) != napi_ok) {
         fprintf(stderr, "Failed flushing pending JS callbacks\n");
         return -1;
