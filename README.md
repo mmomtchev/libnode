@@ -74,6 +74,8 @@ if (napi_get_property(env, global, key, &cb) != napi_ok) {
 }
 
 // Shutdown everyhing
+napi_close_handle_scope(env, scope);
+
 if (napi_destroy_environment(env, NULL) != napi_ok) {
     return -1;
 }
