@@ -84,7 +84,7 @@ jobs:
     - name: Download Node.js source tarball
       run: |
         wget https://github.com/nodejs/node/archive/refs/tags/v${{steps.node_version.outputs.value}}.tar.gz \
-          -O ubuntu/node_${NODE_VERSION}.orig.tar.gz
+          -O ubuntu/node_${{steps.node_version.outputs.value}}.orig.tar.gz
     - name: Extract the tarball
       run: |
         cd ubuntu && \
