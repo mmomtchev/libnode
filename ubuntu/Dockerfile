@@ -13,9 +13,9 @@ ENV DEB_BUILD_ARGS=${FAST:+"--preserve-envvar=CCACHE_DIR --preserve-envvar=CCACH
 
 RUN set -ex && \
     if [ `lsb_release -cs` = 'bionic' ]; then \
-        GCC=g++8 \
+        GCC=g++8; \
     else \
-        GCC=g++ \
+        GCC=g++; \
     fi && \
     DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get -y install devscripts debhelper build-essential quilt \
