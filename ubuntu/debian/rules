@@ -1,5 +1,9 @@
 #!/usr/bin/make -f
 
+DEB_CXXFLAGS_MAINT_APPEND = $(shell dpkg-buildflags --get CPPFLAGS) -fno-lto
+DEB_CFLAGS_MAINT_APPEND = $(shell dpkg-buildflags --get CFLAGS) -fno-lto
+
+
 %:
 	dh $@
 

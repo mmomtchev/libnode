@@ -10,7 +10,7 @@ Package: libnode-dev
 Section: libdevel
 Architecture: amd64
 Conflicts: nodejs-dev
-Depends: ${shlibs:Depends}, ${misc:Depends}, libnode93 (= ${binary:Version})
+Depends: ${misc:Depends}, libnode93 (= ${binary:Version})
 Description: evented I/O for V8 javascript (development files)
  Node.js is a platform built on Chrome's JavaScript runtime for easily
  building fast, scalable network applications. Node.js uses an
