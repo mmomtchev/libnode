@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-DEB_BUILD_MAINT_OPTIONS=optimize=-lto
+export DEB_BUILD_MAINT_OPTIONS=optimize=-lto
 
 %:
 	dh $@
