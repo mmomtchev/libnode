@@ -45,12 +45,12 @@ jobs:
     - name: Set Node version
       id: node_version
       run: |
-        NODE_VERSION=${{ github.event.inputs.node_version }}
+        NODE_VERSION=${{github.event.inputs.node_version}}
         echo '::set-output name=value::${NODE_VERSION:-"16.15.1"}'
     - name: Set node-addon-api version
       id: napi_version
       run: |
-        NAPI_VERSION=${{ github.event.inputs.napi_version }}
+        NAPI_VERSION=${{github.event.inputs.napi_version}}
         echo '::set-output name=value::${NAPI_VERSION:-"5.0.0"}'
     - name: Prepare build container
       run: |
@@ -62,8 +62,14 @@ jobs:
           -t mmomtchev/libnode-ubuntu-${{matrix.release}}:latest ubuntu
     - name: Run build container
       run: |
+        mkdir -p binary-${{matrix.release}}-${{github.event.inputs.node_version}}
         docker run -v `ccache --get-config=cache_dir`:/ccache --env CCACHE_DIR=/ccache \
+          -v `pwd`/artifact:/out \
           mmomtchev/libnode-ubuntu-${{matrix.release}}:latest
+    - uses: actions/upload-artifact@v3
+      with:
+        name: binary-${{matrix.release}}-${{github.event.inputs.node_version}}
+        path: binary-${{matrix.release}}-${{github.event.inputs.node_version}}
 
 
   ubuntu-source:
@@ -78,12 +84,12 @@ jobs:
     - name: Set Node version
       id: node_version
       run: |
-        NODE_VERSION=${{ github.event.inputs.node_version }}
+        NODE_VERSION=${{github.event.inputs.node_version}}
         echo '::set-output name=value::${NODE_VERSION:-"16.15.1"}'
     - name: Set node-addon-api version
       id: napi_version
       run: |
-        NAPI_VERSION=${{ github.event.inputs.napi_version }}
+        NAPI_VERSION=${{github.event.inputs.napi_version}}
         echo '::set-output name=value::${NAPI_VERSION:-"5.0.0"}'
     - name: Prepare build container
       run: |
@@ -94,4 +100,9 @@ jobs:
           -t mmomtchev/libnode-ubuntu-source:latest ubuntu
     - name: Run build container
       run: |
-        docker run mmomtchev/libnode-ubuntu-source:latest
+        mkdir -p artifact
+        docker run -v `pwd`/artifact:/out mmomtchev/libnode-ubuntu-source:latest
+    - uses: actions/upload-artifact@v3
+      with:
+        name: source-${{github.event.inputs.node_version}}
+        path: source-${{github.event.inputs.node_version}}

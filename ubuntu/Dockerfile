@@ -33,9 +33,13 @@ RUN wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}.tar.g
 
 COPY debian /node-${NODE_VERSION}/debian
 
+RUN sed -i s/UNIVERSAL/${RELEASE}/g ubuntu/debian/changelog
+
 WORKDIR /node-${NODE_VERSION} 
 
-ENTRYPOINT CC=`cat /gcc` CXX=`cat /gcxx` exec debuild ${DEB_BUILD_ARGS} \
+ENTRYPOINT exec /bin/bash -c \
+    'CC=`cat /gcc` CXX=`cat /gcxx` debuild ${DEB_BUILD_ARGS} \
     --preserve-envvar=CC --preserve-envvar=CXX  \
     --preserve-envvar=NAPI_VERSION --preserve-envvar=NODE_VERSION \
-    ${DEB_OPERATION}
+    ${DEB_OPERATION} && \
+    cp ../*.changes ../*.dsc ../*.debian.tar.xz ../*.buildinfo ../*.deb /out'
