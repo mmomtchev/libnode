@@ -13,7 +13,19 @@ Unlike the distributions built-in packages, these packages:
 * Are not restrained by Debian dogma (some of the included dependencies are not fully GPL-compatible - but it is still qualifies as free software)
 * `node-addon-api@5.0.0` is included in `libnode-dev`
 
-The packages have been developed and are maintained as part of GSoC 2022 by the Open Source Geospatial Foundation and are copyright by Google and distributed under MIT License.
+The packages have been developed as part of GSoC 2022 on a project sponsored by the Open Source Geospatial Foundation and are copyright by Google and distributed under MIT License.
+
+I am maintaining them as courtesy to the open source community.
+
+# Supported Platforms
+
+Node.js 16.x and (_in progress_) Node.js 18.x on
+
+* Ubuntu 18.04 (**Bionic**)
+* Ubuntu 20.04 (**Focal**)
+* Ubuntu 22.04 (**Jammy**)
+* (_in progress_) Debian 10 (**Buster**)
+* (_in progress_) Debian 11 (**Bullseye**)
 
 # Using from C/C++
 
