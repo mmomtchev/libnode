@@ -33,7 +33,7 @@ RUN wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}.tar.g
 
 COPY debian /node-${NODE_VERSION}/debian
 
-RUN sed -i s/UNIVERSAL/${RELEASE}/g ubuntu/debian/changelog
+RUN sed -i s/UNIVERSAL/${RELEASE}/g /node-${NODE_VERSION}/debian/changelog
 
 WORKDIR /node-${NODE_VERSION} 
 
