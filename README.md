@@ -26,7 +26,7 @@ napi_handle_scope scope;
 napi_value global;
 napi_value key;
 napi_value cb;
-napi_value 
+napi_value result;
 
 const char *main_script = "console.log('hello world'); function callMe() { console.log('called you'); }";
 
