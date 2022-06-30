@@ -20,7 +20,8 @@ The packages have been developed and are maintained as part of GSoC 2022 by the 
 This version of `libnode` can be used from both C and C++ with a simple Node-API interface:
 
 ```c
-// !!! All napi calls must happen from the same thread !!!
+// !!! All napi calls for one given environment must
+// !!! be made from the same thread that created it
 // (except everything napi_threadsafe_function related)
 
 // This the V8 engine, there must be only one
