@@ -91,7 +91,7 @@ jobs:
         tar zxvf node_${{steps.node_version.outputs.value}}.orig.tar.gz && \
         cp -a debian node-${{steps.node_version.outputs.value}}
     - name: Build the source package
-      run: cd ubuntu && debuild -S --preserve-envvar=NAPI_VERSION --preserve-envvar=NODE_VERSION
+      run: cd ubuntu && debuild --preserve-envvar=NAPI_VERSION --preserve-envvar=NODE_VERSION -S
       env:
         NODE_VERSION: ${{steps.node_version.outputs.value}}
         NAPI_VERSION: ${{steps.napi_version.outputs.value}}

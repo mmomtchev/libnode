@@ -12,10 +12,15 @@ ENV CCACHE_LOGFILE=/tmp/cache.debug
 ENV DEB_BUILD_ARGS=${FAST:+"--preserve-envvar=CCACHE_DIR --preserve-envvar=CCACHE_LOGFILE --prepend-path=/usr/lib/ccache"}
 
 RUN set -ex && \
+    if [ `lsb_release -cs` = 'bionic' ]; then \
+        GCC=g++8 \
+    else \
+        GCC=g++ \
+    fi && \
     DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get -y install devscripts debhelper build-essential quilt \
         ccache \
-        python3 g++-8 make python3-pip wget
+        python3 ${GCC} make python3-pip wget
 
 RUN wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}.tar.gz \
         -O node_${NODE_VERSION}.orig.tar.gz && \
