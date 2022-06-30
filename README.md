@@ -22,15 +22,22 @@ This version of `libnode` can be used from both C and C++ with a simple Node-API
 ```c
 // !!! All napi calls must happen from the same thread !!!
 // (except everything napi_threadsafe_function related)
+
+// This the V8 engine, there must be only one
 napi_platform platform;
+// This is a V8 isolate, there may be multiple
 napi_env env;
+// This holds local references, when it is closed
+// they become available to the GC
 napi_handle_scope scope;
+// These are JS values
 napi_value global;
 napi_value key;
 napi_value cb;
 napi_value result;
 
-const char *main_script = "console.log('hello world'); function callMe() { console.log('called you'); }";
+const char *main_script = "console.log('hello world'); "
+    "function callMe() { console.log('called you'); }";
 
 // Do only once
 if (napi_create_platform(0, NULL, 0, NULL, NULL, 0, &platform) != napi_ok) {
