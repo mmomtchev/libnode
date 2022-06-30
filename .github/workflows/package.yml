@@ -38,7 +38,7 @@ jobs:
       uses: hendrikmuhs/ccache-action@v1
       with:
         max-size: 2000M
-        key: ubuntu-bionic
+        key: ubuntu-${{matrix.release}}
     - name: Set fast mode
       run: echo "ARG_FAST=--build-arg FAST=1" >> ${GITHUB_ENV}
       if: github.event.inputs.full == 0
@@ -52,14 +52,15 @@ jobs:
       run: |
         NAPI_VERSION=${{ github.event.inputs.napi_version }}
         echo '::set-output name=value::${NAPI_VERSION:-"5.0.0"}'
-    - name: Build container
+    - name: Prepare build container
       run: |
-        docker build --build-arg ${{matrix.release}} ${ARG_FAST} \
+        docker build ${ARG_FAST} \
           --build-arg RELEASE=${{matrix.release}} \
           --build-arg NODE_VERSION=${{steps.node_version.outputs.value}} \
           --build-arg NAPI_VERSION=${{steps.napi_version.outputs.value}} \
+          --build-arg OPERATION="-us -uc" \
           -t mmomtchev/libnode-ubuntu-${{matrix.release}}:latest ubuntu
-    - name: Run container
+    - name: Run build container
       run: |
         docker run -v `ccache --get-config=cache_dir`:/ccache --env CCACHE_DIR=/ccache \
           mmomtchev/libnode-ubuntu-${{matrix.release}}:latest
@@ -71,6 +72,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Set fast mode
+      run: echo "ARG_FAST=--build-arg FAST=1" >> ${GITHUB_ENV}
+      if: github.event.inputs.full == 0
     - name: Set Node version
       id: node_version
       run: |
@@ -81,17 +85,13 @@ jobs:
       run: |
         NAPI_VERSION=${{ github.event.inputs.napi_version }}
         echo '::set-output name=value::${NAPI_VERSION:-"5.0.0"}'
-    - name: Download Node.js source tarball
+    - name: Prepare build container
       run: |
-        wget https://github.com/nodejs/node/archive/refs/tags/v${{steps.node_version.outputs.value}}.tar.gz \
-          -O ubuntu/node_${{steps.node_version.outputs.value}}.orig.tar.gz
-    - name: Extract the tarball
+        docker build ${ARG_FAST} \
+          --build-arg NODE_VERSION=${{steps.node_version.outputs.value}} \
+          --build-arg NAPI_VERSION=${{steps.napi_version.outputs.value}} \
+          --build-arg OPERATION="-S" \
+          -t mmomtchev/libnode-ubuntu-source:latest ubuntu
+    - name: Run build container
       run: |
-        cd ubuntu && \
-        tar zxvf node_${{steps.node_version.outputs.value}}.orig.tar.gz && \
-        cp -a debian node-${{steps.node_version.outputs.value}}
-    - name: Build the source package
-      run: cd ubuntu && debuild --preserve-envvar=NAPI_VERSION --preserve-envvar=NODE_VERSION -S
-      env:
-        NODE_VERSION: ${{steps.node_version.outputs.value}}
-        NAPI_VERSION: ${{steps.napi_version.outputs.value}}
+        docker run mmomtchev/libnode-ubuntu-source:latest

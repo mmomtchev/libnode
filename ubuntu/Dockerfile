@@ -6,6 +6,7 @@ ARG NAPI_VERSION=5.0.0
 ENV NODE_VERSION=${NODE_VERSION}
 ENV NAPI_VERSION=${NAPI_VERSION}
 
+ARG OPERATION="-us -uc"
 ARG FAST
 ENV DEB_BUILD_OPTIONS=${FAST:+nocheck}
 ENV CCACHE_LOGFILE=/tmp/cache.debug
@@ -30,4 +31,4 @@ COPY debian /node-${NODE_VERSION}/debian
 
 WORKDIR /node-${NODE_VERSION} 
 
-ENTRYPOINT exec debuild ${DEB_BUILD_ARGS} --preserve-envvar=NAPI_VERSION --preserve-envvar=NODE_VERSION -us -uc
+ENTRYPOINT exec debuild ${DEB_BUILD_ARGS} --preserve-envvar=NAPI_VERSION --preserve-envvar=NODE_VERSION ${OPERATION}
