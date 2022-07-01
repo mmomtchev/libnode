@@ -10,7 +10,7 @@ ENV NAPI_VERSION=${NAPI_VERSION}
 ARG FAST
 ENV DEB_BUILD_OPTIONS=${FAST:+nocheck}
 ENV CCACHE_LOGFILE=/tmp/cache.debug
-ENV DEB_BUILD_ARGS=${FAST:+"--preserve-envvar=CCACHE_DIR --preserve-envvar=CCACHE_LOGFILE --prepend-path=/usr/lib/ccache"}
+ENV CCACHE_ARGS=${FAST:+"--preserve-envvar=CCACHE_DIR --preserve-envvar=CCACHE_LOGFILE --prepend-path=/usr/lib/ccache"}
 
 RUN set -ex && \
     DEBIAN_FRONTEND=noninteractive apt-get update && \
@@ -43,9 +43,9 @@ WORKDIR /node-${NODE_VERSION}
 
 ENTRYPOINT exec /bin/bash -c \
     'set -ex && \
-    debuild -S && \
+    debuild ${CCACHE_ARGS} -S && \
     mkdir -p /out/source && \
     cp ../*.changes ../*.dsc ../*.debian.tar.xz ../*.buildinfo /out/source && \
-    debuild && \
+    debuild ${CCACHE_ARGS}} && \
     mkdir -p /out/amd64 && \
     cp ../*.changes ../*.dsc ../*.debian.tar.xz ../*.buildinfo ../*.deb /out/amd64'
