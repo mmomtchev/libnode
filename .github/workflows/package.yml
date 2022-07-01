@@ -61,7 +61,7 @@ jobs:
         username: mmomtchev
         password: "${{secrets.GITHUB_TOKEN}}"
         registry: docker.pkg.github.com
-        image_name: mmomtchev/libnode-ubuntu-${{matrix.release}}
+        image_name: libnode-ubuntu-${{matrix.release}}
         image_tag: latest
         context: ubuntu
         build_extra_args:
@@ -116,7 +116,7 @@ jobs:
         username: mmomtchev
         password: "${{secrets.GITHUB_TOKEN}}"
         registry: docker.pkg.github.com
-        image_name: mmomtchev/libnode-ubuntu-${{matrix.release}}
+        image_name: libnode-ubuntu-${{matrix.release}}
         image_tag: latest
         context: ubuntu
         build_extra_args:
