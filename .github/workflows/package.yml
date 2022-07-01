@@ -58,7 +58,7 @@ jobs:
     - name: Prepare build container
       uses: whoan/docker-build-with-cache-action@v5
       with:
-        username: mmomtchev
+        username: ${{github.actor}}
         password: "${{secrets.GITHUB_TOKEN}}"
         registry: docker.pkg.github.com
         image_name: libnode-ubuntu-${{matrix.release}}
@@ -82,7 +82,7 @@ jobs:
           `ccache --get-config=cache_dir`:/ccache --env CCACHE_DIR=/ccache \
           -v `pwd`/ubuntu-${{matrix.release}}-${NODE_VERSION}:/out \
           -v ${HOME}/.gnupg:/root/.gnupg \
-          docker.pkg.github.com/mmomtchev/libnode/libnode-ubuntu-${{matrix.release}}:latest
+          docker.pkg.github.com/${{github.actor}}/libnode/libnode-ubuntu-${{matrix.release}}:latest
     - uses: actions/upload-artifact@v3
       with:
         name: ubuntu-${{matrix.release}}-${{env.NODE_VERSION}}
