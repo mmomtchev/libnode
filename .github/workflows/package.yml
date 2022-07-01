@@ -82,7 +82,7 @@ jobs:
           `ccache --get-config=cache_dir`:/ccache --env CCACHE_DIR=/ccache \
           -v `pwd`/ubuntu-${{matrix.release}}-${NODE_VERSION}:/out \
           -v ${HOME}/.gnupg:/root/.gnupg \
-          mmomtchev/libnode/libnode-ubuntu-${{matrix.release}}:latest
+          docker.pkg.github.com/mmomtchev/libnode/libnode-ubuntu-${{matrix.release}}:latest
     - uses: actions/upload-artifact@v3
       with:
         name: ubuntu-${{matrix.release}}-${NODE_VERSION}
