@@ -65,7 +65,7 @@ jobs:
         image_tag: latest
         context: ubuntu
         build_extra_args:
-          ${ARG_FAST}
+          ${{env.ARG_FAST}}
           --build-arg RELEASE=${{matrix.release}}
           --build-arg NAPI_VERSION=${{env.NAPI_VERSION}}
           --build-arg NODE_VERSION=${{env.NODE_VERSION}}
