@@ -1,15 +1,16 @@
 Source: node
 Maintainer: Momtchil Momtchev <momtchil@momtchev.com>
 Section: javascript
-Build-Depends: debhelper, python3, g++ (>= 8.0.0~), make, python3-pip
+Build-Depends: debhelper (>= 10), python3, g++ (>= 8.0.0~), python3-pip
 Homepage: https://nodejs.org/
-Standards-Version: 4.6.0
+Standards-Version: 4.1.4
 Rules-Requires-Root: no
 
 Package: libnode-dev
 Section: libdevel
 Architecture: amd64
 Conflicts: nodejs-dev
+Depends: ${misc:Depends}, libnode93 (= ${binary:Version})
 Description: evented I/O for V8 javascript (development files)
  Node.js is a platform built on Chrome's JavaScript runtime for easily
  building fast, scalable network applications. Node.js uses an
@@ -23,6 +24,7 @@ Description: evented I/O for V8 javascript (development files)
 Package: libnode93
 Section: libs
 Architecture: amd64
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: evented I/O for V8 javascript - runtime library
  Node.js is a platform built on Chrome's JavaScript runtime for easily
  building fast, scalable network applications. Node.js uses an
