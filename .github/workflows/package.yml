@@ -40,7 +40,7 @@ jobs:
         max-size: 2000M
         key: ubuntu-${{matrix.release}}
     - name: Set fast mode
-      run: echo "ARG_FAST=--build-arg FAST=1" >> ${GITHUB_ENV}
+      run: echo "ARG_FAST=FAST=1" >> ${GITHUB_ENV}
       if: github.event.inputs.full == 0
     - name: Import GPG key
       uses: crazy-max/ghaction-import-gpg@v5
@@ -56,13 +56,20 @@ jobs:
         NAPI_VERSION=${{github.event.inputs.napi_version}}
         echo NAPI_VERSION=${NAPI_VERSION:-"5.0.0"} >> ${GITHUB_ENV}
     - name: Prepare build container
-      run: |
-        docker build ${ARG_FAST} \
-          --build-arg RELEASE=${{matrix.release}} \
-          --build-arg NODE_VERSION=${NODE_VERSION} \
-          --build-arg NAPI_VERSION=${NAPI_VERSION} \
-          --build-arg OPERATION="-us -uc" \
-          -t mmomtchev/libnode-ubuntu-${{matrix.release}}:latest ubuntu
+      uses: whoan/docker-build-with-cache-action@v5
+      with:
+        username: mmomtchev
+        password: "${{secrets.GITHUB_TOKEN}}"
+        registry: docker.pkg.github.com
+        image_name: mmomtchev/libnode-ubuntu-${{matrix.release}}
+        image_tag: latest
+        context: ubuntu
+        build_extra_args:
+          ${ARG_FAST}
+          RELEASE=${{matrix.release}}
+          NAPI_VERSION=${NAPI_VERSION}
+          NODE_VERSION=${NODE_VERSION}
+          OPERATION="-us -uc"
     - name: Run build container
       run: |
         mkdir -p binary-${{matrix.release}}-${NODE_VERSION}
@@ -90,9 +97,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set fast mode
-      run: echo "ARG_FAST=--build-arg FAST=1" >> ${GITHUB_ENV}
-      if: github.event.inputs.full == 0
     - name: Import GPG key
       uses: crazy-max/ghaction-import-gpg@v5
       with:
@@ -107,13 +111,19 @@ jobs:
         NAPI_VERSION=${{github.event.inputs.napi_version}}
         echo NAPI_VERSION=${NAPI_VERSION:-"5.0.0"} >> ${GITHUB_ENV}
     - name: Prepare build container
-      run: |
-        docker build ${ARG_FAST} \
-          --build-arg RELEASE=${{matrix.release}} \
-          --build-arg NODE_VERSION=${NODE_VERSION} \
-          --build-arg NAPI_VERSION=${NAPI_VERSION} \
-          --build-arg OPERATION="-S" \
-          -t mmomtchev/libnode-ubuntu-source:latest ubuntu
+      uses: whoan/docker-build-with-cache-action@v5
+      with:
+        username: mmomtchev
+        password: "${{secrets.GITHUB_TOKEN}}"
+        registry: docker.pkg.github.com
+        image_name: mmomtchev/libnode-ubuntu-${{matrix.release}}
+        image_tag: latest
+        context: ubuntu
+        build_extra_args:
+          RELEASE=${{matrix.release}}
+          NAPI_VERSION=${NAPI_VERSION}
+          NODE_VERSION=${NODE_VERSION}
+          OPERATION="-S"
     - name: Run build container
       run: |
         mkdir -p source-${{matrix.release}}-${NODE_VERSION}
