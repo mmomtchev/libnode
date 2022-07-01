@@ -7,9 +7,7 @@ ARG NAPI_VERSION=5.0.0
 ENV NODE_VERSION=${NODE_VERSION}
 ENV NAPI_VERSION=${NAPI_VERSION}
 
-ARG OPERATION="-us -uc"
 ARG FAST
-ENV DEB_OPERATION=${OPERATION}
 ENV DEB_BUILD_OPTIONS=${FAST:+nocheck}
 ENV CCACHE_LOGFILE=/tmp/cache.debug
 ENV DEB_BUILD_ARGS=${FAST:+"--preserve-envvar=CCACHE_DIR --preserve-envvar=CCACHE_LOGFILE --prepend-path=/usr/lib/ccache"}
@@ -42,7 +40,10 @@ ENTRYPOINT exec /bin/bash -c \
     'CC=`cat /gcc` CXX=`cat /gcxx` debuild ${DEB_BUILD_ARGS} \
     --preserve-envvar=CC --preserve-envvar=CXX  \
     --preserve-envvar=NAPI_VERSION --preserve-envvar=NODE_VERSION \
-    ${DEB_OPERATION} && \
-    shopt -s nullglob && \
+    -S && \
+    CC=`cat /gcc` CXX=`cat /gcxx` debuild ${DEB_BUILD_ARGS} \
+    --preserve-envvar=CC --preserve-envvar=CXX  \
+    --preserve-envvar=NAPI_VERSION --preserve-envvar=NODE_VERSION \
+    -us -uc && \
     ls -al && ls -al .. && \
     cp ../*.changes ../*.dsc ../*.debian.tar.xz ../*.buildinfo ../*.deb /out'

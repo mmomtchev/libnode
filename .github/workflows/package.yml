@@ -21,7 +21,7 @@ on:
         default: 5.0.0
 
 jobs:
-  ubuntu-binary:
+  ubuntu:
 
     runs-on: ubuntu-20.04
 
@@ -69,7 +69,6 @@ jobs:
           --build-arg RELEASE=${{matrix.release}}
           --build-arg NAPI_VERSION=${{env.NAPI_VERSION}}
           --build-arg NODE_VERSION=${{env.NODE_VERSION}}
-          --build-arg OPERATION="-us -uc"
     - name: Run build container
       run: |
         mkdir -p binary-${{matrix.release}}-${NODE_VERSION}
@@ -82,57 +81,3 @@ jobs:
       with:
         name: binary-${{matrix.release}}-${NODE_VERSION}
         path: binary-${{matrix.release}}-${NODE_VERSION}
-
-
-  ubuntu-source:
-
-    runs-on: ubuntu-20.04
-
-    strategy:
-      matrix:
-        release:
-          - bionic
-          - focal
-          - jammy
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Import GPG key
-      uses: crazy-max/ghaction-import-gpg@v5
-      with:
-        gpg_private_key: ${{secrets.GPG_SIGNING_KEY}}
-        git_user_signingkey: true
-    - name: Set Node version
-      run: |
-        NODE_VERSION=${{github.event.inputs.node_version}}
-        echo NODE_VERSION=${NODE_VERSION:-"16.15.1"} >> ${GITHUB_ENV}
-    - name: Set node-addon-api version
-      run: |
-        NAPI_VERSION=${{github.event.inputs.napi_version}}
-        echo NAPI_VERSION=${NAPI_VERSION:-"5.0.0"} >> ${GITHUB_ENV}
-    - name: Prepare build container
-      uses: whoan/docker-build-with-cache-action@v5
-      with:
-        username: mmomtchev
-        password: "${{secrets.GITHUB_TOKEN}}"
-        registry: docker.pkg.github.com
-        image_name: libnode-ubuntu-source-${{matrix.release}}
-        image_tag: latest
-        context: ubuntu
-        build_extra_args:
-          --build-arg RELEASE=${{matrix.release}}
-          --build-arg NAPI_VERSION=${{env.NAPI_VERSION}}
-          --build-arg NODE_VERSION=${{env.NODE_VERSION}}
-          --build-arg OPERATION="-S"
-    - name: Run build container
-      run: |
-        mkdir -p source-${{matrix.release}}-${NODE_VERSION}
-        docker run \
-          -v `pwd`/source-${{matrix.release}}-${NODE_VERSION}:/out \
-          -v ${HOME}/.gnupg:/root/.gnupg \
-          mmomtchev/libnode-ubuntu-source:latest
-    - run: ls -alR `pwd`/source-${{matrix.release}}-${NODE_VERSION}
-    - uses: actions/upload-artifact@v3
-      with:
-        name: source-${{matrix.release}}-${NODE_VERSION}
-        path: source-${{matrix.release}}-${NODE_VERSION}
