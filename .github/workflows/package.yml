@@ -85,5 +85,5 @@ jobs:
           docker.pkg.github.com/mmomtchev/libnode/libnode-ubuntu-${{matrix.release}}:latest
     - uses: actions/upload-artifact@v3
       with:
-        name: ubuntu-${{matrix.release}}-${NODE_VERSION}
-        path: ubuntu-${{matrix.release}}-${NODE_VERSION}
+        name: ubuntu-${{matrix.release}}-${{env.NODE_VERSION}}
+        path: ubuntu-${{matrix.release}}-${{env.NODE_VERSION}}
