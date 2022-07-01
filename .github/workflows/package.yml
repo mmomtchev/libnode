@@ -51,32 +51,32 @@ jobs:
       id: node_version
       run: |
         NODE_VERSION=${{github.event.inputs.node_version}}
-        echo '::set-output name=value::${NODE_VERSION:-"16.15.1"}'
+        echo NODE_VERSION=${NODE_VERSION:-"16.15.1"}' >> ${GITHUB_ENV}
     - name: Set node-addon-api version
       id: napi_version
       run: |
         NAPI_VERSION=${{github.event.inputs.napi_version}}
-        echo '::set-output name=value::${NAPI_VERSION:-"5.0.0"}'
+        echo NAPI_VERSION=${NAPI_VERSION:-"5.0.0"}' >> ${GITHUB_ENV}
     - name: Prepare build container
       run: |
         docker build ${ARG_FAST} \
           --build-arg RELEASE=${{matrix.release}} \
-          --build-arg NODE_VERSION=${{steps.node_version.outputs.value}} \
-          --build-arg NAPI_VERSION=${{steps.napi_version.outputs.value}} \
+          --build-arg NODE_VERSION=${NODE_VERSION} \
+          --build-arg NAPI_VERSION=${NAPI_VERSION} \
           --build-arg OPERATION="-us -uc" \
           -t mmomtchev/libnode-ubuntu-${{matrix.release}}:latest ubuntu
     - name: Run build container
       run: |
-        mkdir -p binary-${{matrix.release}}-${{steps.node_version.outputs.value}}
+        mkdir -p binary-${{matrix.release}}-${NODE_VERSION}
         docker run -v \
           `ccache --get-config=cache_dir`:/ccache --env CCACHE_DIR=/ccache \
-          -v `pwd`/binary-${{matrix.release}}-${{steps.node_version.outputs.value}}:/out \
+          -v `pwd`/binary-${{matrix.release}}-${NODE_VERSION}:/out \
           -v ${HOME}/.gnupg:/root/.gnupg \
           mmomtchev/libnode-ubuntu-${{matrix.release}}:latest
     - uses: actions/upload-artifact@v3
       with:
-        name: binary-${{matrix.release}}-${{steps.node_version.outputs.value}}
-        path: binary-${{matrix.release}}-${{steps.node_version.outputs.value}}
+        name: binary-${{matrix.release}}-${NODE_VERSION}
+        path: binary-${{matrix.release}}-${NODE_VERSION}
 
 
   ubuntu-source:
@@ -97,27 +97,27 @@ jobs:
       id: node_version
       run: |
         NODE_VERSION=${{github.event.inputs.node_version}}
-        echo '::set-output name=value::${NODE_VERSION:-"16.15.1"}'
+        echo NODE_VERSION=${NODE_VERSION:-"16.15.1"}' >> ${GITHUB_ENV}
     - name: Set node-addon-api version
       id: napi_version
       run: |
         NAPI_VERSION=${{github.event.inputs.napi_version}}
-        echo '::set-output name=value::${NAPI_VERSION:-"5.0.0"}'
+        echo NAPI_VERSION=${NAPI_VERSION:-"5.0.0"}' >> ${GITHUB_ENV}
     - name: Prepare build container
       run: |
         docker build ${ARG_FAST} \
-          --build-arg NODE_VERSION=${{steps.node_version.outputs.value}} \
-          --build-arg NAPI_VERSION=${{steps.napi_version.outputs.value}} \
+          --build-arg NODE_VERSION=${NODE_VERSION} \
+          --build-arg NAPI_VERSION=${NAPI_VERSION} \
           --build-arg OPERATION="-S" \
           -t mmomtchev/libnode-ubuntu-source:latest ubuntu
     - name: Run build container
       run: |
-        mkdir -p source-${{steps.node_version.outputs.value}}
+        mkdir -p source-${NODE_VERSION}
         docker run \
-          -v `pwd`/source-${{steps.node_version.outputs.value}}:/out \
+          -v `pwd`/source-${NODE_VERSION}:/out \
           -v ${HOME}/.gnupg:/root/.gnupg \
           mmomtchev/libnode-ubuntu-source:latest
     - uses: actions/upload-artifact@v3
       with:
-        name: source-${{steps.node_version.outputs.value}}
-        path: source-${{steps.node_version.outputs.value}}
+        name: source-${NODE_VERSION}
+        path: source-${NODE_VERSION}
