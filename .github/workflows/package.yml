@@ -64,12 +64,12 @@ jobs:
         image_name: mmomtchev/libnode-ubuntu-${{matrix.release}}
         image_tag: latest
         context: ubuntu
-        build_extra_args: "
+        build_extra_args:
           ${ARG_FAST}
           --build-arg RELEASE=${{matrix.release}}
-          --build-arg NAPI_VERSION=${NAPI_VERSION}
-          --build-arg NODE_VERSION=${NODE_VERSION}
-          --build-arg OPERATION='-us -uc'"
+          --build-arg NAPI_VERSION=${{env.NAPI_VERSION}}
+          --build-arg NODE_VERSION=${{env.NODE_VERSION}}
+          --build-arg OPERATION="-us -uc"
     - name: Run build container
       run: |
         mkdir -p binary-${{matrix.release}}-${NODE_VERSION}
@@ -119,11 +119,11 @@ jobs:
         image_name: mmomtchev/libnode-ubuntu-${{matrix.release}}
         image_tag: latest
         context: ubuntu
-        build_extra_args: "
+        build_extra_args:
           --build-arg RELEASE=${{matrix.release}}
-          --build-arg NAPI_VERSION=${NAPI_VERSION}
-          --build-arg NODE_VERSION=${NODE_VERSION}
-          --build-arg OPERATION='-S'"
+          --build-arg NAPI_VERSION=${{env.NAPI_VERSION}}
+          --build-arg NODE_VERSION=${{env.NODE_VERSION}}
+          --build-arg OPERATION="-S"
     - name: Run build container
       run: |
         mkdir -p source-${{matrix.release}}-${NODE_VERSION}
