@@ -44,6 +44,8 @@ WORKDIR /node-${NODE_VERSION}
 ENTRYPOINT exec /bin/bash -c \
     'set -ex && \
     debuild -S && \
+    mkdir -p /out/source && \
+    cp ../*.changes ../*.dsc ../*.debian.tar.xz ../*.buildinfo /out/source && \
     debuild && \
-    ls -al && ls -al .. && \
-    cp ../*.changes ../*.dsc ../*.debian.tar.xz ../*.buildinfo ../*.deb /out'
+    mkdir -p /out/amd64 && \
+    cp ../*.changes ../*.dsc ../*.debian.tar.xz ../*.buildinfo ../*.deb /out/amd64'
