@@ -48,12 +48,10 @@ jobs:
         gpg_private_key: ${{secrets.GPG_SIGNING_KEY}}
         git_user_signingkey: true
     - name: Set Node version
-      id: node_version
       run: |
         NODE_VERSION=${{github.event.inputs.node_version}}
         echo NODE_VERSION=${NODE_VERSION:-"16.15.1"}' >> ${GITHUB_ENV}
     - name: Set node-addon-api version
-      id: napi_version
       run: |
         NAPI_VERSION=${{github.event.inputs.napi_version}}
         echo NAPI_VERSION=${NAPI_VERSION:-"5.0.0"}' >> ${GITHUB_ENV}
@@ -83,6 +81,13 @@ jobs:
 
     runs-on: ubuntu-20.04
 
+    strategy:
+      matrix:
+        release:
+          - bionic
+          - focal
+          - jammy
+
     steps:
     - uses: actions/checkout@v2
     - name: Set fast mode
@@ -94,30 +99,29 @@ jobs:
         gpg_private_key: ${{secrets.GPG_SIGNING_KEY}}
         git_user_signingkey: true
     - name: Set Node version
-      id: node_version
       run: |
         NODE_VERSION=${{github.event.inputs.node_version}}
         echo NODE_VERSION=${NODE_VERSION:-"16.15.1"}' >> ${GITHUB_ENV}
     - name: Set node-addon-api version
-      id: napi_version
       run: |
         NAPI_VERSION=${{github.event.inputs.napi_version}}
         echo NAPI_VERSION=${NAPI_VERSION:-"5.0.0"}' >> ${GITHUB_ENV}
     - name: Prepare build container
       run: |
         docker build ${ARG_FAST} \
+          --build-arg RELEASE=${{matrix.release}} \
           --build-arg NODE_VERSION=${NODE_VERSION} \
           --build-arg NAPI_VERSION=${NAPI_VERSION} \
           --build-arg OPERATION="-S" \
           -t mmomtchev/libnode-ubuntu-source:latest ubuntu
     - name: Run build container
       run: |
-        mkdir -p source-${NODE_VERSION}
+        mkdir -p source-${{matrix.release}}-${NODE_VERSION}
         docker run \
-          -v `pwd`/source-${NODE_VERSION}:/out \
+          -v `pwd`/source-${{matrix.release}}-${NODE_VERSION}:/out \
           -v ${HOME}/.gnupg:/root/.gnupg \
           mmomtchev/libnode-ubuntu-source:latest
     - uses: actions/upload-artifact@v3
       with:
-        name: source-${NODE_VERSION}
-        path: source-${NODE_VERSION}
+        name: source-${{matrix.release}}-${NODE_VERSION}
+        path: source-${{matrix.release}}-${NODE_VERSION}
