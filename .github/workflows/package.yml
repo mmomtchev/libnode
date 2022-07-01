@@ -73,8 +73,8 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}    
+        username: ${{github.actor}}
+        password: ${{secrets.GITHUB_TOKEN}}    
     - name: Run build container
       run: |
         mkdir -p binary-${{matrix.release}}-${NODE_VERSION}
@@ -82,7 +82,7 @@ jobs:
           `ccache --get-config=cache_dir`:/ccache --env CCACHE_DIR=/ccache \
           -v `pwd`/binary-${{matrix.release}}-${NODE_VERSION}:/out \
           -v ${HOME}/.gnupg:/root/.gnupg \
-          ghcr.io/mmomtchev/libnode-ubuntu-${{matrix.release}}:latest
+          mmomtchev/libnode-ubuntu-${{matrix.release}}:latest
     - uses: actions/upload-artifact@v3
       with:
         name: binary-${{matrix.release}}-${NODE_VERSION}
