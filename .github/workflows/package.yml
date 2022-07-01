@@ -77,13 +77,13 @@ jobs:
         password: ${{secrets.GITHUB_TOKEN}}    
     - name: Run build container
       run: |
-        mkdir -p binary-${{matrix.release}}-${NODE_VERSION}
+        mkdir -p ubuntu-${{matrix.release}}-${NODE_VERSION}
         docker run -v \
           `ccache --get-config=cache_dir`:/ccache --env CCACHE_DIR=/ccache \
-          -v `pwd`/binary-${{matrix.release}}-${NODE_VERSION}:/out \
+          -v `pwd`/ubuntu-${{matrix.release}}-${NODE_VERSION}:/out \
           -v ${HOME}/.gnupg:/root/.gnupg \
-          mmomtchev/libnode-ubuntu-${{matrix.release}}:latest
+          mmomtchev/libnode/libnode-ubuntu-${{matrix.release}}:latest
     - uses: actions/upload-artifact@v3
       with:
-        name: binary-${{matrix.release}}-${NODE_VERSION}
-        path: binary-${{matrix.release}}-${NODE_VERSION}
+        name: ubuntu-${{matrix.release}}-${NODE_VERSION}
+        path: ubuntu-${{matrix.release}}-${NODE_VERSION}
