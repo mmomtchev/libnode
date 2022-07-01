@@ -50,11 +50,11 @@ jobs:
     - name: Set Node version
       run: |
         NODE_VERSION=${{github.event.inputs.node_version}}
-        echo NODE_VERSION=${NODE_VERSION:-"16.15.1"}' >> ${GITHUB_ENV}
+        echo NODE_VERSION=${NODE_VERSION:-"16.15.1"} >> ${GITHUB_ENV}
     - name: Set node-addon-api version
       run: |
         NAPI_VERSION=${{github.event.inputs.napi_version}}
-        echo NAPI_VERSION=${NAPI_VERSION:-"5.0.0"}' >> ${GITHUB_ENV}
+        echo NAPI_VERSION=${NAPI_VERSION:-"5.0.0"} >> ${GITHUB_ENV}
     - name: Prepare build container
       run: |
         docker build ${ARG_FAST} \
@@ -101,11 +101,11 @@ jobs:
     - name: Set Node version
       run: |
         NODE_VERSION=${{github.event.inputs.node_version}}
-        echo NODE_VERSION=${NODE_VERSION:-"16.15.1"}' >> ${GITHUB_ENV}
+        echo NODE_VERSION=${NODE_VERSION:-"16.15.1"} >> ${GITHUB_ENV}
     - name: Set node-addon-api version
       run: |
         NAPI_VERSION=${{github.event.inputs.napi_version}}
-        echo NAPI_VERSION=${NAPI_VERSION:-"5.0.0"}' >> ${GITHUB_ENV}
+        echo NAPI_VERSION=${NAPI_VERSION:-"5.0.0"} >> ${GITHUB_ENV}
     - name: Prepare build container
       run: |
         docker build ${ARG_FAST} \
