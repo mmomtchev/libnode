@@ -44,6 +44,5 @@ ENTRYPOINT exec /bin/bash -c \
     CC=`cat /gcc` CXX=`cat /gcxx` debuild ${DEB_BUILD_ARGS} \
     --preserve-envvar=CC --preserve-envvar=CXX  \
     --preserve-envvar=NAPI_VERSION --preserve-envvar=NODE_VERSION \
-    -us -uc && \
     ls -al && ls -al .. && \
     cp ../*.changes ../*.dsc ../*.debian.tar.xz ../*.buildinfo ../*.deb /out'
