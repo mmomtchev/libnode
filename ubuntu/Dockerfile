@@ -37,12 +37,12 @@ RUN sed -i s/UNIVERSAL/${RELEASE}/g /node-${NODE_VERSION}/debian/changelog
 WORKDIR /node-${NODE_VERSION} 
 
 ENTRYPOINT exec /bin/bash -c \
-    'CC=`cat /gcc` CXX=`cat /gcxx` debuild ${DEB_BUILD_ARGS} \
+    'set -ex && CC=`cat /gcc` CXX=`cat /gcxx` debuild ${DEB_BUILD_ARGS} \
     --preserve-envvar=CC --preserve-envvar=CXX  \
     --preserve-envvar=NAPI_VERSION --preserve-envvar=NODE_VERSION \
     -S && \
     CC=`cat /gcc` CXX=`cat /gcxx` debuild ${DEB_BUILD_ARGS} \
     --preserve-envvar=CC --preserve-envvar=CXX  \
-    --preserve-envvar=NAPI_VERSION --preserve-envvar=NODE_VERSION \
+    --preserve-envvar=NAPI_VERSION --preserve-envvar=NODE_VERSION && \
     ls -al && ls -al .. && \
     cp ../*.changes ../*.dsc ../*.debian.tar.xz ../*.buildinfo ../*.deb /out'
