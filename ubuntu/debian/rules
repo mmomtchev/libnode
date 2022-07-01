@@ -1,6 +1,10 @@
 #!/usr/bin/make -f
 
 export DEB_BUILD_MAINT_OPTIONS=optimize=-lto
+export NAPI_VERSION=_NAPI_VERSION_
+export NODE_VERSION=_NODE_VERSION_
+export CC=_GCC_
+export CXX=_GCXX_
 
 %:
 	dh $@
@@ -13,7 +17,7 @@ override_dh_auto_clean:
 
 
 override_dh_auto_configure:
-	CC=$(CC) CXX=$(CXX) ./configure --prefix=/usr --shared --without-npm --without-corepack
+	./configure --prefix=/usr --shared --without-npm --without-corepack
 
 
 override_dh_auto_install:

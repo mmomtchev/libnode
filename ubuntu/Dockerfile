@@ -20,8 +20,9 @@ RUN set -ex && \
     else \
         GCC=gcc GCXX=g++; \
     fi && \
-    echo ${GCC} > /gcc && \
-    echo ${GCXX} > /gcxx && \
+    mkdir -p /env && \
+    echo ${GCC} > /env/gcc && \
+    echo ${GCXX} > /env/gcxx && \
     DEBIAN_FRONTEND=noninteractive apt-get -y install devscripts debhelper build-essential quilt \
         ccache \
         python3 ${GCC} ${GCXX} make python3-pip wget
@@ -32,17 +33,17 @@ RUN wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}.tar.g
 
 COPY debian /node-${NODE_VERSION}/debian
 
-RUN sed -i s/UNIVERSAL/${RELEASE}/g /node-${NODE_VERSION}/debian/changelog
+RUN sed -i s/UNIVERSAL/${RELEASE}/g /node-${NODE_VERSION}/debian/changelog && \
+    sed -i s/_NAPI_VERSION_/${NAPI_VERSION}/g /node-${NODE_VERSION}/debian/rules && \
+    sed -i s/_NODE_VERSION_/${NODE_VERSION}/g /node-${NODE_VERSION}/debian/rules && \
+    sed -i s/_GCC_/`cat /env/gcc`/g /node-${NODE_VERSION}/debian/rules && \
+    sed -i s/_GCXX_/`cat /env/gcxx`/g /node-${NODE_VERSION}/debian/rules
 
 WORKDIR /node-${NODE_VERSION} 
 
 ENTRYPOINT exec /bin/bash -c \
-    'set -ex && CC=`cat /gcc` CXX=`cat /gcxx` debuild ${DEB_BUILD_ARGS} \
-    --preserve-envvar=CC --preserve-envvar=CXX  \
-    --preserve-envvar=NAPI_VERSION --preserve-envvar=NODE_VERSION \
-    -S && \
-    CC=`cat /gcc` CXX=`cat /gcxx` debuild ${DEB_BUILD_ARGS} \
-    --preserve-envvar=CC --preserve-envvar=CXX  \
-    --preserve-envvar=NAPI_VERSION --preserve-envvar=NODE_VERSION && \
+    'set -ex && \
+    debuild -S && \
+    debuild && \
     ls -al && ls -al .. && \
     cp ../*.changes ../*.dsc ../*.debian.tar.xz ../*.buildinfo ../*.deb /out'
