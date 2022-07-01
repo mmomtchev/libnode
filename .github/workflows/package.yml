@@ -121,6 +121,7 @@ jobs:
           -v `pwd`/source-${{matrix.release}}-${NODE_VERSION}:/out \
           -v ${HOME}/.gnupg:/root/.gnupg \
           mmomtchev/libnode-ubuntu-source:latest
+    - run: ls -alR `pwd`/source-${{matrix.release}}-${NODE_VERSION}
     - uses: actions/upload-artifact@v3
       with:
         name: source-${{matrix.release}}-${NODE_VERSION}

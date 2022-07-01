@@ -44,4 +44,5 @@ ENTRYPOINT exec /bin/bash -c \
     --preserve-envvar=NAPI_VERSION --preserve-envvar=NODE_VERSION \
     ${DEB_OPERATION} && \
     shopt -s nullglob && \
+    ls -al && ls -al .. && \
     cp ../*.changes ../*.dsc ../*.debian.tar.xz ../*.buildinfo ../*.deb /out'
