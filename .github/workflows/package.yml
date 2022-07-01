@@ -76,7 +76,7 @@ jobs:
           `ccache --get-config=cache_dir`:/ccache --env CCACHE_DIR=/ccache \
           -v `pwd`/binary-${{matrix.release}}-${NODE_VERSION}:/out \
           -v ${HOME}/.gnupg:/root/.gnupg \
-          mmomtchev/libnode-ubuntu-${{matrix.release}}:latest
+          ghcr.io/mmomtchev/libnode-ubuntu-${{matrix.release}}:latest
     - uses: actions/upload-artifact@v3
       with:
         name: binary-${{matrix.release}}-${NODE_VERSION}
