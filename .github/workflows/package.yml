@@ -39,6 +39,7 @@ jobs:
       with:
         max-size: 2000M
         key: ubuntu-${{matrix.release}}
+        verbose: 2
     - name: Set fast mode
       run: echo "ARG_FAST=--build-arg FAST=1" >> ${GITHUB_ENV}
       if: github.event.inputs.full == 0
