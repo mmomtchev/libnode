@@ -1,4 +1,4 @@
-node (16.15.1-2~UNIVERSAL) UNRELEASED; urgency=medium
+node (16.15.1-2~UNIVERSAL) UNIVERSAL; urgency=medium
 
   * Build with g++-8 on Ubuntu Bionic 
 
