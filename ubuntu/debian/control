@@ -1,7 +1,7 @@
 Source: node
 Maintainer: Momtchil Momtchev <momtchil@momtchev.com>
 Section: javascript
-Build-Depends: debhelper (>= 10), python3, g++ (>= 8.0.0~), python3-pip
+Build-Depends: debhelper (>= 10), python3, _GCXX_, python3-pip
 Homepage: https://nodejs.org/
 Standards-Version: 4.1.4
 Rules-Requires-Root: no

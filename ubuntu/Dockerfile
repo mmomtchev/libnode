@@ -37,7 +37,8 @@ RUN sed -i s/UNIVERSAL/${RELEASE}/g /node-${NODE_VERSION}/debian/changelog && \
     sed -i s/_NAPI_VERSION_/${NAPI_VERSION}/g /node-${NODE_VERSION}/debian/rules && \
     sed -i s/_NODE_VERSION_/${NODE_VERSION}/g /node-${NODE_VERSION}/debian/rules && \
     sed -i s/_GCC_/`cat /env/gcc`/g /node-${NODE_VERSION}/debian/rules && \
-    sed -i s/_GCXX_/`cat /env/gcxx`/g /node-${NODE_VERSION}/debian/rules
+    sed -i s/_GCXX_/`cat /env/gcxx`/g /node-${NODE_VERSION}/debian/rules && \
+    sed -i s/_GCXX_/`cat /env/gcxx`/g /node-${NODE_VERSION}/debian/control
 
 WORKDIR /node-${NODE_VERSION} 
 
