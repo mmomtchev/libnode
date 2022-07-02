@@ -17,6 +17,7 @@ override_dh_auto_clean:
 
 
 override_dh_auto_configure:
+	env
 	./configure --prefix=/usr --shared --without-npm --without-corepack
 
 

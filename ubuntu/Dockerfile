@@ -44,9 +44,10 @@ WORKDIR /node-${NODE_VERSION}
 
 ENTRYPOINT exec /bin/bash -c \
     'set -ex && \
+    env && \
     debuild ${CCACHE_ARGS} -S && \
     mkdir -p /out/source && \
     cp ../*.changes ../*.dsc ../*.debian.tar.xz ../*.buildinfo /out/source && \
-    debuild ${CCACHE_ARGS}} && \
+    debuild ${CCACHE_ARGS} && \
     mkdir -p /out/amd64 && \
     cp ../*.changes ../*.dsc ../*.debian.tar.xz ../*.buildinfo ../*.deb /out/amd64'
