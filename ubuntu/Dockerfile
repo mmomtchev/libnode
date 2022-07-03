@@ -29,7 +29,8 @@ RUN set -ex && \
     wget -O - https://deb.nodesource.com/setup_14.x | bash - && \
     apt-get install -y nodejs
 
-RUN wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}.tar.gz \
+RUN set -ex && \
+    wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}.tar.gz \
         -O node_${NODE_VERSION}.orig.tar.gz && \
     tar -zxvf node_${NODE_VERSION}.orig.tar.gz && \
     cd node-${NODE_VERSION} && \
@@ -37,6 +38,15 @@ RUN wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}.tar.g
     ( cd tools/clang-format && npm install ) && \
     ( cd tools/lint-md && npm install ) && \
     tar -C tools -Jcvf ../node_${NODE_VERSION}.orig-tools.tar.xz doc/node_modules clang-format/node_modules lint-md/node_modules
+
+RUN set -ex && \
+    mkdir -p /node-addon-api && \
+    wget https://raw.githubusercontent.com/nodejs/node-addon-api/v$(NAPI_VERSION)/napi.h \
+        -O /node-addon-api/napi.h && \
+    wget https://raw.githubusercontent.com/nodejs/node-addon-api/v$(NAPI_VERSION)/napi-inl.h \
+        -O /node-addon-api/napi-inl.h && \
+    wget https://raw.githubusercontent.com/nodejs/node-addon-api/v$(NAPI_VERSION)/napi-inl.deprecated.h \
+        -O /node-addon-api/napi-inl.deprecated.h
 
 COPY debian /node-${NODE_VERSION}/debian
 
