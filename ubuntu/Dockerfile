@@ -24,12 +24,19 @@ RUN set -ex && \
     echo ${GCC} > /env/gcc && \
     echo ${GCXX} > /env/gcxx && \
     DEBIAN_FRONTEND=noninteractive apt-get -y install devscripts debhelper build-essential quilt \
-        ccache \
-        python3 ${GCC} ${GCXX} make python3-pip wget
+        ccache wget \
+        python3 ${GCC} ${GCXX} make python3-pip && \
+    wget -O - https://deb.nodesource.com/setup_14.x | bash - && \
+    apt-get install -y nodejs
 
 RUN wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}.tar.gz \
         -O node_${NODE_VERSION}.orig.tar.gz && \
-    tar -zxvf node_${NODE_VERSION}.orig.tar.gz
+    tar -zxvf node_${NODE_VERSION}.orig.tar.gz && \
+    cd node-${NODE_VERSION} && \
+    ( cd tools/doc && npm install ) && \
+    ( cd tools/clang-format && npm install ) && \
+    ( cd tools/lint-md && npm install ) && \
+    tar -C tools -Jcvf ../node_${NODE_VERSION}.orig-tools.tar.xz doc/node_modules clang-format/node_modules lint-md/node_modules
 
 COPY debian /node-${NODE_VERSION}/debian
 
@@ -47,7 +54,7 @@ ENTRYPOINT exec /bin/bash -c \
     env && \
     debuild ${CCACHE_ARGS} -S && \
     mkdir -p /out/source && \
-    cp ../*.changes ../*.dsc ../*.debian.tar.xz ../*.buildinfo /out/source && \
+    cp ../node*tar* ../*.changes ../*.dsc ../*.buildinfo /out/source && \
     debuild ${CCACHE_ARGS} && \
     mkdir -p /out/amd64 && \
     cp ../*.changes ../*.dsc ../*.debian.tar.xz ../*.buildinfo ../*.deb /out/amd64 && \

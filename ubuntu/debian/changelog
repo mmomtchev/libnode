@@ -1,3 +1,9 @@
+node (16.15.1-3~UNIVERSAL) UNIVERSAL; urgency=medium
+
+  * Allow building of the source package without internet access
+
+ -- Momtchil Momtchev <momtchil@momtchev.com>  Sun, 03 Jul 2022 12:57:54 +0200
+
 node (16.15.1-2~UNIVERSAL) UNIVERSAL; urgency=medium
 
   * Build with g++-8 on Ubuntu Bionic 

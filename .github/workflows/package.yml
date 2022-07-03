@@ -80,6 +80,7 @@ jobs:
       run: |
         mkdir -p ubuntu-${{matrix.release}}-${NODE_VERSION}
         docker run -v \
+          --network none
           `ccache --get-config=cache_dir`:/ccache --env CCACHE_DIR=/ccache \
           -v `pwd`/ubuntu-${{matrix.release}}-${NODE_VERSION}:/out \
           -v ${HOME}/.gnupg:/root/.gnupg \

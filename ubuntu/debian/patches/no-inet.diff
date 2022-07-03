@@ -1,0 +1,13 @@
+Index: node-16.15.1/Makefile
+===================================================================
+--- node-16.15.1.orig/Makefile
++++ node-16.15.1/Makefile
+@@ -1296,7 +1296,7 @@ bench-addons-clean:
+ .PHONY: lint-md-rollup
+ lint-md-rollup:
+ 	$(RM) tools/.*mdlintstamp
+-	cd tools/lint-md && npm ci && npm run build
++	cd tools/lint-md && npm run build
+ 
+ .PHONY: lint-md-clean
+ .NOTPARALLEL: lint-md-clean
