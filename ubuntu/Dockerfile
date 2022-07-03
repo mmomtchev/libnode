@@ -34,10 +34,12 @@ RUN set -ex && \
         -O node_${NODE_VERSION}.orig.tar.gz && \
     tar -zxvf node_${NODE_VERSION}.orig.tar.gz && \
     cd node-${NODE_VERSION} && \
-    ( cd tools/doc && npm install ) && \
-    ( cd tools/clang-format && npm install ) && \
-    ( cd tools/lint-md && npm install ) && \
-    tar -C tools -Jcvf ../node_${NODE_VERSION}.orig-tools.tar.xz doc/node_modules clang-format/node_modules lint-md/node_modules
+    for SUB in doc clang-format lint-md; do \
+        ( cd tools/${SUB} && npm ci ) && \
+        mv tools/${SUB}/node_modules tools-${SUB}-node-modules && \
+        tar -C tools-${SUB}-node-modules \
+            -Jcvf ../node_${NODE_VERSION}.orig-tools-${SUB}-node-modules.tar.xz . ; \
+    done
 
 RUN set -ex && \
     mkdir -p /node-addon-api && \

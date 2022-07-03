@@ -18,6 +18,9 @@ override_dh_auto_clean:
 
 override_dh_auto_configure:
 	env
+	for SUB in doc clang-format lint-md; do \
+		mv tools-$${SUB}-node-modules tools/$${SUB}/node_modules; \
+	done
 	./configure --prefix=/usr --shared --without-npm --without-corepack
 
 
