@@ -41,11 +41,11 @@ RUN set -ex && \
 
 RUN set -ex && \
     mkdir -p /node-addon-api && \
-    wget https://raw.githubusercontent.com/nodejs/node-addon-api/v$(NAPI_VERSION)/napi.h \
+    wget https://raw.githubusercontent.com/nodejs/node-addon-api/v${NAPI_VERSION}/napi.h \
         -O /node-addon-api/napi.h && \
-    wget https://raw.githubusercontent.com/nodejs/node-addon-api/v$(NAPI_VERSION)/napi-inl.h \
+    wget https://raw.githubusercontent.com/nodejs/node-addon-api/v${NAPI_VERSION}/napi-inl.h \
         -O /node-addon-api/napi-inl.h && \
-    wget https://raw.githubusercontent.com/nodejs/node-addon-api/v$(NAPI_VERSION)/napi-inl.deprecated.h \
+    wget https://raw.githubusercontent.com/nodejs/node-addon-api/v${NAPI_VERSION}/napi-inl.deprecated.h \
         -O /node-addon-api/napi-inl.deprecated.h
 
 COPY debian /node-${NODE_VERSION}/debian
