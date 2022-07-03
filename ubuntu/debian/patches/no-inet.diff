@@ -11,3 +11,37 @@ Index: node-16.15.1/Makefile
  
  .PHONY: lint-md-clean
  .NOTPARALLEL: lint-md-clean
+Index: node-16.15.1/test/parallel/test-dns-setserver-when-querying.js
+===================================================================
+--- node-16.15.1.orig/test/parallel/test-dns-setserver-when-querying.js
++++ /dev/null
+@@ -1,29 +0,0 @@
+-'use strict';
+-
+-const common = require('../common');
+-
+-const assert = require('assert');
+-const dns = require('dns');
+-
+-const localhost = [ '127.0.0.1' ];
+-
+-{
+-  // Fix https://github.com/nodejs/node/issues/14734
+-
+-  {
+-    const resolver = new dns.Resolver();
+-    resolver.resolve('localhost', common.mustCall());
+-
+-    assert.throws(resolver.setServers.bind(resolver, localhost), {
+-      code: 'ERR_DNS_SET_SERVERS_FAILED',
+-      message: /^c-ares failed to set servers: "There are pending queries\." \[.+\]$/g
+-    });
+-  }
+-
+-  {
+-    dns.resolve('localhost', common.mustCall());
+-
+-    // should not throw
+-    dns.setServers(localhost);
+-  }
+-}
