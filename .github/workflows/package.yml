@@ -79,9 +79,9 @@ jobs:
     - name: Run build container
       run: |
         mkdir -p ubuntu-${{matrix.release}}-${NODE_VERSION}
-        docker run -v \
-          --network none
-          `ccache --get-config=cache_dir`:/ccache --env CCACHE_DIR=/ccache \
+        docker run \
+          --network none \
+          -v `ccache --get-config=cache_dir`:/ccache --env CCACHE_DIR=/ccache \
           -v `pwd`/ubuntu-${{matrix.release}}-${NODE_VERSION}:/out \
           -v ${HOME}/.gnupg:/root/.gnupg \
           docker.pkg.github.com/${{github.actor}}/libnode/libnode-ubuntu-${{matrix.release}}:latest
