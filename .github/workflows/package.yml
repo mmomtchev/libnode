@@ -57,6 +57,10 @@ jobs:
         PR: ${{github.event.pull_request.head.ref}}
     - run: |
         if [ ! -r dist/node_${NODE_VERSION}.orig-node-addon-api.tar.xz ]; then
+          if [ -n "${PR}" ]; then
+            echo Tarballs cannot be created in PRs
+            exit
+          fi
           mkdir -p node-addon-api
           wget https://raw.githubusercontent.com/nodejs/node-addon-api/v${NAPI_VERSION}/napi.h \
             -O node-addon-api/napi.h
