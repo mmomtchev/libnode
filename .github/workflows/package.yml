@@ -57,7 +57,7 @@ jobs:
         fi
       env:
         PR: ${{github.event.pull_request.head.ref}}
-      run: |
+    - run: |
         if [ ! -r dist/node_${NODE_VERSION}.orig-napi.tar.xz ]; then
           mkdir -p node-addon-api
           wget https://raw.githubusercontent.com/nodejs/node-addon-api/v${NAPI_VERSION}/napi.h \
