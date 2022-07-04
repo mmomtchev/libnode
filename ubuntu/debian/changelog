@@ -1,3 +1,9 @@
+node (16.15.1-5~UNIVERSAL) UNIVERSAL; urgency=medium
+
+  * Disable a unit test failing in the Launchpad container
+
+ -- Momtchil Momtchev <momtchil@momtchev.com>  Mon, 04 Jul 2022 13:25:20 +0200
+
 node (16.15.1-4~UNIVERSAL) UNIVERSAL; urgency=medium
 
   * Separate upstream sources from npm ci installed packages as per Launchpad policy
