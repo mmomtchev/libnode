@@ -26,6 +26,8 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
+      with:
+        lfs: true
     - name: Set Node version
       run: |
         NODE_VERSION=${{github.event.inputs.node_version}}
@@ -91,6 +93,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        lfs: true
+    - name: Checkout LFS objects
+      run: git lfs checkout
     - name: ccache
       uses: hendrikmuhs/ccache-action@v1.2
       with:
