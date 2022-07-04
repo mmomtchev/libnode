@@ -27,16 +27,17 @@ RUN set -ex && \
         ccache wget \
         python3 ${GCC} ${GCXX} make python3-pip && \
     wget -O - https://deb.nodesource.com/setup_14.x | bash - && \
-    apt-get install -y nodejs && \
-    mkdir -p /dist
+    apt-get install -y nodejs
 
-COPY dist/node_${NODE_VERSION}.orig* /dist/
+COPY dist/node_${NODE_VERSION}.orig* /
 
 RUN set -ex && \
-    tar -zxvf /dist/node_${NODE_VERSION}.orig.tar.gz && \
+    tar -zxvf /node_${NODE_VERSION}.orig.tar.gz && \
     cd node-${NODE_VERSION} && \
-    for SUB in /dist/node_${NODE_VERSION}.orig-*.tar.xz; do \
-        tar -Jxvf ${SUB}; \
+    for SUB in /node_${NODE_VERSION}.orig-*.tar.xz; do \
+        DIR=`echo ${SUB}  | cut -f 2- -d "-" | cut -f 1 -d "."` && \ 
+        mkdir -p ${DIR} && \
+        tar -C ${DIR} -Jxvf ${SUB}; \
     done
 
 COPY ubuntu/debian /node-${NODE_VERSION}/debian
