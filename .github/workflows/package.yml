@@ -52,13 +52,11 @@ jobs:
                   -Jcvf ../dist/node_${NODE_VERSION}.orig-tools-${SUB}-node-modules.tar.xz .
               git add ../dist/node_${NODE_VERSION}.orig-tools-${SUB}-node-modules.tar.xz
           done
-          git commit -m "tarballs for node ${NODE_VERSION}"
-          git push
         fi
       env:
         PR: ${{github.event.pull_request.head.ref}}
     - run: |
-        if [ ! -r dist/node_${NODE_VERSION}.orig-napi.tar.xz ]; then
+        if [ ! -r dist/node_${NODE_VERSION}.orig-node-addon-api.tar.xz ]; then
           mkdir -p node-addon-api
           wget https://raw.githubusercontent.com/nodejs/node-addon-api/v${NAPI_VERSION}/napi.h \
             -O node-addon-api/napi.h
@@ -68,11 +66,12 @@ jobs:
             -O node-addon-api/napi-inl.deprecated.h
           tar -C node-addon-api -Jcvf dist/node_${NODE_VERSION}.orig-node-addon-api.tar.xz .
           git add dist/node_${NODE_VERSION}.orig-node-addon-api.tar.xz
-          git commit -m "tarball for napi ${NODE_VERSION}-${NAPI_VERSION}"
-          git push          
         fi
       env:
         PR: ${{github.event.pull_request.head.ref}}
+    - uses: EndBug/add-and-commit@v9
+      with:
+        message: tarballs for napi ${env.NODE_VERSION}-${env.NAPI_VERSION}
 
   ubuntu:
 
