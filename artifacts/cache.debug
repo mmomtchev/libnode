@@ -1,0 +1,84 @@
+[2022-07-04T08:46:59.558965 23   ] === CCACHE 3.4.1 STARTED =========================================
+[2022-07-04T08:46:59.558965 23   ] Config: (default) base_dir = 
+[2022-07-04T08:46:59.558965 23   ] Config: (environment) cache_dir = /ccache
+[2022-07-04T08:46:59.558965 23   ] Config: (default) cache_dir_levels = 2
+[2022-07-04T08:46:59.558965 23   ] Config: (default) compiler = 
+[2022-07-04T08:46:59.558965 23   ] Config: (default) compiler_check = mtime
+[2022-07-04T08:46:59.558965 23   ] Config: (/ccache/ccache.conf) compression = true
+[2022-07-04T08:46:59.558965 23   ] Config: (default) compression_level = 6
+[2022-07-04T08:46:59.558965 23   ] Config: (default) cpp_extension = 
+[2022-07-04T08:46:59.558965 23   ] Config: (default) direct_mode = true
+[2022-07-04T08:46:59.558965 23   ] Config: (default) disable = false
+[2022-07-04T08:46:59.558965 23   ] Config: (default) extra_files_to_hash = 
+[2022-07-04T08:46:59.558965 23   ] Config: (default) hard_link = false
+[2022-07-04T08:46:59.558965 23   ] Config: (default) hash_dir = true
+[2022-07-04T08:46:59.558965 23   ] Config: (default) ignore_headers_in_manifest = 
+[2022-07-04T08:46:59.558965 23   ] Config: (default) keep_comments_cpp = false
+[2022-07-04T08:46:59.558965 23   ] Config: (default) limit_multiple = 0.8
+[2022-07-04T08:46:59.558965 23   ] Config: (environment) log_file = /tmp/cache.debug
+[2022-07-04T08:46:59.558965 23   ] Config: (default) max_files = 0
+[2022-07-04T08:46:59.558965 23   ] Config: (/ccache/ccache.conf) max_size = 10.0G
+[2022-07-04T08:46:59.558965 23   ] Config: (default) path = 
+[2022-07-04T08:46:59.558965 23   ] Config: (default) prefix_command = 
+[2022-07-04T08:46:59.558965 23   ] Config: (default) prefix_command_cpp = 
+[2022-07-04T08:46:59.558965 23   ] Config: (default) read_only = false
+[2022-07-04T08:46:59.558965 23   ] Config: (default) read_only_direct = false
+[2022-07-04T08:46:59.558965 23   ] Config: (default) recache = false
+[2022-07-04T08:46:59.558965 23   ] Config: (default) run_second_cpp = true
+[2022-07-04T08:46:59.558965 23   ] Config: (default) sloppiness = 
+[2022-07-04T08:46:59.558965 23   ] Config: (default) stats = true
+[2022-07-04T08:46:59.558965 23   ] Config: (default) temporary_dir = 
+[2022-07-04T08:46:59.558965 23   ] Config: (default) umask = 
+[2022-07-04T08:46:59.558965 23   ] Config: (default) unify = false
+[2022-07-04T08:46:59.631011 23   ] Command line: gcc -dumpmachine
+[2022-07-04T08:46:59.631148 23   ] Hostname: 7e49d51c789e
+[2022-07-04T08:46:59.631229 23   ] Working directory: /node-16.15.1
+[2022-07-04T08:46:59.631337 23   ] No input file found
+[2022-07-04T08:46:59.631460 23   ] Failed; falling back to running the real compiler
+[2022-07-04T08:46:59.631515 23   ] Executing /usr/bin/gcc -dumpmachine
+[2022-07-04T08:46:59.704772 23   ] Acquired lock /ccache/9/stats.lock
+[2022-07-04T08:46:59.706485 23   ] Releasing lock /ccache/9/stats.lock
+[2022-07-04T08:46:59.706554 23   ] Unlink /ccache/9/stats.lock
+[2022-07-04T08:46:59.706748 23   ] Result: no input file
+[2022-07-04T08:47:00.481405 35   ] === CCACHE 3.4.1 STARTED =========================================
+[2022-07-04T08:47:00.481405 35   ] Config: (default) base_dir = 
+[2022-07-04T08:47:00.481405 35   ] Config: (environment) cache_dir = /ccache
+[2022-07-04T08:47:00.481405 35   ] Config: (default) cache_dir_levels = 2
+[2022-07-04T08:47:00.481405 35   ] Config: (default) compiler = 
+[2022-07-04T08:47:00.481405 35   ] Config: (default) compiler_check = mtime
+[2022-07-04T08:47:00.481405 35   ] Config: (/ccache/ccache.conf) compression = true
+[2022-07-04T08:47:00.481405 35   ] Config: (default) compression_level = 6
+[2022-07-04T08:47:00.481405 35   ] Config: (default) cpp_extension = 
+[2022-07-04T08:47:00.481405 35   ] Config: (default) direct_mode = true
+[2022-07-04T08:47:00.481405 35   ] Config: (default) disable = false
+[2022-07-04T08:47:00.481405 35   ] Config: (default) extra_files_to_hash = 
+[2022-07-04T08:47:00.481405 35   ] Config: (default) hard_link = false
+[2022-07-04T08:47:00.481405 35   ] Config: (default) hash_dir = true
+[2022-07-04T08:47:00.481405 35   ] Config: (default) ignore_headers_in_manifest = 
+[2022-07-04T08:47:00.481405 35   ] Config: (default) keep_comments_cpp = false
+[2022-07-04T08:47:00.481405 35   ] Config: (default) limit_multiple = 0.8
+[2022-07-04T08:47:00.481405 35   ] Config: (environment) log_file = /tmp/cache.debug
+[2022-07-04T08:47:00.481405 35   ] Config: (default) max_files = 0
+[2022-07-04T08:47:00.481405 35   ] Config: (/ccache/ccache.conf) max_size = 10.0G
+[2022-07-04T08:47:00.481405 35   ] Config: (default) path = 
+[2022-07-04T08:47:00.481405 35   ] Config: (default) prefix_command = 
+[2022-07-04T08:47:00.481405 35   ] Config: (default) prefix_command_cpp = 
+[2022-07-04T08:47:00.481405 35   ] Config: (default) read_only = false
+[2022-07-04T08:47:00.481405 35   ] Config: (default) read_only_direct = false
+[2022-07-04T08:47:00.481405 35   ] Config: (default) recache = false
+[2022-07-04T08:47:00.481405 35   ] Config: (default) run_second_cpp = true
+[2022-07-04T08:47:00.481405 35   ] Config: (default) sloppiness = 
+[2022-07-04T08:47:00.481405 35   ] Config: (default) stats = true
+[2022-07-04T08:47:00.481405 35   ] Config: (default) temporary_dir = 
+[2022-07-04T08:47:00.481405 35   ] Config: (default) umask = 
+[2022-07-04T08:47:00.481405 35   ] Config: (default) unify = false
+[2022-07-04T08:47:00.481617 35   ] Command line: gcc -dumpmachine
+[2022-07-04T08:47:00.481652 35   ] Hostname: 7e49d51c789e
+[2022-07-04T08:47:00.481674 35   ] Working directory: /node-16.15.1
+[2022-07-04T08:47:00.481696 35   ] No input file found
+[2022-07-04T08:47:00.481712 35   ] Failed; falling back to running the real compiler
+[2022-07-04T08:47:00.481739 35   ] Executing /usr/bin/gcc -dumpmachine
+[2022-07-04T08:47:00.545485 35   ] Acquired lock /ccache/1/stats.lock
+[2022-07-04T08:47:00.567864 35   ] Releasing lock /ccache/1/stats.lock
+[2022-07-04T08:47:00.567934 35   ] Unlink /ccache/1/stats.lock
+[2022-07-04T08:47:00.568122 35   ] Result: no input file

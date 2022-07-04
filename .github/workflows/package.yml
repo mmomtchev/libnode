@@ -21,9 +21,63 @@ on:
         default: 5.0.0
 
 jobs:
+  create_tarballs:
+
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set Node version
+      run: |
+        NODE_VERSION=${{github.event.inputs.node_version}}
+        echo NODE_VERSION=${NODE_VERSION:-"16.15.1"} >> ${GITHUB_ENV}
+    - name: Set node-addon-api version
+      run: |
+        NAPI_VERSION=${{github.event.inputs.napi_version}}
+        echo NAPI_VERSION=${NAPI_VERSION:-"5.0.0"} >> ${GITHUB_ENV}
+    - run: |
+        if [ ! -r dist/node_${NODE_VERSION}.orig.tar.gz ]; then
+          if [ -n "${PR}" ]; then
+            echo Tarballs cannot be created in PRs
+            exit
+          fi
+          wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}.tar.gz \
+              -O dist/node_${NODE_VERSION}.orig.tar.gz
+          git add dist/node_${NODE_VERSION}.orig.tar.gz
+          tar -zxvf dist/node_${NODE_VERSION}.orig.tar.gz
+          cd node-${NODE_VERSION}
+          for SUB in doc clang-format lint-md; do
+              ( cd tools/${SUB} && npm ci )
+              mv tools/${SUB}/node_modules tools-${SUB}-node-modules
+              tar -C tools-${SUB}-node-modules \
+                  -Jcvf ../dist/node_${NODE_VERSION}.orig-tools-${SUB}-node-modules.tar.xz .
+              git add ../dist/node_${NODE_VERSION}.orig-tools-${SUB}-node-modules.tar.xz
+          done
+          git commit -m "tarballs for node ${NODE_VERSION}"
+          git push
+        fi
+      env:
+        PR: ${{github.event.pull_request.head.ref}}
+      run: |
+        if [ ! -r dist/node_${NODE_VERSION}.orig-napi.tar.xz ]; then
+          mkdir -p node-addon-api
+          wget https://raw.githubusercontent.com/nodejs/node-addon-api/v${NAPI_VERSION}/napi.h \
+            -O node-addon-api/napi.h
+          wget https://raw.githubusercontent.com/nodejs/node-addon-api/v${NAPI_VERSION}/napi-inl.h \
+            -O node-addon-api/napi-inl.h
+          wget https://raw.githubusercontent.com/nodejs/node-addon-api/v${NAPI_VERSION}/napi-inl.deprecated.h \
+            -O node-addon-api/napi-inl.deprecated.h
+          tar -C node-addon-api -Jcvf dist/node_${NODE_VERSION}.orig-node-addon-api.tar.xz .
+          git add dist/node_${NODE_VERSION}.orig-node-addon-api.tar.xz
+          git commit -m "tarball for napi ${NODE_VERSION}-${NAPI_VERSION}"
+          git push          
+        fi
+      env:
+        PR: ${{github.event.pull_request.head.ref}}
+
   ubuntu:
 
     runs-on: ubuntu-20.04
+    needs: create_tarballs
 
     strategy:
       matrix:
@@ -64,7 +118,7 @@ jobs:
         registry: docker.pkg.github.com
         image_name: libnode-ubuntu-${{matrix.release}}
         image_tag: latest
-        context: ubuntu
+        context: .
         build_extra_args:
           ${{env.ARG_FAST}}
           --build-arg RELEASE=${{matrix.release}}

@@ -27,30 +27,19 @@ RUN set -ex && \
         ccache wget \
         python3 ${GCC} ${GCXX} make python3-pip && \
     wget -O - https://deb.nodesource.com/setup_14.x | bash - && \
-    apt-get install -y nodejs
+    apt-get install -y nodejs && \
+    mkdir -p /dist
+
+COPY dist/node_${NODE_VERSION}.orig* /dist/
 
 RUN set -ex && \
-    wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}.tar.gz \
-        -O node_${NODE_VERSION}.orig.tar.gz && \
-    tar -zxvf node_${NODE_VERSION}.orig.tar.gz && \
+    tar -zxvf /dist/node_${NODE_VERSION}.orig.tar.gz && \
     cd node-${NODE_VERSION} && \
-    for SUB in doc clang-format lint-md; do \
-        ( cd tools/${SUB} && npm ci ) && \
-        mv tools/${SUB}/node_modules tools-${SUB}-node-modules && \
-        tar -C tools-${SUB}-node-modules \
-            -Jcvf ../node_${NODE_VERSION}.orig-tools-${SUB}-node-modules.tar.xz . ; \
+    for SUB in /dist/node_${NODE_VERSION}.orig-*.tar.xz; do \
+        tar -Jxvf ${SUB}; \
     done
 
-RUN set -ex && \
-    mkdir -p /node-addon-api && \
-    wget https://raw.githubusercontent.com/nodejs/node-addon-api/v${NAPI_VERSION}/napi.h \
-        -O /node-addon-api/napi.h && \
-    wget https://raw.githubusercontent.com/nodejs/node-addon-api/v${NAPI_VERSION}/napi-inl.h \
-        -O /node-addon-api/napi-inl.h && \
-    wget https://raw.githubusercontent.com/nodejs/node-addon-api/v${NAPI_VERSION}/napi-inl.deprecated.h \
-        -O /node-addon-api/napi-inl.deprecated.h
-
-COPY debian /node-${NODE_VERSION}/debian
+COPY ubuntu/debian /node-${NODE_VERSION}/debian
 
 RUN sed -i s/UNIVERSAL/${RELEASE}/g /node-${NODE_VERSION}/debian/changelog && \
     sed -i s/_NAPI_VERSION_/${NAPI_VERSION}/g /node-${NODE_VERSION}/debian/rules && \
@@ -64,7 +53,7 @@ WORKDIR /node-${NODE_VERSION}
 ENTRYPOINT exec /bin/bash -c \
     'set -ex && \
     env && \
-    debuild ${CCACHE_ARGS} -S && \
+    debuild -sa -S && \
     mkdir -p /out/source && \
     cp ../node*tar* ../*.changes ../*.dsc ../*.buildinfo /out/source && \
     debuild ${CCACHE_ARGS} && \
