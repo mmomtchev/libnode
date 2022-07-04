@@ -1,3 +1,9 @@
+node (16.15.1-7~UNIVERSAL) UNIVERSAL; urgency=medium
+
+  * remove /usr/share/doc/libnode93 from the installed files list
+
+ -- Momtchil Momtchev <momtchil@momtchev.com>  Mon, 04 Jul 2022 17:34:40 +0200
+
 node (16.15.1-6~UNIVERSAL) UNIVERSAL; urgency=medium
 
   * Remove the conflict on nodejs-dev which triggers removal of nodejs
