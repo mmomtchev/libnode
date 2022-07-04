@@ -57,7 +57,9 @@ ENTRYPOINT exec /bin/bash -c \
     debuild -sa -S && \
     mkdir -p /out/source && \
     cp ../node*tar* ../*.changes ../*.dsc ../*.buildinfo /out/source && \
-    debuild ${CCACHE_ARGS} && \
-    mkdir -p /out/amd64 && \
-    cp ../*.changes ../*.dsc ../*.debian.tar.xz ../*.buildinfo ../*.deb /out/amd64 && \
-    cp ${CCACHE_LOGFILE} /out'
+    if [ ! -n "${SRC_ONLY}" ]; then \
+        debuild ${CCACHE_ARGS} && \
+        mkdir -p /out/amd64 && \
+        cp ../*.changes ../*.dsc ../*.debian.tar.xz ../*.buildinfo ../*.deb /out/amd64 && \
+        cp ${CCACHE_LOGFILE} /out; \
+    fi'
