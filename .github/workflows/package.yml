@@ -24,7 +24,6 @@ jobs:
   ubuntu:
 
     runs-on: ubuntu-20.04
-    needs: create_tarballs
 
     strategy:
       matrix:
