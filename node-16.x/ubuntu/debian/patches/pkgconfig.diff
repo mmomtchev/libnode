@@ -6,7 +6,7 @@ Index: node-16.15.1/node.pc
 +prefix=/usr
 +exec_prefix=/usr
 +libdir=/usr/lib
-+includedir=${prefix}/include/node
++includedir=${prefix}/include
 +
 +Name: node
 +Description: Embedded Node.js
