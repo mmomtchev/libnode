@@ -9,4 +9,6 @@
 
 /*/node-*/
 !/dist/*
+/node-addon-api/ubuntu/*
+!/node-addon-api/ubuntu/debian
 /artifacts

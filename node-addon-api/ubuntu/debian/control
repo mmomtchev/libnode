@@ -1,0 +1,17 @@
+Source: node-addon-api
+Maintainer: Momtchil Momtchev <momtchil@momtchev.com>
+Section: libdevel
+Build-Depends: debhelper (>= 10)
+Homepage: https://github.com/nodejs/node-addon-api
+Standards-Version: 4.1.4
+Rules-Requires-Root: no
+
+Package: node-addon-api
+Section: libdevel
+Architecture: all
+Depends: ${misc:Depends}, libnode-dev
+Description:  header-only C++ wrapper classes which simplify the use
+ of the C based Node-API provided by Node.js when using C++. It
+ provides a C++ object model and exception handling semantics with
+ low overhead.
+ .

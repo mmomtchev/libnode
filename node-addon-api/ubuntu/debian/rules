@@ -1,0 +1,19 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+
+override_dh_auto_clean:
+	true
+
+
+override_dh_auto_configure:
+	env
+
+
+override_dh_auto_install:
+	mkdir -p debian/node-addon-api/usr/include/node
+	install napi.h debian/node-addon-api/usr/include/node/napi.h
+	install napi-inl.h debian/node-addon-api/usr/include/node/napi-inl.h
+	install napi-inl.deprecated.h debian/node-addon-api/usr/include/node/napi-inl.deprecated.h
