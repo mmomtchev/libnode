@@ -34,10 +34,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      with:
-        lfs: true
-    - name: Checkout LFS objects
-      run: git lfs checkout
     - name: ccache
       uses: hendrikmuhs/ccache-action@v1.2
       with:
@@ -62,6 +58,7 @@ jobs:
         echo NAPI_VERSION=${NAPI_VERSION:-"5.0.0"} >> ${GITHUB_ENV}
     - name: Create Node.js tarball
       run: |
+        mkdir -p node-16.x/dist/
         if [ ! -r node-16.x/dist/node_${NODE_VERSION}.orig.tar.gz ]; then
           wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}.tar.gz \
               -O node-16.x/dist/node_${NODE_VERSION}.orig.tar.gz
@@ -76,6 +73,7 @@ jobs:
         fi
     - name: Create node-addon-api tarball
       run: |
+        mkdir -p node-addon-api/dist/
         if [ ! -r node-addon-api/dist/node-addon-api_${NAPI_VERSION}.orig.tar.gz ]; then
             wget https://github.com/nodejs/node-addon-api/archive/refs/tags/v${NAPI_VERSION}.tar.gz \
                 -O node-addon-api/dist/node-addon-api_${NAPI_VERSION}.orig.tar.gz
