@@ -22,7 +22,7 @@ if [ ! -r node-16.x/dist/node_${NODE_VERSION}.orig.tar.gz ]; then
 fi
 
 if [ -z "${RELEASES}" ]; then
-    RELEASES=bionic focal jammy
+    RELEASES="bionic focal jammy"
 fi
 for RELEASE in ${RELEASES}; do
     docker build --build-arg RELEASE=${RELEASE} \

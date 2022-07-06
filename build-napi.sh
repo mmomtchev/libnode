@@ -12,7 +12,7 @@ if [ ! -r node-addon-api/dist/node-addon-api_${NAPI_VERSION}.orig.tar.gz ]; then
 fi
 
 if [ -z "${RELEASES}" ]; then
-    RELEASES=bionic focal jammy
+    RELEASES="bionic focal jammy"
 fi
 for RELEASE in ${RELEASES}; do
     rm -rf node-addon-api/ubuntu/${RELEASE}/node-addon-api_${NAPI_VERSION}
