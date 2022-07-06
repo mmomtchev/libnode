@@ -31,7 +31,7 @@ for RELEASE in ${RELEASES}; do
 
     docker run --network none \
         --env SRC_ONLY=${SRC_ONLY} \
-        ${ARG_FAST}
+        ${ARG_FAST} \
         -v `ccache --get-config=cache_dir`:/ccache --env CCACHE_DIR=/ccache \
         -v `pwd`/artifacts:/out \
         -v ${HOME}/.gnupg:/root/.gnupg \
