@@ -10,7 +10,6 @@ Package: libnode-dev
 Section: libdevel
 Architecture: all
 Depends: ${misc:Depends}, libnode93 (= ${binary:Version})
-Conflicts: nodejs-dev
 Description: evented I/O for V8 javascript (development files)
  Node.js is a platform built on Chrome's JavaScript runtime for easily
  building fast, scalable network applications. Node.js uses an
@@ -19,9 +18,9 @@ Description: evented I/O for V8 javascript (development files)
  across distributed devices.
  .
  This package provides development headers for libnode with the
- napi-libnode PR. It cannot be installed along a nodejs package
- that also installs Node.js headers in /usr/include.
-
+ napi-libnode PR. To avoid a conflict with the NodeSource Node.js
+ distribution, all headers are installed in /usr/include/libnode.
+ .
 
 Package: libnode93
 Section: libs

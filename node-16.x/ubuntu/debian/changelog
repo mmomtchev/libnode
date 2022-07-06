@@ -1,3 +1,10 @@
+node (16.15.1-9~UNIVERSAL) UNIVERSAL; urgency=medium
+
+  * Remove the conflict with the NodeSource nodejs package and move all
+    headers to /usr/include/libnode. 
+
+ -- Momtchil Momtchev <momtchil@momtchev.com>  Wed, 06 Jul 2022 17:56:02 +0200
+
 node (16.15.1-8~UNIVERSAL) UNIVERSAL; urgency=medium
 
   * Fix a problem in the napi-libnode PR preventing the creation of new objects.

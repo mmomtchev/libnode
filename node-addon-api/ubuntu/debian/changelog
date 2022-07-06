@@ -1,3 +1,9 @@
+node-addon-api (5.0.0-2~UNIVERSAL) UNIVERSAL; urgency=medium
+
+  * Move all headers to /usr/include/libnode. 
+
+ -- Momtchil Momtchev <momtchil@momtchev.com>  Wed, 06 Jul 2022 17:56:53 +0200
+
 node-addon-api (5.0.0-1~UNIVERSAL) UNIVERSAL; urgency=medium
 
   * Initial release.

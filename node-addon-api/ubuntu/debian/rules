@@ -1,5 +1,7 @@
 #!/usr/bin/make -f
 
+export TARGET_DIR=debian/node-addon-api/usr/include/libnode
+
 %:
 	dh $@
 
@@ -13,7 +15,7 @@ override_dh_auto_configure:
 
 
 override_dh_auto_install:
-	mkdir -p debian/node-addon-api/usr/include/node
-	install napi.h debian/node-addon-api/usr/include/node/napi.h
-	install napi-inl.h debian/node-addon-api/usr/include/node/napi-inl.h
-	install napi-inl.deprecated.h debian/node-addon-api/usr/include/node/napi-inl.deprecated.h
+	mkdir -p debian/node-addon-api/usr/include/libnode
+	install napi.h					${TARGET_DIR}/napi.h
+	install napi-inl.h				${TARGET_DIR}/napi-inl.h
+	install napi-inl.deprecated.h	${TARGET_DIR}/napi-inl.deprecated.h
