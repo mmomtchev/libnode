@@ -23,6 +23,10 @@ I am maintaining them as a courtesy to the open source community.
 
 Highly experimental
 
+# Basic Principle of Operation
+
+The C/C++ code is linked against a shared library (about 80Mb) which includes a fully self-contained Node.js runtime in which the standard bootstrap code has been modified. Running `napi_create_platform` initializes Node.js/V8 and running `napi_create_environment` creates an isolate which can be roughly compared to one `worker_thread` in Node.js. An environment can be accessed only by the C/C++ thread which created it. When calling into JavaSscript, Node.js/V8 run in the context of the calling thread. A special method, `napi_run_environment` allows the draining of the event loop - which also happens in the context of the worker thread. All JS objects are managed in the Node.js/V8 heap and may be accessed only through the `napi_` primitives and only in the thread that created the environment. All the `napi_*` functions come from the standard Node-API that is used for Node.js native addons - these are intercepted by the creation of a special `napi_env` that represents the embedded environment. The structure that renders this possible is *hidden* in the environment instance data - so `napi_set_instance_data` and `napi_get_instance_data` are never to be used on this environment.
+
 ## Known Issues
 
 * The global context is not very intuitive
