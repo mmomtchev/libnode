@@ -38,6 +38,22 @@ sudo apt install libnode93 libnode-dev # C only
 sudo apt install node-addon-api # with C++
 ```
 
+# Building from source on other systems
+
+Node.js 16.x branch
+
+```shell
+git clone -b napi-libnode-v16.x https://github.com/mmomtchev/node.git
+cd node && ./configure --shared && make -j4
+```
+
+Node.js main branch
+
+```shell
+git clone -b napi-libnode https://github.com/mmomtchev/node.git
+cd node && ./configure --shared && make -j4
+```
+
 # Using from C
 
 This version of `libnode` can be used from both C and C++ with a simple Node-API interface:
@@ -216,3 +232,6 @@ int main() {
     return 0;
 }
 ```
+
+*made in Annecy*
+*made on solar power*
