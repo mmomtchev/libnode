@@ -1,0 +1,14 @@
+Index: node-addon-api-5.0.0/node-addon-api.pc.in
+===================================================================
+--- /dev/null
++++ node-addon-api-5.0.0/node-addon-api.pc.in
+@@ -0,0 +1,9 @@
++prefix=/usr
++exec_prefix=/usr
++libdir=/usr/lib
++includedir=${prefix}/include
++
++Name: node
++Description: node-addon-api
++Version: _VERSION_
++Cflags: -I${includedir}/libnode

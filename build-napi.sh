@@ -15,7 +15,7 @@ if [ -z "${RELEASES}" ]; then
     RELEASES="bionic focal jammy"
 fi
 for RELEASE in ${RELEASES}; do
-    rm -rf node-addon-api/ubuntu/${RELEASE}/node-addon-api_${NAPI_VERSION}
+    rm -rf node-addon-api/ubuntu/${RELEASE}/node-addon-api-${NAPI_VERSION}
     mkdir -p node-addon-api/ubuntu/${RELEASE}
     tar -C node-addon-api/ubuntu/${RELEASE} \
         -zxvf node-addon-api/dist/node-addon-api_${NAPI_VERSION}.orig.tar.gz

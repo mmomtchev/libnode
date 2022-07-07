@@ -1,21 +1,27 @@
 #!/usr/bin/make -f
 
-export TARGET_DIR=debian/node-addon-api/usr/include/libnode
+export TARGET_DIR=debian/node-addon-api
+export INC_DIR=${TARGET_DIR}/usr/include/libnode
+export NAPI_VERSION=_NAPI_VERSION_
 
 %:
 	dh $@
 
 
 override_dh_auto_clean:
-	true
+	rm -f node-addon-api.pc
 
 
 override_dh_auto_configure:
 	env
+	sed s/_VERSION_/${NAPI_VERSION}/g node-addon-api.pc.in > node-addon-api.pc
+	cat node-addon-api.pc
 
 
 override_dh_auto_install:
-	mkdir -p debian/node-addon-api/usr/include/libnode
-	install napi.h					${TARGET_DIR}/napi.h
-	install napi-inl.h				${TARGET_DIR}/napi-inl.h
-	install napi-inl.deprecated.h	${TARGET_DIR}/napi-inl.deprecated.h
+	mkdir -p ${INC_DIR}
+	install napi.h					${INC_DIR}/napi.h
+	install napi-inl.h				${INC_DIR}/napi-inl.h
+	install napi-inl.deprecated.h	${INC_DIR}/napi-inl.deprecated.h
+	mkdir -p ${TARGET_DIR}/usr/share/pkgconfig
+	install node-addon-api.pc		${TARGET_DIR}/usr/share/pkgconfig
