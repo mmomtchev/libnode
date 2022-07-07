@@ -43,7 +43,7 @@ Node.js 16.x and (_in progress_) Node.js 18.x on
 
 - Ubuntu 18.04 (**Bionic**)
 - Ubuntu 20.04 (**Focal**)
-- Ubuntu 22.04 (**Jammy**)
+- Ubuntu 22.04 (**Jammy**) (broken at the moment because of [1979639](https://bugs.launchpad.net/ubuntu/+source/openssl/+bug/1979639))
 - (_in progress_) Debian 10 (**Buster**)
 - (_in progress_) Debian 11 (**Bullseye**)
 
