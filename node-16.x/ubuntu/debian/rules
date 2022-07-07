@@ -26,5 +26,7 @@ override_dh_auto_configure:
 override_dh_auto_install:
 	dh_auto_install 
 	mv debian/tmp/usr/include/node debian/tmp/usr/include/libnode
-	mkdir -p debian/tmp/usr/share/pkgconfig
+	install -d debian/tmp/usr/share/doc/libnode-dev/examples
+	install examples/* debian/tmp/usr/share/doc/libnode-dev/examples
+	install -d debian/tmp/usr/share/pkgconfig
 	sed s/_VERSION_/$(NODE_VERSION)/ node.pc > debian/tmp/usr/share/pkgconfig/node.pc

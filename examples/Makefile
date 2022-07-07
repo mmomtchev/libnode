@@ -4,6 +4,7 @@ CFLAGS+=-g $(shell pkg-config --cflags node) $(shell pkg-config --cflags node-ad
 LDFLAGS+=$(shell pkg-config --libs node)
 
 all: libnode-napi-example-cc libnode-napi-example-c axios-example
+	@echo Do not forget npm install
 
 clean:
 	rm -f libnode-napi-example-cc libnode-napi-example-c axios-example

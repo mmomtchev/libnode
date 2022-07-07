@@ -1,6 +1,7 @@
 node (16.15.1-10~UNIVERSAL) UNIVERSAL; urgency=medium
 
   * Fix include path in `node.pc`
+  * Add the examples to `/usr/share/doc/libnode93/examples`
 
  -- Momtchil Momtchev <momtchil@momtchev.com>  Thu, 07 Jul 2022 00:10:54 +0200
 

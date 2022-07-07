@@ -19,6 +19,9 @@ if [ ! -r node-16.x/dist/node_${NODE_VERSION}.orig.tar.gz ]; then
                 -Jcvf ../dist/node_${NODE_VERSION}.orig-tools-${SUB}-node-modules.tar.xz .
         done
     )
+    tar -C examples \
+        -zcvf node-16.x/dist/node_${NODE_VERSION}.orig-examples.tar.gz \
+        --exclude-from examples/.gitignore .
 fi
 
 if [ -z "${RELEASES}" ]; then
