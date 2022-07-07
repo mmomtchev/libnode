@@ -6,7 +6,10 @@ int main() {
     napi_platform platform;
 
     const char *main_script =
-        "globalThis.require = require('module').createRequire(process.cwd() + '/');";
+        "const CJSLoader = require('internal/modules/cjs/loader');"
+        "global.module = new CJSLoader.Module();"
+        "global.require = require('module').createRequire(process.cwd() + "
+        "'/');";
 
     if (napi_create_platform(0, NULL, 0, NULL, NULL, 0, &platform) != napi_ok) {
         fprintf(stderr, "Failed creating the platform\n");
@@ -25,8 +28,10 @@ int main() {
 
         try {
             // require axios
-            Napi::Function require = env.Global().Get("require").As<Napi::Function>();
-            Napi::Object axios = require.Call({Napi::String::New(env, "axios")}).ToObject();
+            Napi::Function require =
+                env.Global().Get("require").As<Napi::Function>();
+            Napi::Object axios =
+                require.Call({Napi::String::New(env, "axios")}).ToObject();
 
             Napi::Promise r =
                 axios.Get("get")
