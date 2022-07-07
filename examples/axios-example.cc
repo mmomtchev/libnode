@@ -22,11 +22,14 @@ int main() {
 
         try {
             // require axios
+            // The default bootstrap script creates a CJS-like environment
+            // with a global.require()
             Napi::Function require =
                 env.Global().Get("require").As<Napi::Function>();
             Napi::Object axios =
                 require.Call({Napi::String::New(env, "axios")}).ToObject();
 
+            // As this is an async function, it will return immediately
             Napi::Promise r =
                 axios.Get("get")
                     .As<Napi::Function>()
@@ -60,6 +63,7 @@ int main() {
                            }
                        })});
 
+            // This will have the effect of a JS await
             if (napi_run_environment(_env) != napi_ok) {
                 fprintf(stderr, "Failed flushing async callbacks\n");
                 return -1;

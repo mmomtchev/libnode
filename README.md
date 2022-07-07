@@ -252,12 +252,12 @@ int main() {
 int main() {
     napi_platform platform;
 
-    if (napi_create_platform(0, NULL, 0, NULL, NULL, 0, &platform) != napi_ok) {
+    if (napi_create_platform(0, nullptr, 0, nullptr, nullptr, 0, &platform) != napi_ok) {
         fprintf(stderr, "Failed creating the platform\n");
         return -1;
     }
     napi_env _env;
-    if (napi_create_environment(platform, NULL, NULL, &_env) !=
+    if (napi_create_environment(platform, nullptr, nullptr, &_env) !=
         napi_ok) {
         fprintf(stderr, "Failed running JS\n");
         return -1;
@@ -269,11 +269,14 @@ int main() {
 
         try {
             // require axios
+            // The default bootstrap script creates a CJS-like environment
+            // with a global.require()
             Napi::Function require =
                 env.Global().Get("require").As<Napi::Function>();
             Napi::Object axios =
                 require.Call({Napi::String::New(env, "axios")}).ToObject();
 
+            // As this is an async function, it will return immediately
             Napi::Promise r =
                 axios.Get("get")
                     .As<Napi::Function>()
@@ -307,6 +310,7 @@ int main() {
                            }
                        })});
 
+            // This will have the effect of a JS await
             if (napi_run_environment(_env) != napi_ok) {
                 fprintf(stderr, "Failed flushing async callbacks\n");
                 return -1;
@@ -316,7 +320,7 @@ int main() {
         }
     }
 
-    if (napi_destroy_environment(_env, NULL) != napi_ok) {
+    if (napi_destroy_environment(_env, nullptr) != napi_ok) {
         return -1;
     }
 
