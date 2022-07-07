@@ -38,7 +38,8 @@ RUN set -ex && \
         DIR=`echo ${SUB}  | cut -f 2- -d "-" | cut -f 1 -d "."` && \ 
         mkdir -p ${DIR} && \
         tar -C ${DIR} -Jxvf ${SUB}; \
-    done
+    done && \
+    mkdir -p examples && tar -C examples -zxvf /node_${NODE_VERSION}.orig-examples.tar.gz
 
 COPY ubuntu/debian /node-${NODE_VERSION}/debian
 
