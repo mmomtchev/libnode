@@ -1,3 +1,10 @@
+node (16.15.1-11~UNIVERSAL) UNVIVERSAL; urgency=medium
+
+  * Include a default bootstrap script in `napi_create_environment` when
+  `main_script=NULL`
+
+ -- Momtchil Momtchev <momtchil@momtchev.com>  Fri, 08 Jul 2022 00:05:01 +0200
+
 node (16.15.1-10~UNIVERSAL) UNIVERSAL; urgency=medium
 
   * Fix include path in `node.pc`
