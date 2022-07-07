@@ -249,27 +249,6 @@ int main() {
 #define NAPI_EXPERIMENTAL
 #include <napi.h>
 
-// Promise resolve handler
-void then_callback(const Napi::CallbackInfo &info) {
-    Napi::HandleScope scope(info.Env());
-    if (!info[0].IsObject()) {
-        printf("Axios returned: %s\n", info[0].ToString().Utf8Value().c_str());
-        return;
-    }
-
-    std::string data = info[0].ToObject().Get("data").ToString().Utf8Value();
-    printf("Result is:\n\n%s\n", data.c_str());
-}
-
-// Promise reject handler
-void reject_callback(const Napi::CallbackInfo &info) {
-    Napi::HandleScope scope(info.Env());
-    if (!info[0].IsNull()) {
-        printf("Axios error: %s", info[0].As<Napi::Error>().what());
-        return;
-    }
-}
-
 int main() {
     napi_platform platform;
 
@@ -301,10 +280,32 @@ int main() {
                     .Call({Napi::String::New(env, "https://www.google.com")})
                     .As<Napi::Promise>();
 
+            // Promise resolve handler
             r.Get("then").As<Napi::Function>().Call(
-                r, {Napi::Function::New(axios.Env(), then_callback)});
+                r, {Napi::Function::New(axios.Env(), [](const Napi::CallbackInfo
+                                                            &info) {
+                    Napi::HandleScope scope(info.Env());
+                    if (!info[0].IsObject()) {
+                        printf("Axios returned: %s\n",
+                               info[0].ToString().Utf8Value().c_str());
+                        return;
+                    }
+                    std::string data =
+                        info[0].ToObject().Get("data").ToString().Utf8Value();
+                    printf("Result is:\n\n%s\n", data.c_str());
+                })});
+
+            // Promise reject handler
             r.Get("catch").As<Napi::Function>().Call(
-                r, {Napi::Function::New(axios.Env(), reject_callback)});
+                r, {Napi::Function::New(
+                       axios.Env(), [](const Napi::CallbackInfo &info) {
+                           Napi::HandleScope scope(info.Env());
+                           if (!info[0].IsNull()) {
+                               printf("Axios error: %s",
+                                      info[0].As<Napi::Error>().what());
+                               return;
+                           }
+                       })});
 
             if (napi_run_environment(_env) != napi_ok) {
                 fprintf(stderr, "Failed flushing async callbacks\n");
