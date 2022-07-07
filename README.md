@@ -253,9 +253,7 @@ int main() {
     napi_platform platform;
 
     const char *main_script =
-        "globalThis.require ="
-        " require('module').createRequire(process.cwd() + '/');"
-        "globalThis.axios = globalThis.require('axios');";
+        "globalThis.require = require('module').createRequire(process.cwd() + '/');";
 
     if (napi_create_platform(0, NULL, 0, NULL, NULL, 0, &platform) != napi_ok) {
         fprintf(stderr, "Failed creating the platform\n");
@@ -273,7 +271,10 @@ int main() {
         Napi::HandleScope scope(env);
 
         try {
-            Napi::Object axios = env.Global().Get("axios").ToObject();
+            // require axios
+            Napi::Function require = env.Global().Get("require").As<Napi::Function>();
+            Napi::Object axios = require.Call({Napi::String::New(env, "axios")}).ToObject();
+
             Napi::Promise r =
                 axios.Get("get")
                     .As<Napi::Function>()
