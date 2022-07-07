@@ -19,6 +19,14 @@ The packages have been developed as part of GSoC 2022 on a project sponsored by 
 
 I am maintaining them as a courtesy to the open source community.
 
+# Status
+
+Highly experimental
+
+## Known Issues
+
+* `require` of external modules does not load the Node.js internal bindings in the right context
+
 # Supported Platforms
 
 Node.js 16.x and (_in progress_) Node.js 18.x on
