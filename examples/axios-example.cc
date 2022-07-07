@@ -5,18 +5,12 @@
 int main() {
     napi_platform platform;
 
-    const char *main_script =
-        "const CJSLoader = require('internal/modules/cjs/loader');"
-        "global.module = new CJSLoader.Module();"
-        "global.require = require('module').createRequire(process.cwd() + "
-        "'/');";
-
-    if (napi_create_platform(0, NULL, 0, NULL, NULL, 0, &platform) != napi_ok) {
+    if (napi_create_platform(0, nullptr, 0, nullptr, nullptr, 0, &platform) != napi_ok) {
         fprintf(stderr, "Failed creating the platform\n");
         return -1;
     }
     napi_env _env;
-    if (napi_create_environment(platform, NULL, main_script, &_env) !=
+    if (napi_create_environment(platform, nullptr, nullptr, &_env) !=
         napi_ok) {
         fprintf(stderr, "Failed running JS\n");
         return -1;
@@ -75,7 +69,7 @@ int main() {
         }
     }
 
-    if (napi_destroy_environment(_env, NULL) != napi_ok) {
+    if (napi_destroy_environment(_env, nullptr) != napi_ok) {
         return -1;
     }
 

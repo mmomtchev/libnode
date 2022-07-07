@@ -252,15 +252,12 @@ int main() {
 int main() {
     napi_platform platform;
 
-    const char *main_script =
-        "globalThis.require = require('module').createRequire(process.cwd() + '/');";
-
     if (napi_create_platform(0, NULL, 0, NULL, NULL, 0, &platform) != napi_ok) {
         fprintf(stderr, "Failed creating the platform\n");
         return -1;
     }
     napi_env _env;
-    if (napi_create_environment(platform, NULL, main_script, &_env) !=
+    if (napi_create_environment(platform, NULL, NULL, &_env) !=
         napi_ok) {
         fprintf(stderr, "Failed running JS\n");
         return -1;
@@ -272,8 +269,10 @@ int main() {
 
         try {
             // require axios
-            Napi::Function require = env.Global().Get("require").As<Napi::Function>();
-            Napi::Object axios = require.Call({Napi::String::New(env, "axios")}).ToObject();
+            Napi::Function require =
+                env.Global().Get("require").As<Napi::Function>();
+            Napi::Object axios =
+                require.Call({Napi::String::New(env, "axios")}).ToObject();
 
             Napi::Promise r =
                 axios.Get("get")
