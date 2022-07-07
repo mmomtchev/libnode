@@ -12,3 +12,5 @@
 /node-addon-api/ubuntu/*
 !/node-addon-api/ubuntu/debian
 /artifacts
+
+/examples/node_modules

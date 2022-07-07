@@ -1,14 +1,15 @@
 #/usr/bin/make -f
 
-CFLAGS+=$(shell pkg-config --cflags node) $(shell pkg-config --cflags node-addon-api)
+CFLAGS+=-g $(shell pkg-config --cflags node) $(shell pkg-config --cflags node-addon-api)
+LDFLAGS+=$(shell pkg-config --libs node)
 
-all: libnode-napi-example-cc libnode-napi-example-c
+all: libnode-napi-example-cc libnode-napi-example-c axios-example
 
 clean:
-	rm -f libnode-napi-example-cc libnode-napi-example-c
+	rm -f libnode-napi-example-cc libnode-napi-example-c axios-example
 
 % :: %.c
-	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
 
 % :: %.cc
-	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
+	$(CXX) $(CFLAGS) $(CPPFLAGS) $< -o $@ $(LDFLAGS)

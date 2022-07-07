@@ -39,7 +39,7 @@ int main() {
         // (refer to the node-addon-api doc)
 
         try {
-            Napi::Object global = env.Global().ToObject();
+            Napi::Object global = env.Global();
             Napi::Function cb = global.Get("callMe").As<Napi::Function>();
 
             // This cycle can be repeated

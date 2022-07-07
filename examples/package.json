@@ -1,0 +1,23 @@
+{
+  "name": "libnode-examples",
+  "version": "1.0.0",
+  "description": "examples for libnode",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmomtchev/libnode.git"
+  },
+  "keywords": [
+    "libnode",
+    "Node.js",
+    "embedded"
+  ],
+  "author": "Momtchil Momtchev <momtchil@momtchev.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mmomtchev/libnode/issues"
+  },
+  "homepage": "https://github.com/mmomtchev/libnode#readme",
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
+}
