@@ -63,7 +63,8 @@ jobs:
           wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}.tar.gz \
               -O node-16.x/dist/node_${NODE_VERSION}.orig.tar.gz
           tar  -zxvf node-16.x/dist/node_${NODE_VERSION}.orig.tar.gz
-          tar -C examples -zcvf node-16.x/dist/node_${NODE_VERSION}.orig-examples.tar.gz .
+          tar -C examples -zcvf node-16.x/dist/node_${NODE_VERSION}.orig-examples.tar.gz \
+              --exclude-from examples/.gitignore .
           cd node-${NODE_VERSION}
           for SUB in doc clang-format lint-md; do
               ( cd tools/${SUB} && npm ci )
