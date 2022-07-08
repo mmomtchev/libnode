@@ -263,13 +263,13 @@ int main() {
 int main() {
     napi_platform platform;
 
-    if (napi_create_platform(0, nullptr, 0, nullptr, nullptr, 0, &platform) != napi_ok) {
+    if (napi_create_platform(0, nullptr, 0, nullptr, nullptr, 0, &platform) !=
+        napi_ok) {
         fprintf(stderr, "Failed creating the platform\n");
         return -1;
     }
     napi_env _env;
-    if (napi_create_environment(platform, nullptr, nullptr, &_env) !=
-        napi_ok) {
+    if (napi_create_environment(platform, nullptr, nullptr, &_env) != napi_ok) {
         fprintf(stderr, "Failed running JS\n");
         return -1;
     }
@@ -293,11 +293,16 @@ int main() {
                     .As<Napi::Function>()
                     .Call({Napi::String::New(env, "https://www.google.com")})
                     .As<Napi::Promise>();
+            // At this point the event loop is stopped, unless the function
+            // returned an already resolved Promise, it won't get resolved
+            // until the event loop is restarted
+            // If the event loop is not restarted soon enough, the network
+            // will eventually timeout - same as in Node.js
 
             // Promise resolve handler
             r.Get("then").As<Napi::Function>().Call(
-                r, {Napi::Function::New(axios.Env(), [](const Napi::CallbackInfo
-                                                            &info) {
+                r,
+                {Napi::Function::New(env, [](const Napi::CallbackInfo &info) {
                     Napi::HandleScope scope(info.Env());
                     if (!info[0].IsObject()) {
                         printf("Axios returned: %s\n",
@@ -311,21 +316,24 @@ int main() {
 
             // Promise reject handler
             r.Get("catch").As<Napi::Function>().Call(
-                r, {Napi::Function::New(
-                       axios.Env(), [](const Napi::CallbackInfo &info) {
-                           Napi::HandleScope scope(info.Env());
-                           if (!info[0].IsNull()) {
-                               printf("Axios error: %s",
-                                      info[0].As<Napi::Error>().what());
-                               return;
-                           }
-                       })});
+                r,
+                {Napi::Function::New(env, [](const Napi::CallbackInfo &info) {
+                    Napi::HandleScope scope(info.Env());
+                    if (!info[0].IsNull()) {
+                        printf("Axios error: %s",
+                               info[0].As<Napi::Error>().what());
+                        return;
+                    }
+                })});
 
-            // This will have the effect of a JS await
+            // This will have the effect of a JS await - it will restart the
+            // event loop
+            // (ie one of the above 2 lambdas will run here)
             if (napi_run_environment(_env) != napi_ok) {
                 fprintf(stderr, "Failed flushing async callbacks\n");
                 return -1;
             }
+            // All async tasks have been completed
         } catch (const Napi::Error &e) {
             fprintf(stderr, "Caught a JS exception: %s\n", e.what());
         }
@@ -345,4 +353,5 @@ int main() {
 ```
 
 *made in Annecy*
+
 *made on solar power*
