@@ -1,4 +1,4 @@
-node (16.15.1-11~UNIVERSAL) UNVIVERSAL; urgency=medium
+node (16.15.1-11~UNIVERSAL) UNIVERSAL; urgency=medium
 
   * Include a default bootstrap script in `napi_create_environment` when
   `main_script=NULL`
