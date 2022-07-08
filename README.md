@@ -35,7 +35,8 @@ All JS objects are managed in the Node.js/V8 heap and may be accessed only throu
 
 ## Known Issues
 
-* The global context is not very intuitive
+* `runMicroTasks is undefined` - Your program is raising an exception in a C/C++ async handler that will lead to program termination anyway - it is just that the message is very cryptic - this happens because the exception is processed in a context without builtins
+* `axios_example` crashes - Your installed `libnode` version does not match the example
 
 # Supported Platforms
 
