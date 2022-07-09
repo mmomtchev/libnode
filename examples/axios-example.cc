@@ -63,6 +63,9 @@ int main() {
                 })});
 
             // Promise reject handler
+            // (if you want to catch exceptions in `then` you have to attach
+            // your handler to the value returned by `then` - here you are
+            // attaching to the base Promise itself)
             r.Get("catch").As<Napi::Function>().Call(
                 r,
                 {Napi::Function::New(env, [](const Napi::CallbackInfo &info) {
