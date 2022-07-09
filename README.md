@@ -1,6 +1,6 @@
 # Current libnode packages with Node-API / node-addon-api interface for Ubuntu and Debian
 
-![](https://developers.google.com/open-source/gsoc/resources/downloads/GSoC-Horizontal.svg)
+![](https://developers.google.com/open-source/gsoc/resources/downloads/GSoC-Horizontal.png)
 
 ![](https://raw.githubusercontent.com/OSGeo/osgeo/master/marketing/branding/logo/osgeo-logo-cmyk.svg)
 
