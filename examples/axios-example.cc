@@ -42,9 +42,15 @@ int main() {
             // will eventually timeout - same as in Node.js
 
             // Promise resolve handler
+            // (same as JS - we retrieve the `then` property, which is a
+            // function, then we call it, passing a handler as argument
+            // and the Promise as this)
             r.Get("then").As<Napi::Function>().Call(
                 r,
                 {Napi::Function::New(env, [](const Napi::CallbackInfo &info) {
+                    // If you throw here, your program will get terminated -
+                    // same as JS - but with a very cryptic message
+                    // about `runMicroTasks` being undefined
                     Napi::HandleScope scope(info.Env());
                     if (!info[0].IsObject()) {
                         printf("Axios returned: %s\n",

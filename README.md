@@ -1,5 +1,9 @@
 # Current libnode packages with Node-API / node-addon-api interface for Ubuntu and Debian
 
+![](https://developers.google.com/open-source/gsoc/resources/downloads/GSoC-Horizontal.svg)
+
+![](https://raw.githubusercontent.com/OSGeo/osgeo/master/marketing/branding/logo/osgeo-logo-cmyk.svg)
+
 This repository contains the packaging used to generate the Ubuntu and Debian (_upcoming_) packages of `libnode` with [PR #43542](https://github.com/nodejs/node/pull/43542) bringing full Node-API and `node-addon-api` support to `libnode`.
 
 Ubuntu PPA: https://launchpad.net/~mmomtchev/+archive/ubuntu/libnode
@@ -300,9 +304,15 @@ int main() {
             // will eventually timeout - same as in Node.js
 
             // Promise resolve handler
+            // (same as JS - we retrieve the `then` property, which is a
+            // function, then we call it, passing a handler as argument 
+            // and the Promise as this)
             r.Get("then").As<Napi::Function>().Call(
                 r,
                 {Napi::Function::New(env, [](const Napi::CallbackInfo &info) {
+                    // If you throw here, your program will get terminated -
+                    // same as JS - but with a very cryptic message
+                    // about `runMicroTasks` being undefined
                     Napi::HandleScope scope(info.Env());
                     if (!info[0].IsObject()) {
                         printf("Axios returned: %s\n",
