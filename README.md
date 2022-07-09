@@ -1,8 +1,8 @@
 # Current libnode packages with Node-API / node-addon-api interface for Ubuntu and Debian
 
-![](https://developers.google.com/open-source/gsoc/resources/downloads/GSoC-Horizontal.png)
+[![](https://developers.google.com/open-source/gsoc/resources/downloads/GSoC-Horizontal.png)](https://summerofcode.withgoogle.com/programs/2022/projects/ZsLHGYTg)
 
-![](https://raw.githubusercontent.com/OSGeo/osgeo/master/marketing/branding/logo/osgeo-logo-cmyk.svg)
+[![](https://raw.githubusercontent.com/OSGeo/osgeo/master/marketing/branding/logo/osgeo-logo-cmyk.svg)](https://www.osgeo.org/)
 
 This repository contains the packaging used to generate the Ubuntu and Debian (_upcoming_) packages of `libnode` with [PR #43542](https://github.com/nodejs/node/pull/43542) bringing full Node-API and `node-addon-api` support to `libnode`.
 
