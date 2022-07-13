@@ -7,7 +7,7 @@ Index: node-16.15.1/Makefile
  	@out/$(BUILDTYPE)/$@ --gtest_filter=$(GTEST_FILTER)
  	@out/$(BUILDTYPE)/embedtest "require('./test/embedding/test-embedding.js')"
 +	@out/$(BUILDTYPE)/napi_embedding "require('./test/embedding/test-napi-embedding.js')"
-+	@out/$(BUILDTYPE)/napi_modules
++	@out/$(BUILDTYPE)/napi_modules ../../test/embedding/cjs.cjs ../../test/embedding/es6.mjs
  
  .PHONY: list-gtests
  list-gtests:
@@ -16,7 +16,7 @@ Index: node-16.15.1/Makefile
  		$(TEST_CI_ARGS) $(CI_JS_SUITES) $(CI_NATIVE_SUITES) $(CI_DOC)
  	out/Release/embedtest 'require("./test/embedding/test-embedding.js")'
 +	out/Release/napi_embedding 'require("./test/embedding/test-napi-embedding.js")'
-+	out/Release/napi_modules
++	out/Release/napi_modules ../../test/embedding/cjs.cjs ../../test/embedding/es6.mjs
  	$(info Clean up any leftover processes, error if found.)
  	ps awwx | grep Release/node | grep -v grep | cat
  	@PS_OUT=`ps awwx | grep Release/node | grep -v grep | awk '{print $$1}'`; \
@@ -85,7 +85,7 @@ Index: node-16.15.1/doc/api/n-api.md
  ### `napi_get_instance_data`
  
  <!-- YAML
-@@ -6252,6 +6255,134 @@ idempotent.
+@@ -6252,6 +6255,136 @@ idempotent.
  
  This API may only be called from the main thread.
  
@@ -109,14 +109,14 @@ Index: node-16.15.1/doc/api/n-api.md
 +                                    napi_platform* result);
 +```
 +
-+* `[in] argc`: CLI argument count, pass 0 for autofilling
-+* `[in] argv`: CLI arguments, pass NULL for autofilling
-+* `[in] exec_argc`: Node.js CLI options count
-+* `[in] exec_argv`: Node.js CLI options
++* `[in] argc`: CLI argument count, pass 0 for autofilling.
++* `[in] argv`: CLI arguments, pass NULL for autofilling.
++* `[in] exec_argc`: Node.js CLI options count.
++* `[in] exec_argv`: Node.js CLI options.
 +* `[in] errors`: If different than NULL, will receive an array of
-+  strings that must be freed
-+* `[in] thread_pool_size`: Thread pool size, 0 for automatic
-+* `[out] result`: A `napi_platform` result
++  strings that must be freed.
++* `[in] thread_pool_size`: Thread pool size, 0 for automatic.
++* `[out] result`: A `napi_platform` result.
 +
 +This function must be called once to initialize V8 and Node.js when using as a
 +shared library.
@@ -133,8 +133,8 @@ Index: node-16.15.1/doc/api/n-api.md
 +napi_status napi_destroy_platform(napi_platform platform, int *exit_code);
 +```
 +
-+* `[in] platform`: platform handle
-+* `[out] exit_code`: if not NULL will receive the process exit code
++* `[in] platform`: platform handle.
++* `[out] exit_code`: if not NULL will receive the process exit code.
 +
 +Destroy the Node.js / V8 processes.
 +
@@ -153,12 +153,14 @@ Index: node-16.15.1/doc/api/n-api.md
 +                                               napi_env* result);
 +```
 +
-+* `[in] platform`: platform handle
++* `[in] platform`: platform handle.
 +* `[in] errors`: If different than NULL, will receive an array of strings
-+  that must be freed
++  that must be freed.
 +* `[in] main_script`: Custom JavaScript main to run, NULL for an empty
-+  ready-to-use CJS environment with a `global.require()` function
-+* `[out] result`: A `napi_env` result
++  ready-to-use CJS/ES6 environment with `global.require()` and
++  `global.import()` functions that resolve modules from the directory of
++  the compiled binary.
++* `[out] result`: A `napi_env` result.
 +
 +Initialize a new environment. A single platform can hold multiple Node.js
 +environments that will run in a separate V8 isolate each.
@@ -175,7 +177,7 @@ Index: node-16.15.1/doc/api/n-api.md
 +napi_status napi_run_environment(napi_env env);
 +```
 +
-+* `[in] env`: environment handle
++* `[in] env`: environment handle.
 +
 +Iterate the event loop of the environment, ensuring that all pending async
 +callbacks have been executed.
@@ -194,9 +196,9 @@ Index: node-16.15.1/doc/api/n-api.md
 +                            napi_value *result);
 +```
 +
-+* `[in] env`: environment handle
-+* `[in] promise`: JS Promise
-+* `[out] result`: Will receive the value that the Promise resolved with
++* `[in] env`: environment handle.
++* `[in] promise`: JS Promise.
++* `[out] result`: Will receive the value that the Promise resolved with.
 +
 +Iterate the event loop of the environment until the `promise` has been
 +resolved. Returns `napi_pending_exception` on rejection.
@@ -213,7 +215,7 @@ Index: node-16.15.1/doc/api/n-api.md
 +napi_status napi_destroy_environment(napi_env env);
 +```
 +
-+* `[in] env`: environment handle
++* `[in] env`: environment handle.
 +
 +Destroy the Node.js environment / V8 isolate.
 +
@@ -589,7 +591,7 @@ Index: node-16.15.1/src/js_native_api_v8.cc
  class HandleScopeWrapper {
   public:
    explicit HandleScopeWrapper(v8::Isolate* isolate) : scope(isolate) {}
-@@ -773,6 +813,168 @@ napi_status napi_get_last_error_info(nap
+@@ -773,6 +813,166 @@ napi_status napi_get_last_error_info(nap
    return napi_ok;
  }
  
@@ -660,12 +662,10 @@ Index: node-16.15.1/src/js_native_api_v8.cc
 +  static const char* default_main_script =
 +      "const CJSLoader = require('internal/modules/cjs/loader');"
 +      "global.module = new CJSLoader.Module();"
-+      "global.require = require('module').createRequire(process.cwd() + "
-+      "'/');"
++      "global.require = require('module').createRequire(process.argv[0]);"
 +      "const ESMLoader = require('internal/modules/esm/loader').ESMLoader;"
 +      "const internalLoader = new ESMLoader;"
-+      "const parent_path = require('url').pathToFileURL(process.cwd()).href + "
-+      "'/';"
++      "const parent_path = require('url').pathToFileURL(process.argv[0]);"
 +      "global.import = (mod) => internalLoader.import(mod, parent_path, "
 +      "Object.create(null));";
 +
@@ -1185,3 +1185,95 @@ Index: node-16.15.1/test/embedding/test-napi-embedding.js
 +                          '{ return new Promise((res) => setTimeout(() => res(text + " with cheese"), 1)); }'])
 +    .stdout.toString().trim(),
 +  'waited with cheese');
+Index: node-16.15.1/test/embedding/.eslintrc.yaml
+===================================================================
+--- /dev/null
++++ node-16.15.1/test/embedding/.eslintrc.yaml
+@@ -0,0 +1,3 @@
++rules:
++  node-core/required-modules: off
++  node-core/require-common-first: off
+Index: node-16.15.1/test/embedding/napi_modules.c
+===================================================================
+--- /dev/null
++++ node-16.15.1/test/embedding/napi_modules.c
+@@ -0,0 +1,79 @@
++#include <stdio.h>
++#include <string.h>
++#define NAPI_EXPERIMENTAL
++#include <node_api.h>
++
++#define CHECK(op, msg)                                                         \
++  if (op != napi_ok) {                                                         \
++    fprintf(stderr, "%s\n", msg);                                              \
++    return -1;                                                                 \
++  }
++
++int main(int argc, char *argv[]) {
++  napi_platform platform;
++
++  if (argc < 3) {
++      fprintf(stderr, "napi_modules <cjs.cjs> <es6.mjs>\n");
++      return -2;
++  }
++
++  CHECK(napi_create_platform(0, NULL, 0, NULL, NULL, 0, &platform),
++        "Failed creating the platform");
++
++  napi_env env;
++  CHECK(napi_create_environment(platform, NULL, NULL, &env),
++        "Failed running JS");
++
++  napi_handle_scope scope;
++  CHECK(napi_open_handle_scope(env, &scope), "Failed creating a scope");
++
++  napi_value global, import_name, require_name, import, require, cjs, es6,
++      value;
++  CHECK(napi_get_global(env, &global), "napi_get_global");
++  CHECK(napi_create_string_utf8(env, "import", strlen("import"), &import_name),
++        "create_string");
++  CHECK(
++      napi_create_string_utf8(env, "require", strlen("require"), &require_name),
++      "create_string");
++  CHECK(napi_get_property(env, global, import_name, &import), "import");
++  CHECK(napi_get_property(env, global, require_name, &require), "require");
++
++  CHECK(napi_create_string_utf8(env, argv[1], strlen(argv[1]), &cjs),
++        "create_string");
++  CHECK(napi_create_string_utf8(env, argv[2], strlen(argv[2]), &es6),
++        "create_string");
++  CHECK(napi_create_string_utf8(env, "value", strlen("value"), &value),
++        "create_string");
++
++  napi_value es6_module, es6_promise, cjs_module, es6_result, cjs_result;
++  char buffer[32];
++  size_t bufferlen;
++
++  CHECK(napi_call_function(env, global, import, 1, &es6, &es6_promise),
++        "import");
++  CHECK(napi_await_promise(env, es6_promise, &es6_module), "await");
++  CHECK(napi_get_property(env, es6_module, value, &es6_result), "value");
++  CHECK(napi_get_value_string_utf8(
++            env, es6_result, buffer, sizeof(buffer), &bufferlen),
++        "string");
++  if (strncmp(buffer, "genuine", bufferlen)) {
++    fprintf(stderr, "Unexpected value: %s\n", buffer);
++    return -1;
++  }
++
++  CHECK(napi_call_function(env, global, require, 1, &cjs, &cjs_module),
++        "require");
++  CHECK(napi_get_property(env, cjs_module, value, &cjs_result), "value");
++  CHECK(napi_get_value_string_utf8(
++            env, cjs_result, buffer, sizeof(buffer), &bufferlen),
++        "string");
++  if (strncmp(buffer, "original", bufferlen)) {
++    fprintf(stderr, "Unexpected value: %s\n", buffer);
++    return -1;
++  }
++
++  CHECK(napi_close_handle_scope(env, scope), "Failed destroying handle scope");
++  CHECK(napi_destroy_environment(env, NULL), "destroy");
++  CHECK(napi_destroy_platform(platform), "Failed destroying the platform");
++  return 0;
++}

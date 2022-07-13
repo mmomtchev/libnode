@@ -7,8 +7,7 @@
 *.changes
 *.dsc
 
-/*/node-*/
-!/dist/*
+/node-16.x/dist/node-*/
 /node-addon-api/ubuntu/*
 !/node-addon-api/ubuntu/debian
 /artifacts
