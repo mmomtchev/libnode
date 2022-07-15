@@ -3,7 +3,7 @@ node (16.15.1-12~UNIVERSAL) UNIVERSAL; urgency=medium
   * Support directly importing ES6 modules from C/C++
   * Support awaiting of promises from C/C++
 
- --Momtchil Momtchev <momtchil@momtchev.com>  Tue, 12 Jul 2022 17:52:32 +0000
+ -- Momtchil Momtchev <momtchil@momtchev.com>  Tue, 12 Jul 2022 17:52:32 +0000
 
 node (16.15.1-11~UNIVERSAL) UNIVERSAL; urgency=medium
 
