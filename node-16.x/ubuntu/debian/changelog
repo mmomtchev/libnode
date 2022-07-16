@@ -1,3 +1,9 @@
+node (16.16.0-1~UNIVERSAL) UNIVERSAL; urgency=medium
+
+  * Node.js 16.16.0
+
+ -- Momtchil Momtchev <momtchil@momtchev.com>  Sat, 16 Jul 2022 21:39:58 +0000
+
 node (16.15.1-12~UNIVERSAL) UNIVERSAL; urgency=medium
 
   * Support directly importing ES6 modules from C/C++
