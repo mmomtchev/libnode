@@ -51,7 +51,7 @@ jobs:
     - name: Set Node version
       run: |
         NODE_VERSION=${{github.event.inputs.node_version}}
-        echo NODE_VERSION=${NODE_VERSION:-"16.15.1"} >> ${GITHUB_ENV}
+        echo NODE_VERSION=${NODE_VERSION:-"16.16.0"} >> ${GITHUB_ENV}
     - name: Set node-addon-api version
       run: |
         NAPI_VERSION=${{github.event.inputs.napi_version}}
