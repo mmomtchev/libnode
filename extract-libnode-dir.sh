@@ -5,8 +5,8 @@ mkdir -p artifacts
 
 PACKAGE_VERSION=`head -1 node-16.x/ubuntu/debian/changelog | cut -f 2 -d "(" | cut -f 1 -d "~"`
 NODE_VERSION=`echo ${PACKAGE_VERSION} | cut -f 1 -d "-"`
+TARGET=node-16.x/dist
 
-TARGET=$1
 tar -C ${TARGET} -zxvf node-16.x/dist/node_${NODE_VERSION}.orig.tar.gz
 for SUB in doc clang-format lint-md; do
 	mkdir -p ${TARGET}/node-${NODE_VERSION}/tools-${SUB}-node-modules

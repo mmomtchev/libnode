@@ -6,8 +6,8 @@ mkdir -p artifacts
 PACKAGE_VERSION=`head -1 node-16.x/ubuntu/debian/changelog | cut -f 2 -d "(" | cut -f 1 -d "~"`
 NODE_VERSION=`echo ${PACKAGE_VERSION} | cut -f 1 -d "-"`
 
-TARGET=$2
-SRC=$1
+TARGET=node-16.x/dist
+SRC=$1 # The path the git checkout of https://github.com/mmomtchev/node
 
 (
 	cd ${SRC}
