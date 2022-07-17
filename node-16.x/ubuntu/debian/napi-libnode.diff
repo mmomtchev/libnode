@@ -591,7 +591,7 @@ Index: node-16.16.0/src/js_native_api_v8.cc
  class HandleScopeWrapper {
   public:
    explicit HandleScopeWrapper(v8::Isolate* isolate) : scope(isolate) {}
-@@ -773,6 +813,166 @@ napi_status napi_get_last_error_info(nap
+@@ -773,6 +813,168 @@ napi_status napi_get_last_error_info(nap
    return napi_ok;
  }
  
@@ -667,7 +667,9 @@ Index: node-16.16.0/src/js_native_api_v8.cc
 +      "const internalLoader = new ESMLoader;"
 +      "const parent_path = require('url').pathToFileURL(process.argv[0]);"
 +      "global.import = (mod) => internalLoader.import(mod, parent_path, "
-+      "Object.create(null));";
++      "Object.create(null));"
++      "global.import.meta = { url: parent_path };"
++      ;
 +
 +  auto wrapper = reinterpret_cast<v8impl::PlatformWrapper*>(platform);
 +  std::vector<std::string> errors_vec;

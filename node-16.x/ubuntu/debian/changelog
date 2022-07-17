@@ -1,3 +1,10 @@
+node (16.16.0-2~UNIVERSAL) UNIVERSAL; urgency=medium
+
+  * Exclude unit tests that require network access
+  * Support `import.meta` for ES6 modules
+
+ -- Momtchil Momtchev <momtchil@momtchev.com>  Sun, 17 Jul 2022 09:03:04 +0000
+
 node (16.16.0-1~UNIVERSAL) UNIVERSAL; urgency=medium
 
   * Node.js 16.16.0

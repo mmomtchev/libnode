@@ -5,6 +5,8 @@ export NODE_VERSION=_NODE_VERSION_
 export CC=_GCC_
 export CXX=_GCXX_
 
+export NODE_TEST_NO_INTERNET=1
+
 %:
 	dh $@
 
