@@ -1,5 +1,6 @@
 node_modules
 
 axios-example
+axios-example-es6
 libnode-napi-example-c
 libnode-napi-example-cc

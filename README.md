@@ -258,8 +258,10 @@ int main() {
 }
 ```
 
-# Using `axios` from C++
+# Loading `node_modules` from C++
 
+`libnode` supports loading of both CJS and ES6 modules from C and C++, refer to
+[CJS](https://github.com/mmomtchev/libnode/blob/main/examples/axios-example.cc) and [ES6](https://github.com/mmomtchev/libnode/blob/main/examples/axios-example-es6.cc)
 
 ```cpp
 #include <stdio.h>
@@ -286,8 +288,8 @@ int main() {
 
         try {
             // require axios
-            // The default bootstrap script creates a CJS-like environment
-            // with a global.require()
+            // The default bootstrap script creates a ES6/CJS-compatible
+            // environment with global.require() and global.import()
             Napi::Function require =
                 env.Global().Get("require").As<Napi::Function>();
             Napi::Object axios =

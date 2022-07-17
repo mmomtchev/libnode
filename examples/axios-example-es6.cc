@@ -21,13 +21,20 @@ int main() {
         Napi::HandleScope scope(env);
 
         try {
-            // require axios
-            // The default bootstrap script creates a ES6/CJS-compatible
-            // environment with global.require() and global.import()
-            Napi::Function require =
-                env.Global().Get("require").As<Napi::Function>();
-            Napi::Object axios =
-                require.Call({Napi::String::New(env, "axios")}).ToObject();
+            // import axios
+            // The default bootstrap script creates a ES6-compatible environment
+            // with a global.import() that is an async function
+            Napi::Function import =
+                env.Global().Get("import").As<Napi::Function>();
+            Napi::Value axios_promise =
+                import.Call({Napi::String::New(env, "axios")});
+
+            // import always returns an object
+            // If there is a the default import, it is called default
+            napi_value _axios_import;
+            napi_await_promise(env, axios_promise, &_axios_import);
+            Napi::Object axios_import(env, _axios_import);
+            Napi::Object axios = axios_import.Get("default").ToObject();
 
             // As this is an async function, it will return immediately
             Napi::Promise r =
