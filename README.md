@@ -42,7 +42,7 @@ All JS objects are managed in the Node.js/V8 heap and may be accessed only throu
 * `runMicroTasks is undefined` - Your program is raising an exception in a C/C++ async handler that will lead to program termination anyway - it is just that the message is very cryptic - this happens because the exception is processed in a context without builtins
 * `axios_example` crashes - Your installed `libnode` version does not match the example
 * Unit tests do not pass on `Ubuntu Jammy`: [1979639](https://bugs.launchpad.net/ubuntu/+source/openssl/+bug/1979639))
-* The inspector is missing a standard attachment point for `inspect-brk`: can be worked around by adding `require('inspector').waitForDebugger(); debugger;` in the beginning of the source file (which is in fact the bootstrapper)
+* The inspector is missing an attachment point for `inspect-brk`: this can be worked around by adding `require('inspector').waitForDebugger(); debugger;` in the beginning of the source file (which is in fact the bootstrapper) or refer to [debugger-example.cc](https://github.com/mmomtchev/libnode/blob/main/examples/debugger-example.cc) for a clean solution.
 
 # Supported Platforms
 
