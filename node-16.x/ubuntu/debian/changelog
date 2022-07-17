@@ -1,3 +1,9 @@
+node (16.16.0-3~UNIVERSAL) UNIVERSAL; urgency=medium
+
+  * Skip npm tests
+
+ -- Momtchil Momtchev <momtchil@momtchev.com>  Sun, 17 Jul 2022 10:33:43 +0000
+
 node (16.16.0-2~UNIVERSAL) UNIVERSAL; urgency=medium
 
   * Exclude unit tests that require network access
