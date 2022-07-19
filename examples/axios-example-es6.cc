@@ -8,12 +8,12 @@ int main() {
     if (napi_create_platform(0, nullptr, 0, nullptr, nullptr, 0, &platform) !=
         napi_ok) {
         fprintf(stderr, "Failed creating the platform\n");
-        return -1;
+        abort();
     }
     napi_env _env;
     if (napi_create_environment(platform, nullptr, nullptr, &_env) != napi_ok) {
         fprintf(stderr, "Failed running JS\n");
-        return -1;
+        abort();
     }
 
     {
@@ -32,7 +32,10 @@ int main() {
             // import always returns an object
             // If there is a the default import, it is called default
             napi_value _axios_import;
-            napi_await_promise(env, axios_promise, &_axios_import);
+            if (napi_await_promise(env, axios_promise, &_axios_import) != napi_ok) {
+                fprintf(stderr, "Failed importing axios\n");
+                abort();
+            }
             Napi::Object axios_import(env, _axios_import);
             Napi::Object axios = axios_import.Get("default").ToObject();
 
@@ -89,7 +92,7 @@ int main() {
             // (ie one of the above 2 lambdas will run here)
             if (napi_run_environment(_env) != napi_ok) {
                 fprintf(stderr, "Failed flushing async callbacks\n");
-                return -1;
+                abort();
             }
             // All async tasks have been completed
         } catch (const Napi::Error &e) {
@@ -98,12 +101,12 @@ int main() {
     }
 
     if (napi_destroy_environment(_env, nullptr) != napi_ok) {
-        return -1;
+        abort();
     }
 
     if (napi_destroy_platform(platform) != napi_ok) {
         fprintf(stderr, "Failed destroying the platform\n");
-        return -1;
+        abort();
     }
 
     return 0;
