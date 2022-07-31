@@ -3,40 +3,25 @@
 #include <napi.h>
 
 int main() {
-    napi_platform platform;
-
-    if (napi_create_platform(0, nullptr, 0, nullptr, nullptr, 0, &platform) !=
-        napi_ok) {
-        fprintf(stderr, "Failed creating the platform\n");
-        abort();
-    }
-    napi_env _env;
-    if (napi_create_environment(platform, nullptr, nullptr, &_env) != napi_ok) {
-        fprintf(stderr, "Failed running JS\n");
-        abort();
-    }
-
-    {
-        Napi::Env env(_env);
-        Napi::HandleScope scope(env);
+    try {
+        Napi::Platform platform;
+        Napi::PlatformEnv env(platform);
 
         try {
+            Napi::HandleScope scope(env);
+
             // import axios
-            // The default bootstrap script creates a ES6-compatible environment
-            // with a global.import() that is an async function
+            // The default bootstrap script creates a ES6-compatible
+            // environment with a global.import() that is an async function
             Napi::Function import =
                 env.Global().Get("import").As<Napi::Function>();
             Napi::Value axios_promise =
                 import.Call({Napi::String::New(env, "axios")});
 
-            // import always returns an object
-            // If there is a the default import, it is called default
-            napi_value _axios_import;
-            if (napi_await_promise(env, axios_promise, &_axios_import) != napi_ok) {
-                fprintf(stderr, "Failed importing axios\n");
-                abort();
-            }
-            Napi::Object axios_import(env, _axios_import);
+            // import always returns a Promise for an object
+            // If there is a default import, it is called default
+            Napi::Object axios_import =
+                axios_promise.As<Napi::Promise>().Await().ToObject();
             Napi::Object axios = axios_import.Get("default").ToObject();
 
             // As this is an async function, it will return immediately
@@ -58,9 +43,9 @@ int main() {
             r.Get("then").As<Napi::Function>().Call(
                 r,
                 {Napi::Function::New(env, [](const Napi::CallbackInfo &info) {
-                    // If you throw here, your program will get terminated -
-                    // same as JS - but with a very cryptic message
-                    // about `runMicroTasks` being undefined
+                    // If you throw here, your program will get
+                    // terminated - same as JS - but with a very cryptic
+                    // message about `runMicroTasks` being undefined
                     Napi::HandleScope scope(info.Env());
                     if (!info[0].IsObject()) {
                         printf("Axios returned: %s\n",
@@ -90,7 +75,7 @@ int main() {
             // This will have the effect of a JS await - it will restart the
             // event loop
             // (ie one of the above 2 lambdas will run here)
-            if (napi_run_environment(_env) != napi_ok) {
+            if (napi_run_environment(env) != napi_ok) {
                 fprintf(stderr, "Failed flushing async callbacks\n");
                 abort();
             }
@@ -98,15 +83,9 @@ int main() {
         } catch (const Napi::Error &e) {
             fprintf(stderr, "Caught a JS exception: %s\n", e.what());
         }
-    }
-
-    if (napi_destroy_environment(_env, nullptr) != napi_ok) {
-        abort();
-    }
-
-    if (napi_destroy_platform(platform) != napi_ok) {
-        fprintf(stderr, "Failed destroying the platform\n");
-        abort();
+    } catch (napi_status r) {
+        fprintf(stderr, "Failed initializing Node.js environment: %d\n",
+                (int)r);
     }
 
     return 0;

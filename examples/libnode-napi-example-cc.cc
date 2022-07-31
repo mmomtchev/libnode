@@ -7,38 +7,27 @@ int main() {
     // !!! be made from the same thread that created it
     // (except everything napi_threadsafe_function related)
 
-    // This the V8 engine, there must be only one
-    napi_platform platform;
-    // This is a V8 isolate, there may be multiple
+    try {
+        // This the V8 engine, there must be only one
+        Napi::Platform platform;
 
-    const char *main_script = "console.log('hello world'); "
-                              "function callMe(s) { console.log('called ' + s); }"
-                              // or you can use vm.runInThisContext
-                              "global.callMe = callMe;";
-
-    // Do only once
-    if (napi_create_platform(0, NULL, 0, NULL, NULL, 0, &platform) != napi_ok) {
-        fprintf(stderr, "Failed creating the platform\n");
-        return -1;
-    }
-
-    // Do for each environment (V8 isolate)
-    // 'hello world' will be printed here
-    napi_env _env;
-    if (napi_create_environment(platform, NULL, main_script, &_env) != napi_ok) {
-        fprintf(stderr, "Failed running JS\n");
-        return -1;
-    }
-
-    {
-        Napi::Env env(_env);
-        Napi::HandleScope scope(env);
-        // This holds local references, when it is closed
-        // they become available to the GC
-        // Here you can interact with the environment through Node::Env
-        // (refer to the node-addon-api doc)
+        // This is the custom bootstrap script if you require any
+        // (or you can use the default which provides require and import)
+        const char *main_script =
+            "console.log('hello world'); "
+            "function callMe(s) { console.log('called ' + s); }"
+            // or you can use vm.runInThisContext
+            "global.callMe = callMe;";
+        // This is a V8 isolate, there may be multiple
+        // 'hello world' will be printed here
+        Napi::PlatformEnv env(platform, main_script);
 
         try {
+            // This holds local references, when it is closed
+            // they become available to the GC
+            // Here you can interact with the environment through Node::Env
+            // (refer to the node-addon-api doc)
+            Napi::HandleScope scope(env);
             Napi::Object global = env.Global();
             Napi::Function cb = global.Get("callMe").As<Napi::Function>();
 
@@ -57,15 +46,8 @@ int main() {
         } catch (const Napi::Error &e) {
             fprintf(stderr, "Caught a JS exception: %s\n", e.what());
         }
-    }
-
-    if (napi_destroy_environment(_env, NULL) != napi_ok) {
-        return -1;
-    }
-
-    if (napi_destroy_platform(platform) != napi_ok) {
-        fprintf(stderr, "Failed destroying the platform\n");
-        return -1;
+    } catch (napi_status r) {
+        fprintf(stderr, "Failed initializing the JS environment: %d\n", (int)r);
     }
 
     return 0;
