@@ -75,10 +75,8 @@ int main() {
             // This will have the effect of a JS await - it will restart the
             // event loop
             // (ie one of the above 2 lambdas will run here)
-            if (napi_run_environment(env) != napi_ok) {
-                fprintf(stderr, "Failed flushing async callbacks\n");
-                abort();
-            }
+            env.Run();
+            
             // All async tasks have been completed
         } catch (const Napi::Error &e) {
             fprintf(stderr, "Caught a JS exception: %s\n", e.what());

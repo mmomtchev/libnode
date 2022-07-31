@@ -29,19 +29,16 @@ int main() {
             // (refer to the node-addon-api doc)
             Napi::HandleScope scope(env);
             Napi::Object global = env.Global();
-            Napi::Function cb = global.Get("callMe").As<Napi::Function>();
+            Napi::Function callMe = global.Get("callMe").As<Napi::Function>();
 
             // This cycle can be repeated
             {
                 // Call a JS function
                 // V8 will run in this thread
-                cb.Call({Napi::String::New(env, "you")});
+                callMe({Napi::String::New(env, "you")});
                 // (optional) Call this to flush all pending async callbacks
                 // V8 will run in this thread
-                if (napi_run_environment(env) != napi_ok) {
-                    fprintf(stderr, "Failed flushing pending JS callbacks\n");
-                    return -1;
-                }
+                env.Run();
             }
         } catch (const Napi::Error &e) {
             fprintf(stderr, "Caught a JS exception: %s\n", e.what());
