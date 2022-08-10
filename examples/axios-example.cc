@@ -30,10 +30,15 @@ int main() {
                 require.Call({Napi::String::New(env, "axios")}).ToObject();
 
             // As this is an async function, it will return immediately
+            // Async code should be called with MakeCallback instead of a
+            // normal Call - otherwise the Promise/nextTick handlers might
+            // not run
             Napi::Promise r =
                 axios.Get("get")
                     .As<Napi::Function>()
-                    .Call({Napi::String::New(env, "https://www.google.com")})
+                    .MakeCallback(
+                        env.Global(),
+                        {Napi::String::New(env, "https://www.google.com")})
                     .As<Napi::Promise>();
             // At this point the event loop is stopped, unless the function
             // returned an already resolved Promise, it won't get resolved

@@ -26,13 +26,18 @@ int main() {
             // with a global.import() that is an async function
             Napi::Function import =
                 env.Global().Get("import").As<Napi::Function>();
-            Napi::Value axios_promise =
-                import.Call({Napi::String::New(env, "axios")});
+
+            // Async code should be called with MakeCallback instead of a
+            // normal Call - otherwise the Promise/nextTick handlers might
+            // not run
+            Napi::Value axios_promise = import.MakeCallback(
+                env.Global(), {Napi::String::New(env, "axios")});
 
             // import always returns an object
             // If there is a the default import, it is called default
             napi_value _axios_import;
-            if (napi_await_promise(env, axios_promise, &_axios_import) != napi_ok) {
+            if (napi_await_promise(env, axios_promise, &_axios_import) !=
+                napi_ok) {
                 fprintf(stderr, "Failed importing axios\n");
                 abort();
             }

@@ -9,7 +9,6 @@ int main() {
 
     // This the V8 engine, there must be only one
     napi_platform platform;
-    // This is a V8 isolate, there may be multiple
 
     const char *main_script = "console.log('hello world'); "
                               "function callMe(s) { console.log('called ' + s); }"
@@ -22,9 +21,10 @@ int main() {
         return -1;
     }
 
+    // This is a V8 isolate, there may be multiple
+    napi_env _env;
     // Do for each environment (V8 isolate)
     // 'hello world' will be printed here
-    napi_env _env;
     if (napi_create_environment(platform, NULL, main_script, &_env) != napi_ok) {
         fprintf(stderr, "Failed running JS\n");
         return -1;
