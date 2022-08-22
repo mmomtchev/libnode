@@ -80,6 +80,12 @@ git clone -b napi-libnode https://github.com/mmomtchev/node.git
 cd node && ./configure --shared && make -j4
 ```
 
+C++ API extensions
+```shell
+git clone -b napi-embedding https://github.com/mmomtchev/node-addon-api.git
+// Then include `napi.h` from $(pwd)/node-addon-api
+```
+
 # Using from C
 
 This version of `libnode` can be used from both C and C++ with a simple Node-API interface:
@@ -187,6 +193,7 @@ g++ -I/usr/include/libnode -I/usr/include/node -o libnode-napi libnode-napi-exam
 ```cpp
 #include <stdio.h>
 #define NAPI_EXPERIMENTAL
+#define NAPI_EMBEDDING
 #include <napi.h>
 
 int main() {
@@ -194,65 +201,44 @@ int main() {
     // !!! be made from the same thread that created it
     // (except everything napi_threadsafe_function related)
 
-    // This the V8 engine, there must be only one
-    napi_platform platform;
-    // This is a V8 isolate, there may be multiple
+    try {
+        // This the V8 engine, there must be only one
+        Napi::Platform platform;
 
-    const char *main_script = "console.log('hello world'); "
-                              "function callMe(s) { console.log('called ' + s); }"
-                              // or you can use vm.runInThisContext
-                              "global.callMe = callMe;";
-
-    // Do only once
-    if (napi_create_platform(0, NULL, 0, NULL, NULL, 0, &platform) != napi_ok) {
-        fprintf(stderr, "Failed creating the platform\n");
-        return -1;
-    }
-
-    // Do for each environment (V8 isolate)
-    // 'hello world' will be printed here
-    napi_env _env;
-    if (napi_create_environment(platform, NULL, main_script, &_env) != napi_ok) {
-        fprintf(stderr, "Failed running JS\n");
-        return -1;
-    }
-
-    {
-        Napi::Env env(_env);
-        Napi::HandleScope scope(env);
-        // This holds local references, when it is closed
-        // they become available to the GC
-        // Here you can interact with the environment through Node::Env
-        // (refer to the node-addon-api doc)
+        // This is the custom bootstrap script if you require any
+        // (or you can use the default which provides require and import)
+        const char *main_script =
+            "console.log('hello world'); "
+            "function callMe(s) { console.log('called ' + s); }"
+            // or you can use vm.runInThisContext
+            "global.callMe = callMe;";
+        // This is a V8 isolate, there may be multiple
+        // 'hello world' will be printed here
+        Napi::PlatformEnv env(platform, main_script);
 
         try {
-            Napi::Object global = env.Global().ToObject();
-            Napi::Function cb = global.Get("callMe").As<Napi::Function>();
+            // This holds local references, when it is closed
+            // they become available to the GC
+            // Here you can interact with the environment through Node::Env
+            // (refer to the node-addon-api doc)
+            Napi::HandleScope scope(env);
+            Napi::Object global = env.Global();
+            Napi::Function callMe = global.Get("callMe").As<Napi::Function>();
 
             // This cycle can be repeated
             {
                 // Call a JS function
                 // V8 will run in this thread
-                cb.Call({Napi::String::New(env, "you")});
+                callMe({Napi::String::New(env, "you")});
                 // (optional) Call this to flush all pending async callbacks
                 // V8 will run in this thread
-                if (napi_run_environment(env) != napi_ok) {
-                    fprintf(stderr, "Failed flushing pending JS callbacks\n");
-                    return -1;
-                }
+                env.Run();
             }
         } catch (const Napi::Error &e) {
             fprintf(stderr, "Caught a JS exception: %s\n", e.what());
         }
-    }
-
-    if (napi_destroy_environment(_env, NULL) != napi_ok) {
-        return -1;
-    }
-
-    if (napi_destroy_platform(platform) != napi_ok) {
-        fprintf(stderr, "Failed destroying the platform\n");
-        return -1;
+    } catch (napi_status r) {
+        fprintf(stderr, "Failed initializing the JS environment: %d\n", (int)r);
     }
 
     return 0;
@@ -267,57 +253,53 @@ int main() {
 ```cpp
 #include <stdio.h>
 #define NAPI_EXPERIMENTAL
+#define NAPI_EMBEDDING
 #include <napi.h>
 
 int main() {
-    napi_platform platform;
-
-    if (napi_create_platform(0, nullptr, 0, nullptr, nullptr, 0, &platform) !=
-        napi_ok) {
-        fprintf(stderr, "Failed creating the platform\n");
-        return -1;
-    }
-    napi_env _env;
-    if (napi_create_environment(platform, nullptr, nullptr, &_env) != napi_ok) {
-        fprintf(stderr, "Failed running JS\n");
-        return -1;
-    }
-
-    {
-        Napi::Env env(_env);
-        Napi::HandleScope scope(env);
+    try {
+        Napi::Platform platform;
+        Napi::PlatformEnv env(platform);
 
         try {
+            Napi::HandleScope scope(env);
+
             // require axios
             // The default bootstrap script creates a ES6/CJS-compatible
             // environment with global.require() and global.import()
             Napi::Function require =
                 env.Global().Get("require").As<Napi::Function>();
             Napi::Object axios =
-                require.Call({Napi::String::New(env, "axios")}).ToObject();
+                require({Napi::String::New(env, "axios")}).ToObject();
 
             // As this is an async function, it will return immediately
+            // Async code should be called with MakeCallback instead of
+            // a normal Call - otherwise the Promise/nextTick handlers
+            // might not run
             Napi::Promise r =
                 axios.Get("get")
                     .As<Napi::Function>()
-                    .Call({Napi::String::New(env, "https://www.google.com")})
+                    .MakeCallback(
+                        env.Global(),
+                        {Napi::String::New(env, "https://www.google.com")})
                     .As<Napi::Promise>();
-            // At this point the event loop is stopped, unless the function
-            // returned an already resolved Promise, it won't get resolved
-            // until the event loop is restarted
-            // If the event loop is not restarted soon enough, the network
-            // will eventually timeout - same as in Node.js
+            // At this point the event loop is stopped, unless the
+            // function returned an already resolved Promise, it won't
+            // get resolved until the event loop is restarted If the
+            // event loop is not restarted soon enough, the network will
+            // eventually timeout - same as in Node.js
 
             // Promise resolve handler
             // (same as JS - we retrieve the `then` property, which is a
-            // function, then we call it, passing a handler as argument 
+            // function, then we call it, passing a handler as argument
             // and the Promise as this)
             r.Get("then").As<Napi::Function>().Call(
                 r,
                 {Napi::Function::New(env, [](const Napi::CallbackInfo &info) {
-                    // If you throw here, your program will get terminated -
-                    // same as JS - but with a very cryptic message
-                    // about `runMicroTasks` being undefined
+                    // If you throw here, your program will get
+                    // terminated - same as JS - but with a very
+                    // cryptic message about `runMicroTasks` being
+                    // undefined
                     Napi::HandleScope scope(info.Env());
                     if (!info[0].IsObject()) {
                         printf("Axios returned: %s\n",
@@ -330,9 +312,9 @@ int main() {
                 })});
 
             // Promise reject handler
-            // (if you want to catch exceptions in `then` you have to attach
-            // your handler to the value returned by `then` - here you are
-            // attaching to the base Promise itself)
+            // (if you want to catch exceptions in `then` you have to
+            // attach your handler to the value returned by `then` -
+            // here you are attaching to the base Promise itself)
             r.Get("catch").As<Napi::Function>().Call(
                 r,
                 {Napi::Function::New(env, [](const Napi::CallbackInfo &info) {
@@ -344,25 +326,19 @@ int main() {
                     }
                 })});
 
-            // This will have the effect of a JS await - it will restart the
-            // event loop
-            // (ie one of the above 2 lambdas will run here)
-            if (napi_run_environment(_env) != napi_ok) {
-                fprintf(stderr, "Failed flushing async callbacks\n");
-                return -1;
-            }
+            // This will have the effect of a JS await - it will restart
+            // the event loop (ie one of the above 2 lambdas will run
+            // here)
+            env.Run();
+
             // All async tasks have been completed
         } catch (const Napi::Error &e) {
             fprintf(stderr, "Caught a JS exception: %s\n", e.what());
+            return -1;
         }
-    }
-
-    if (napi_destroy_environment(_env, nullptr) != napi_ok) {
-        return -1;
-    }
-
-    if (napi_destroy_platform(platform) != napi_ok) {
-        fprintf(stderr, "Failed destroying the platform\n");
+    } catch (napi_status r) {
+        fprintf(stderr, "Failed initializing Node.js environment: %d\n",
+                (int)r);
         return -1;
     }
 

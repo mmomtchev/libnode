@@ -8,6 +8,7 @@
 *.dsc
 
 /node-16.x/dist/node-*/
+/node-addon-api/dist/node-addon-api-*/
 /node-addon-api/ubuntu/*
 !/node-addon-api/ubuntu/debian
 /artifacts

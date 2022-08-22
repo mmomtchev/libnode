@@ -1,0 +1,803 @@
+Index: node-addon-api-5.0.0/.github/workflows/embedding.yml
+===================================================================
+--- /dev/null
++++ node-addon-api-5.0.0/.github/workflows/embedding.yml
+@@ -0,0 +1,48 @@
++name: libnode CI Unix Platform
++
++on: [push, pull_request]
++
++jobs:
++  test:
++    timeout-minutes: 30
++    strategy:
++      matrix:
++        node-version:
++          - 16
++        compiler:
++          - gcc
++          - clang
++        os:
++          - ubuntu-18.04
++          
++    runs-on: ${{ matrix.os }}
++    steps:
++    - uses: actions/checkout@v2
++    - name: Install system dependencies
++      run: |
++        if [ "${{ matrix.compiler }}" = "gcc" -a "${{ matrix.os }}" = ubuntu-* ]; then
++          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
++          sudo apt-get update
++          sudo apt-get install g++-6.5
++        fi
++    - name: Use libnode ${{ matrix.node-version }}
++      run: |
++        sudo add-apt-repository ppa:mmomtchev/libnode
++        sudo apt update
++        sudo apt install -y libnode93 libnode-dev
++        
++    - name: Test
++      run: |
++        if [ "${{ matrix.compiler }}" = "gcc" ]; then
++          export CC="gcc" CXX="g++"
++        fi
++        if [ "${{ matrix.compiler }}" = "clang" ]; then
++          export CC="clang" CXX="clang++"
++        fi
++        export CFLAGS="$CFLAGS -O3 --coverage" LDFLAGS="$LDFLAGS --coverage"
++        echo "CFLAGS=\"$CFLAGS\" LDFLAGS=\"$LDFLAGS\""
++        $CXX $CFLAGS -o test/embedding -I. -I/usr/include/libnode test/embedding.cc -lnode
++        ./test/embedding
++        $CXX $CFLAGS -o test/embedding_noexcept -DNAPI_DISABLE_CPP_EXCEPTIONS -I. -I/usr/include/libnode test/embedding.cc -lnode
++        ./test/embedding_noexcept
++        
+\ No newline at end of file
+Index: node-addon-api-5.0.0/README.md
+===================================================================
+--- node-addon-api-5.0.0.orig/README.md
++++ node-addon-api-5.0.0/README.md
+@@ -144,6 +144,7 @@ The following is the documentation for n
+     - [ThreadSafeFunction](doc/threadsafe_function.md)
+     - [TypedThreadSafeFunction](doc/typed_threadsafe_function.md)
+  - [Promises](doc/promises.md)
++ - [Embedding](doc/embedding.md)
+  - [Version management](doc/version_management.md)
+ 
+ <a name="examples"></a>
+Index: node-addon-api-5.0.0/napi-inl.h
+===================================================================
+--- node-addon-api-5.0.0.orig/napi-inl.h
++++ node-addon-api-5.0.0/napi-inl.h
+@@ -449,6 +449,60 @@ inline Maybe<T> Just(const T& t) {
+ }
+ 
+ ////////////////////////////////////////////////////////////////////////////////
++// Platform class
++////////////////////////////////////////////////////////////////////////////////
++#ifdef NAPI_EMBEDDING
++
++Platform::Platform() : Platform(0, nullptr, 0, nullptr, 0) {}
++
++Platform::Platform(int argc,
++                 char** argv,
++                 int exec_argc,
++                 char** exec_argv,
++                 int thread_pool_size) {
++  napi_status r =
++      napi_create_platform(argc, argv, exec_argc, exec_argv, nullptr, thread_pool_size, &_platform);
++  NAPI_EMBEDDED_THROW_OR_ABORT(r);
++}
++
++Platform::~Platform() {
++  if (napi_destroy_platform(_platform) != napi_ok) {
++    abort();
++  }
++}
++
++inline Platform::operator napi_platform() const {
++  return _platform;
++};
++#endif
++
++////////////////////////////////////////////////////////////////////////////////
++// PlatformEnv class
++////////////////////////////////////////////////////////////////////////////////
++
++#ifdef NAPI_EMBEDDING
++PlatformEnv::PlatformEnv(napi_platform platform)
++    : PlatformEnv(platform, nullptr) {}
++
++PlatformEnv::PlatformEnv(napi_platform platform, const char* main_script)
++    : Env(nullptr) {
++  napi_status r =
++      napi_create_environment(platform, nullptr, main_script, &_env);
++  NAPI_EMBEDDED_THROW_OR_ABORT(r);
++}
++
++PlatformEnv::~PlatformEnv() {
++  if (napi_destroy_environment(_env, nullptr) != napi_ok) {
++    abort();
++  }
++}
++
++void PlatformEnv::Run() {
++  NAPI_EMBEDDED_THROW_OR_ABORT(napi_run_environment(_env));
++}
++#endif
++
++////////////////////////////////////////////////////////////////////////////////
+ // Env class
+ ////////////////////////////////////////////////////////////////////////////////
+ 
+@@ -2421,6 +2475,26 @@ inline void Promise::Deferred::Reject(na
+ inline Promise::Promise(napi_env env, napi_value value) : Object(env, value) {
+ }
+ 
++#ifdef NAPI_EMBEDDING
++Value Promise::Await() {
++  EscapableHandleScope scope(_env);
++  napi_value result;
++  napi_status status = napi_await_promise(_env, _value, &result);
++  if (status == napi_pending_exception) {
++#ifdef NAPI_CPP_EXCEPTIONS
++    bool is_error;
++    if (napi_is_error(_env, result, &is_error) == napi_ok && is_error)
++      throw Error(_env, result);
++    throw Value(_env, result);
++#else
++    return Value();
++#endif
++  }
++  NAPI_EMBEDDED_THROW_OR_ABORT(status);
++  return scope.Escape(result);
++}
++#endif
++
+ ////////////////////////////////////////////////////////////////////////////////
+ // Buffer<T> class
+ ////////////////////////////////////////////////////////////////////////////////
+Index: node-addon-api-5.0.0/napi.h
+===================================================================
+--- node-addon-api-5.0.0.orig/napi.h
++++ node-addon-api-5.0.0/napi.h
+@@ -264,6 +264,40 @@ namespace NAPI_CPP_CUSTOM_NAMESPACE {
+   using MaybeOrValue = T;
+ #endif
+ 
++#ifdef NAPI_EMBEDDING
++
++#ifdef NAPI_CPP_EXCEPTIONS
++#define NAPI_EMBEDDED_THROW_OR_ABORT(status)                                   \
++  if (status != napi_ok) throw status
++#define NAPI_EMBEDDED_THROW_VALUE_OR_ABORT(condition, value)                   \
++  if (condition) throw value
++#else
++#define NAPI_EMBEDDED_THROW_OR_ABORT(status)                                   \
++  if (status != napi_ok) abort()
++#define NAPI_EMBEDDED_THROW_VALUE_OR_ABORT(condition, value)                   \
++  if (condition) abort()
++#endif
++
++/// Platform is a master class for instantiating the V8 engine
++/// by an embedder
++
++class Platform {
++ private:
++  napi_platform _platform;
++  std::vector<std::string> errors;
++
++ public:
++  explicit Platform();
++  explicit Platform(int argc,
++                          char** argv,
++                          int exec_argc,
++                          char** exec_argv,
++                          int thread_pool_size);
++  ~Platform();
++  operator napi_platform() const;
++};
++#endif
++
+   /// Environment for Node-API values and operations.
+   ///
+   /// All Node-API values and operations must be associated with an environment.
+@@ -329,8 +363,9 @@ namespace NAPI_CPP_CUSTOM_NAMESPACE {
+     void SetInstanceData(DataType* data, HintType* hint) const;
+ #endif  // NAPI_VERSION > 5
+ 
+-  private:
++  protected:
+     napi_env _env;
++  private:
+ 
+ #if NAPI_VERSION > 2
+     template <typename Hook, typename Arg>
+@@ -460,6 +495,17 @@ namespace NAPI_CPP_CUSTOM_NAMESPACE {
+     /// !endcond
+   };
+ 
++#ifdef NAPI_EMBEDDING
++class PlatformEnv : public Env {
++ public:
++  explicit PlatformEnv(napi_platform platform);
++  explicit PlatformEnv(napi_platform platform, const char* main_script);
++  virtual ~PlatformEnv();
++  void Run();
++  NAPI_DISALLOW_ASSIGN_COPY(PlatformEnv);
++};
++#endif
++
+   /// A JavaScript boolean value.
+   class Boolean : public Value {
+   public:
+@@ -1409,6 +1455,9 @@ namespace NAPI_CPP_CUSTOM_NAMESPACE {
+     };
+ 
+     Promise(napi_env env, napi_value value);
++#ifdef NAPI_EMBEDDING
++    Value Await();
++#endif
+   };
+ 
+   template <typename T>
+Index: node-addon-api-5.0.0/embedding.cc
+===================================================================
+--- /dev/null
++++ node-addon-api-5.0.0/embedding.cc
+@@ -0,0 +1,73 @@
++#include <assert.h>
++#include <stdio.h>
++#define NAPI_EXPERIMENTAL
++#define NAPI_EMBEDDING
++#include <napi.h>
++
++using namespace Napi;
++
++void importPkg(Napi::Env env, const char* pkg_name) {
++  Napi::HandleScope scope(env);
++
++  Napi::Function import = env.Global().Get("import").As<Napi::Function>();
++
++  Napi::Value pkg_export_promise =
++      import.MakeCallback(env.Global(), {Napi::String::New(env, pkg_name)});
++  assert(pkg_export_promise.IsPromise());
++
++  Napi::Value pkg_export = pkg_export_promise.As<Napi::Promise>().Await();
++  assert(pkg_export.IsObject());
++
++  Napi::Value pkg_default = pkg_export.ToObject().Get("default");
++  assert(pkg_default.IsString());
++  assert(pkg_default.ToString().Utf8Value() == "genuine");
++}
++
++void requirePkg(Napi::Env env, const char* pkg_name) {
++  Napi::HandleScope scope(env);
++
++  Napi::Function require = env.Global().Get("require").As<Napi::Function>();
++  Napi::Value pkg_default = require({Napi::String::New(env, pkg_name)});
++
++#ifndef NAPI_CPP_EXCEPTIONS
++  if (env.IsExceptionPending()) {
++    Napi::Error e = env.GetAndClearPendingException();
++    throw e;
++  }
++#endif
++
++  assert(pkg_default.IsString());
++  assert(pkg_default.ToString().Utf8Value() == "original");
++}
++
++int main() {
++  try {
++    Napi::Platform platform;
++    Napi::PlatformEnv env(platform);
++    Napi::HandleScope scope(env);
++
++    try {
++      requirePkg(env, "./embedding.cjs");
++
++      try {
++        requirePkg(env, "./notembedding.cjs");
++        fprintf(stderr,
++                "Failed getting an exception for non-existing package\n");
++        return -1;
++      } catch (const Napi::Error& e) {
++        assert(strstr(e.Message().c_str(), "Cannot find module") != nullptr);
++      }
++
++      importPkg(env, "./embedding.mjs");
++
++    } catch (const Napi::Error& e) {
++      fprintf(stderr, "Caught a JS exception: %s\n", e.Message().c_str());
++      return -1;
++    }
++  } catch (napi_status r) {
++    fprintf(stderr, "Failed initializing Node.js environment: %d\n", (int)r);
++    return -1;
++  }
++
++  return 0;
++}
+Index: node-addon-api-5.0.0/embedding.cjs
+===================================================================
+--- /dev/null
++++ node-addon-api-5.0.0/embedding.cjs
+@@ -0,0 +1 @@
++module.exports = 'original';
+Index: node-addon-api-5.0.0/embedding.md
+===================================================================
+--- /dev/null
++++ node-addon-api-5.0.0/embedding.md
+@@ -0,0 +1,52 @@
++# Embedding woth `libnode`
++
++Embedding a Node.js instance to be loaded and called as a shared library
++from C++ code requires `libnode` and defining the `NAPI_EMBEDDING` macro
++before including `napi.h`.
++
++Two additional types become available in this case:
++
++* `Napi::Platform` of which you need to create exactly one object
++* `Napi::PlatformEnv` which can be used as a substitute for `Napi::Env` and
++which allows the creation of a new Node.js instance (V8 isolate)
++
++Unlike other NAPI functions which throw JS-compatible exceptions, these functions
++throw `napi_status` values because they do not have access to a working Node.js
++environment.
++
++
++### Usage Suggestions
++
++Here is a quick example for embedding a Node.js instance through `node-addon-api`
++and retrieving a reference to `axios.get` after `require('axios')`.
++
++```cpp
++#define NAPI_EXPERIMENTAL
++#define NAPI_EMBEDDING
++#include <napi.h>
++
++int main() {
++    try {
++        Napi::Platform platform;
++        Napi::PlatformEnv env(platform);
++
++        try {
++            Napi::HandleScope scope(env);
++            Napi::Function require =
++                env.Global().Get("require").As<Napi::Function>();
++            Napi::Object axios = require({Napi::String::New(env, "axios")})
++                    .ToObject();
++            Napi::Function get = axios.Get("get").As<Napi::Function>();
++        } catch (const Napi::Error &e) {
++            fprintf(stderr, "Caught a JS exception: %s\n", e.what());
++            return -1;
++        }
++    } catch (napi_status r) {
++        fprintf(stderr, "Failed initializing Node.js environment: %d\n",
++                (int)r);
++        return -1;
++    }
++
++    return 0;
++}
++```
+\ No newline at end of file
+Index: node-addon-api-5.0.0/embedding.mjs
+===================================================================
+--- /dev/null
++++ node-addon-api-5.0.0/embedding.mjs
+@@ -0,0 +1,2 @@
++const genuine = 'genuine';
++export default genuine;
+Index: node-addon-api-5.0.0/napi_em
+===================================================================
+--- /dev/null
++++ node-addon-api-5.0.0/napi_em
+@@ -0,0 +1,407 @@
++diff --git a/.github/workflows/embedding.yml b/.github/workflows/embedding.yml
++new file mode 100644
++index 0000000..0b4a60f
++--- /dev/null
+++++ b/.github/workflows/embedding.yml
++@@ -0,0 +1,48 @@
+++name: libnode CI Unix Platform
+++
+++on: [push, pull_request]
+++
+++jobs:
+++  test:
+++    timeout-minutes: 30
+++    strategy:
+++      matrix:
+++        node-version:
+++          - 16
+++        compiler:
+++          - gcc
+++          - clang
+++        os:
+++          - ubuntu-18.04
+++          
+++    runs-on: ${{ matrix.os }}
+++    steps:
+++    - uses: actions/checkout@v2
+++    - name: Install system dependencies
+++      run: |
+++        if [ "${{ matrix.compiler }}" = "gcc" -a "${{ matrix.os }}" = ubuntu-* ]; then
+++          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+++          sudo apt-get update
+++          sudo apt-get install g++-6.5
+++        fi
+++    - name: Use libnode ${{ matrix.node-version }}
+++      run: |
+++        sudo add-apt-repository ppa:mmomtchev/libnode
+++        sudo apt update
+++        sudo apt install -y libnode93 libnode-dev
+++        
+++    - name: Test
+++      run: |
+++        if [ "${{ matrix.compiler }}" = "gcc" ]; then
+++          export CC="gcc" CXX="g++"
+++        fi
+++        if [ "${{ matrix.compiler }}" = "clang" ]; then
+++          export CC="clang" CXX="clang++"
+++        fi
+++        export CFLAGS="$CFLAGS -O3 --coverage" LDFLAGS="$LDFLAGS --coverage"
+++        echo "CFLAGS=\"$CFLAGS\" LDFLAGS=\"$LDFLAGS\""
+++        $CXX $CFLAGS -o test/embedding -I. -I/usr/include/libnode test/embedding.cc -lnode
+++        ./test/embedding
+++        $CXX $CFLAGS -o test/embedding_noexcept -DNAPI_DISABLE_CPP_EXCEPTIONS -I. -I/usr/include/libnode test/embedding.cc -lnode
+++        ./test/embedding_noexcept
+++        
++\ No newline at end of file
++diff --git a/README.md b/README.md
++index ae2e7e1..7d39509 100644
++--- a/README.md
+++++ b/README.md
++@@ -144,6 +144,7 @@ The following is the documentation for node-addon-api.
++     - [ThreadSafeFunction](doc/threadsafe_function.md)
++     - [TypedThreadSafeFunction](doc/typed_threadsafe_function.md)
++  - [Promises](doc/promises.md)
+++ - [Embedding](doc/embedding.md)
++  - [Version management](doc/version_management.md)
++ 
++ <a name="examples"></a>
++diff --git a/doc/embedding.md b/doc/embedding.md
++new file mode 100644
++index 0000000..1279132
++--- /dev/null
+++++ b/doc/embedding.md
++@@ -0,0 +1,52 @@
+++# Embedding woth `libnode`
+++
+++Embedding a Node.js instance to be loaded and called as a shared library
+++from C++ code requires `libnode` and defining the `NAPI_EMBEDDING` macro
+++before including `napi.h`.
+++
+++Two additional types become available in this case:
+++
+++* `Napi::Platform` of which you need to create exactly one object
+++* `Napi::PlatformEnv` which can be used as a substitute for `Napi::Env` and
+++which allows the creation of a new Node.js instance (V8 isolate)
+++
+++Unlike other NAPI functions which throw JS-compatible exceptions, these functions
+++throw `napi_status` values because they do not have access to a working Node.js
+++environment.
+++
+++
+++### Usage Suggestions
+++
+++Here is a quick example for embedding a Node.js instance through `node-addon-api`
+++and retrieving a reference to `axios.get` after `require('axios')`.
+++
+++```cpp
+++#define NAPI_EXPERIMENTAL
+++#define NAPI_EMBEDDING
+++#include <napi.h>
+++
+++int main() {
+++    try {
+++        Napi::Platform platform;
+++        Napi::PlatformEnv env(platform);
+++
+++        try {
+++            Napi::HandleScope scope(env);
+++            Napi::Function require =
+++                env.Global().Get("require").As<Napi::Function>();
+++            Napi::Object axios = require({Napi::String::New(env, "axios")})
+++                    .ToObject();
+++            Napi::Function get = axios.Get("get").As<Napi::Function>();
+++        } catch (const Napi::Error &e) {
+++            fprintf(stderr, "Caught a JS exception: %s\n", e.what());
+++            return -1;
+++        }
+++    } catch (napi_status r) {
+++        fprintf(stderr, "Failed initializing Node.js environment: %d\n",
+++                (int)r);
+++        return -1;
+++    }
+++
+++    return 0;
+++}
+++```
++\ No newline at end of file
++diff --git a/napi-inl.h b/napi-inl.h
++index 2583f81..93f9485 100644
++--- a/napi-inl.h
+++++ b/napi-inl.h
++@@ -432,12 +432,62 @@ inline Maybe<T> Just(const T& t) {
++   return Maybe<T>(t);
++ }
++ 
+++////////////////////////////////////////////////////////////////////////////////
+++// Platform class
+++////////////////////////////////////////////////////////////////////////////////
+++#ifdef NAPI_EMBEDDING
+++
+++Platform::Platform() : Platform(0, nullptr, 0, nullptr, 0) {}
+++
+++Platform::Platform(int argc,
+++                 char** argv,
+++                 int exec_argc,
+++                 char** exec_argv,
+++                 int thread_pool_size) {
+++  napi_status r =
+++      napi_create_platform(argc, argv, exec_argc, exec_argv, nullptr, thread_pool_size, &_platform);
+++  NAPI_EMBEDDED_THROW_OR_ABORT(r);
+++}
+++
+++Platform::~Platform() {
+++  if (napi_destroy_platform(_platform) != napi_ok) {
+++    abort();
+++  }
+++}
+++
+++inline Platform::operator napi_platform() const {
+++  return _platform;
+++};
+++#endif
+++
++ ////////////////////////////////////////////////////////////////////////////////
++ // Env class
++ ////////////////////////////////////////////////////////////////////////////////
++ 
++ inline Env::Env(napi_env env) : _env(env) {}
++ 
+++#ifdef NAPI_EMBEDDING
+++PlatformEnv::PlatformEnv(napi_platform platform)
+++    : PlatformEnv(platform, nullptr) {}
+++
+++PlatformEnv::PlatformEnv(napi_platform platform, const char* main_script)
+++    : Env(nullptr) {
+++  napi_status r =
+++      napi_create_environment(platform, nullptr, main_script, &_env);
+++  NAPI_EMBEDDED_THROW_OR_ABORT(r);
+++}
+++
+++PlatformEnv::~PlatformEnv() {
+++  if (napi_destroy_environment(_env, nullptr) != napi_ok) {
+++    abort();
+++  }
+++}
+++
+++void PlatformEnv::Run() {
+++  NAPI_EMBEDDED_THROW_OR_ABORT(napi_run_environment(_env));
+++}
+++#endif
+++
++ inline Env::operator napi_env() const {
++   return _env;
++ }
++@@ -2414,6 +2464,26 @@ inline void Promise::Deferred::Reject(napi_value value) const {
++ 
++ inline Promise::Promise(napi_env env, napi_value value) : Object(env, value) {}
++ 
+++#ifdef NAPI_EMBEDDING
+++Value Promise::Await() {
+++  EscapableHandleScope scope(_env);
+++  napi_value result;
+++  napi_status status = napi_await_promise(_env, _value, &result);
+++  if (status == napi_pending_exception) {
+++#ifdef NAPI_CPP_EXCEPTIONS
+++    bool is_error;
+++    if (napi_is_error(_env, result, &is_error) == napi_ok && is_error)
+++      throw Error(_env, result);
+++    throw Value(_env, result);
+++#else
+++    return Value();
+++#endif
+++  }
+++  NAPI_EMBEDDED_THROW_OR_ABORT(status);
+++  return scope.Escape(result);
+++}
+++#endif
+++
++ ////////////////////////////////////////////////////////////////////////////////
++ // Buffer<T> class
++ ////////////////////////////////////////////////////////////////////////////////
++diff --git a/napi.h b/napi.h
++index 0fd18c8..a1bae21 100644
++--- a/napi.h
+++++ b/napi.h
++@@ -268,6 +268,40 @@ template <typename T>
++ using MaybeOrValue = T;
++ #endif
++ 
+++#ifdef NAPI_EMBEDDING
+++
+++#ifdef NAPI_CPP_EXCEPTIONS
+++#define NAPI_EMBEDDED_THROW_OR_ABORT(status)                                   \
+++  if (status != napi_ok) throw status
+++#define NAPI_EMBEDDED_THROW_VALUE_OR_ABORT(condition, value)                   \
+++  if (condition) throw value
+++#else
+++#define NAPI_EMBEDDED_THROW_OR_ABORT(status)                                   \
+++  if (status != napi_ok) abort()
+++#define NAPI_EMBEDDED_THROW_VALUE_OR_ABORT(condition, value)                   \
+++  if (condition) abort()
+++#endif
+++
+++/// Platform is a master class for instantiating the V8 engine
+++/// by an embedder
+++
+++class Platform {
+++ private:
+++  napi_platform _platform;
+++  std::vector<std::string> errors;
+++
+++ public:
+++  explicit Platform();
+++  explicit Platform(int argc,
+++                          char** argv,
+++                          int exec_argc,
+++                          char** exec_argv,
+++                          int thread_pool_size);
+++  ~Platform();
+++  operator napi_platform() const;
+++};
+++#endif
+++
++ /// Environment for Node-API values and operations.
++ ///
++ /// All Node-API values and operations must be associated with an environment.
++@@ -295,6 +329,7 @@ class Env {
++ #endif  // NAPI_VERSION > 5
++  public:
++   Env(napi_env env);
+++  virtual ~Env() {};
++ 
++   operator napi_env() const;
++ 
++@@ -335,9 +370,9 @@ class Env {
++   void SetInstanceData(DataType* data, HintType* hint) const;
++ #endif  // NAPI_VERSION > 5
++ 
++- private:
+++ protected:
++   napi_env _env;
++-
+++ private:
++ #if NAPI_VERSION > 2
++   template <typename Hook, typename Arg>
++   class CleanupHook {
++@@ -360,6 +395,17 @@ class Env {
++ };
++ #endif  // NAPI_VERSION > 2
++ 
+++#ifdef NAPI_EMBEDDING
+++class PlatformEnv : public Env {
+++ public:
+++  explicit PlatformEnv(napi_platform platform);
+++  explicit PlatformEnv(napi_platform platform, const char* main_script);
+++  virtual ~PlatformEnv();
+++  void Run();
+++  NAPI_DISALLOW_ASSIGN_COPY(PlatformEnv);
+++};
+++#endif
+++
++ /// A JavaScript value of unknown type.
++ ///
++ /// For type-specific operations, convert to one of the Value subclasses using a
++@@ -1428,6 +1474,9 @@ class Promise : public Object {
++   };
++ 
++   Promise(napi_env env, napi_value value);
+++#ifdef NAPI_EMBEDDING
+++  Value Await();
+++#endif
++ };
++ 
++ template <typename T>
++diff --git a/test/embedding.cc b/test/embedding.cc
++new file mode 100644
++index 0000000..ce97287
++--- /dev/null
+++++ b/test/embedding.cc
++@@ -0,0 +1,73 @@
+++#include <assert.h>
+++#include <stdio.h>
+++#define NAPI_EXPERIMENTAL
+++#define NAPI_EMBEDDING
+++#include <napi.h>
+++
+++using namespace Napi;
+++
+++void importPkg(Napi::Env env, const char* pkg_name) {
+++  Napi::HandleScope scope(env);
+++
+++  Napi::Function import = env.Global().Get("import").As<Napi::Function>();
+++
+++  Napi::Value pkg_export_promise =
+++      import.MakeCallback(env.Global(), {Napi::String::New(env, pkg_name)});
+++  assert(pkg_export_promise.IsPromise());
+++
+++  Napi::Value pkg_export = pkg_export_promise.As<Napi::Promise>().Await();
+++  assert(pkg_export.IsObject());
+++
+++  Napi::Value pkg_default = pkg_export.ToObject().Get("default");
+++  assert(pkg_default.IsString());
+++  assert(pkg_default.ToString().Utf8Value() == "genuine");
+++}
+++
+++void requirePkg(Napi::Env env, const char* pkg_name) {
+++  Napi::HandleScope scope(env);
+++
+++  Napi::Function require = env.Global().Get("require").As<Napi::Function>();
+++  Napi::Value pkg_default = require({Napi::String::New(env, pkg_name)});
+++
+++#ifndef NAPI_CPP_EXCEPTIONS
+++  if (env.IsExceptionPending()) {
+++    Napi::Error e = env.GetAndClearPendingException();
+++    throw e;
+++  }
+++#endif
+++
+++  assert(pkg_default.IsString());
+++  assert(pkg_default.ToString().Utf8Value() == "original");
+++}
+++
+++int main() {
+++  try {
+++    Napi::Platform platform;
+++    Napi::PlatformEnv env(platform);
+++    Napi::HandleScope scope(env);
+++
+++    try {
+++      requirePkg(env, "./embedding.cjs");
+++
+++      try {
+++        requirePkg(env, "./notembedding.cjs");
+++        fprintf(stderr,
+++                "Failed getting an exception for non-existing package\n");
+++        return -1;
+++      } catch (const Napi::Error& e) {
+++        assert(strstr(e.Message().c_str(), "Cannot find module") != nullptr);
+++      }
+++
+++      importPkg(env, "./embedding.mjs");
+++
+++    } catch (const Napi::Error& e) {
+++      fprintf(stderr, "Caught a JS exception: %s\n", e.Message().c_str());
+++      return -1;
+++    }
+++  } catch (napi_status r) {
+++    fprintf(stderr, "Failed initializing Node.js environment: %d\n", (int)r);
+++    return -1;
+++  }
+++
+++  return 0;
+++}
++diff --git a/test/embedding.cjs b/test/embedding.cjs
++new file mode 100644
++index 0000000..b0a7d69
++--- /dev/null
+++++ b/test/embedding.cjs
++@@ -0,0 +1 @@
+++module.exports = 'original';
++diff --git a/test/embedding.mjs b/test/embedding.mjs
++new file mode 100644
++index 0000000..9a7aa73
++--- /dev/null
+++++ b/test/embedding.mjs
++@@ -0,0 +1,2 @@
+++const genuine = 'genuine';
+++export default genuine;

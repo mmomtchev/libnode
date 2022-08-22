@@ -1,3 +1,9 @@
+node-addon-api (5.0.0-4~UNIVERSAL) UNIVERSAL; urgency=medium
+
+  * Add a C++ API for embedding Node.js through libnode
+
+ -- Momtchil Momtchev <momtchil@momtchev.com>  Mon, 22 Aug 2022 12:47:17 +0000
+
 node-addon-api (5.0.0-3~UNIVERSAL) UNIVERSAL; urgency=medium
 
   * Add a pkg-config file.
