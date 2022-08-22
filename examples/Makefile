@@ -4,7 +4,8 @@ CFLAGS+=-g $(shell pkg-config --cflags node) $(shell pkg-config --cflags node-ad
 LDFLAGS+=$(shell pkg-config --libs node)
 
 EXAMPLES=libnode-napi-example-cc libnode-napi-example-c \
-	axios-example axios-example-es6 debugger-example
+	axios-example axios-example-es6 debugger-example \
+	stdio-redir-example
 
 all: $(EXAMPLES)
 	@echo Do not forget npm install

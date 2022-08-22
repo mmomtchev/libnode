@@ -1,3 +1,15 @@
+node (16.17.0-1~UNIVERSAL) UNIVERSAL; urgency=medium
+
+  * Upgrade Node.js to 16.17.0
+  * Refactor the bootstrapping code and and allow extending it
+  * Fix an early exit of the event loop in some circumstances
+  * Update the C++ examples to use the new C++ API
+  * Add a note about using MakeCallback to call async code
+  * Add an example for stdio redirection
+  * Require the NAPI_EMBEDDING macro
+
+ -- Momtchil Momtchev <momtchil@momtchev.com>  Mon, 22 Aug 2022 08:29:14 +0000
+
 node (16.16.0-3~UNIVERSAL) UNIVERSAL; urgency=medium
 
   * Skip npm tests

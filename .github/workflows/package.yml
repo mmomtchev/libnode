@@ -14,7 +14,7 @@ on:
       node_version:
         description: 'Node.js version'
         required: false
-        default: 16.16.0
+        default: 16.17.0
       napi_version:
         description: 'node-addon-api version'
         required: false
@@ -51,7 +51,7 @@ jobs:
     - name: Set Node version
       run: |
         NODE_VERSION=${{github.event.inputs.node_version}}
-        echo NODE_VERSION=${NODE_VERSION:-"16.16.0"} >> ${GITHUB_ENV}
+        echo NODE_VERSION=${NODE_VERSION:-"16.17.0"} >> ${GITHUB_ENV}
     - name: Set node-addon-api version
       run: |
         NAPI_VERSION=${{github.event.inputs.napi_version}}

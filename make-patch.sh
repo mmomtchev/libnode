@@ -16,11 +16,12 @@ SRC=$1 # The path the git checkout of https://github.com/mmomtchev/node
 
 (
 	set -ex
+	export QUILT_PATCHES=debian/patches
 	cd ${TARGET}/node-${NODE_VERSION}/
-	quilt pop -a
-	quilt push
-	lsdiff --strip 1 < ~/src/repatch | xargs quilt add || true
-	patch -p1 -R < debian/patches/napi-libnode.diff
+	quilt pop -a || true
+	quilt delete napi-libnode.diff
+	quilt new napi-libnode.diff
+	lsdiff --strip 1 < ~/src/repatch | xargs -t quilt add || true
 	patch -p1 < ~/src/repatch
 	quilt refresh
 	cp debian/patches/napi-libnode.diff ~/src/libnode/node-16.x/ubuntu/debian/patches
