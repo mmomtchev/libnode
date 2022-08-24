@@ -1,5 +1,6 @@
 #include <stdio.h>
 #define NAPI_EXPERIMENTAL
+#define NAPI_EMBEDDING
 #include <napi.h>
 
 int main(int argc, char *argv[]) {

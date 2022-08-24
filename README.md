@@ -43,6 +43,11 @@ All JS objects are managed in the Node.js/V8 heap and may be accessed only throu
 * `axios_example` crashes - Your installed `libnode` version does not match the example
 * The inspector is missing an attachment point for `inspect-brk`: this can be worked around by adding `require('inspector').waitForDebugger(); debugger;` in the beginning of the source file (which is in fact the bootstrapper) or refer to [debugger-example.cc](https://github.com/mmomtchev/libnode/blob/main/examples/debugger-example.cc) for a clean solution.
 * Node.js may switch stdio/stdout/stderr to non-blocking mode on UNIX when piping, see [stdio-redir-example.cc](https://github.com/mmomtchev/libnode/blob/main/examples/stdio-redir-example.cc) for how to deal with this.
+* `error: ‘napi_create_platform’ was not declared in this scope` - make sure your code includes this before the includes:
+    ```c
+    #define NAPI_EXPERIMENTAL
+    #define NAPI_EMBEDDING
+    ```
 
 # Supported Platforms
 

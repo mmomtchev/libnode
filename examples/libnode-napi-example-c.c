@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #define NAPI_EXPERIMENTAL
+#define NAPI_EMBEDDING
 #include <node_api.h>
 
 int main() {
