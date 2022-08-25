@@ -32,3 +32,6 @@ override_dh_auto_install:
 	install examples/* debian/tmp/usr/share/doc/libnode-dev/examples
 	install -d debian/tmp/usr/share/pkgconfig
 	sed s/_VERSION_/$(NODE_VERSION)/ node.pc > debian/tmp/usr/share/pkgconfig/node.pc
+
+override_dh_compress:
+	dh_compress -Xexamples
