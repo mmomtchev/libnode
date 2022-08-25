@@ -22,7 +22,7 @@ cp -a node-16.x/ubuntu/debian ${TARGET}/node-${NODE_VERSION}
 	quilt push -a --refresh
 )
 
-cp ${TARGET}/node-${NODE_VERSION}/debian/patches/*.diff node-16.x/ubuntu/debian
+cp ${TARGET}/node-${NODE_VERSION}/debian/patches/*.diff node-16.x/ubuntu/debian/patches
 
 (
 	cd ${TARGET}/node-${NODE_VERSION}
