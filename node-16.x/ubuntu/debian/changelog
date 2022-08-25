@@ -1,3 +1,9 @@
+node (16.17.0-2~UNIVERSAL) UNIVERSAL; urgency=medium
+
+  * Fix the examples
+
+ -- Momtchil Momtchev <momtchil@momtchev.com>  Thu, 25 Aug 2022 02:26:33 +0000
+
 node (16.17.0-1~UNIVERSAL) UNIVERSAL; urgency=medium
 
   * Upgrade Node.js to 16.17.0
