@@ -11,14 +11,6 @@ on:
         description: 'Full rebuild without ccache'
         required: false
         default: 0
-      node_version:
-        description: 'Node.js version'
-        required: false
-        default: 16.17.0
-      napi_version:
-        description: 'node-addon-api version'
-        required: false
-        default: 5.0.0
 
 jobs:
   ubuntu:
@@ -50,12 +42,16 @@ jobs:
         git_user_signingkey: true
     - name: Set Node version
       run: |
-        NODE_VERSION=${{github.event.inputs.node_version}}
-        echo NODE_VERSION=${NODE_VERSION:-"16.17.0"} >> ${GITHUB_ENV}
+        NODE_PKG_VERSION=`head -1 node-16.x/ubuntu/debian/changelog | cut -f 2 -d "(" | cut -f 1 -d ")" | sed s/UNIVERSAL/${{matrix.release}}/`
+        NODE_VERSION=`echo ${NODE_PKG_VERSION} | cut -f 1 -d "-"`
+        echo NODE_PKG_VERSION=${NODE_PKG_VERSION} >> ${GITHUB_ENV}
+        echo NODE_VERSION=${NODE_VERSION} >> ${GITHUB_ENV}
     - name: Set node-addon-api version
       run: |
-        NAPI_VERSION=${{github.event.inputs.napi_version}}
-        echo NAPI_VERSION=${NAPI_VERSION:-"5.0.0"} >> ${GITHUB_ENV}
+        NAPI_VERSION=`head -1 node-addon-api/ubuntu/debian/changelog | cut -f 2 -d "(" | cut -f 1 -d ")" | sed s/UNIVERSAL/${{matrix.release}}/`
+        NAPI_VERSION=`echo ${NAPI_PKG_VERSION} | cut -f 1 -d "-"`
+        echo NAPI_PKG_VERSION=${NAPI_PKG_VERSION} >> ${GITHUB_ENV}
+        echo NAPI_VERSION=${NAPI_VERSION} >> ${GITHUB_ENV}
     - name: Create Node.js tarball
       run: |
         mkdir -p node-16.x/dist/
