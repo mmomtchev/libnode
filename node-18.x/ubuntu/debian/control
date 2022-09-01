@@ -1,0 +1,43 @@
+Source: node
+Maintainer: Momtchil Momtchev <momtchil@momtchev.com>
+Section: javascript
+Build-Depends: debhelper (>= 10), python3, _GCXX_, python3-pip
+Homepage: https://nodejs.org/
+Standards-Version: 4.1.4
+Rules-Requires-Root: no
+
+Package: libnode-dev
+Section: libdevel
+Architecture: all
+Depends: ${misc:Depends}, libnode108 (= ${binary:Version})
+Description: evented I/O for V8 javascript (development files)
+ Node.js is a platform built on Chrome's JavaScript runtime for easily
+ building fast, scalable network applications. Node.js uses an
+ event-driven, non-blocking I/O model that makes it lightweight and
+ efficient, perfect for data-intensive real-time applications that run
+ across distributed devices.
+ .
+ This package provides development headers for libnode with the
+ napi-libnode PR. To avoid a conflict with the NodeSource Node.js
+ distribution, all headers are installed in /usr/include/libnode.
+ .
+
+Package: libnode108
+Section: libs
+Architecture: amd64
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: evented I/O for V8 javascript - runtime library
+ Node.js is a platform built on Chrome's JavaScript runtime for easily
+ building fast, scalable network applications. Node.js uses an
+ event-driven, non-blocking I/O model that makes it lightweight and
+ efficient, perfect for data-intensive real-time applications that run
+ across distributed devices.
+ .
+ Node.js is bundled with several useful libraries to handle server
+ tasks:
+ .
+ System, Events, Standard I/O, Modules, Timers, Child Processes, POSIX,
+ HTTP, Multipart Parsing, TCP, DNS, Assert, Path, URL, Query Strings.
+ .
+ This package provides the dynamic library for embedding Node.js in a
+ C/C++ application.

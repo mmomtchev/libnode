@@ -1,0 +1,15 @@
+Index: node-16.16.0/node.pc
+===================================================================
+--- /dev/null
++++ node-16.16.0/node.pc
+@@ -0,0 +1,10 @@
++prefix=/usr
++exec_prefix=/usr
++libdir=/usr/lib
++includedir=${prefix}/include
++
++Name: node
++Description: Embedded Node.js
++Version: _VERSION_
++Cflags: -I${includedir}/libnode
++Libs: -L${libdir} -lnode

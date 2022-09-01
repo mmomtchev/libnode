@@ -1,0 +1,5 @@
+node (18.8.0-1~UNIVERSAL) UNIVERSAL; urgency=medium
+
+  * First release on the Node.js 18 branch
+
+ -- Momtchil Momtchev <momtchil@momtchev.com>  Tue, 30 Aug 2022 15:31:50 +0000

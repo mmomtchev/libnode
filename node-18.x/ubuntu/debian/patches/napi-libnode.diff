@@ -1,0 +1,1516 @@
+Index: node-18.8.0/Makefile
+===================================================================
+--- node-18.8.0.orig/Makefile
++++ node-18.8.0/Makefile
+@@ -264,6 +264,8 @@ coverage-report-js:
+ cctest: all
+ 	@out/$(BUILDTYPE)/$@ --gtest_filter=$(GTEST_FILTER)
+ 	@out/$(BUILDTYPE)/embedtest "require('./test/embedding/test-embedding.js')"
++	@out/$(BUILDTYPE)/napi_embedding "require('./test/embedding/test-napi-embedding.js')"
++	@out/$(BUILDTYPE)/napi_modules ../../test/embedding/cjs.cjs ../../test/embedding/es6.mjs
+ 
+ .PHONY: list-gtests
+ list-gtests:
+@@ -529,6 +531,8 @@ test-ci: | clear-stalled bench-addons-bu
+ 		--mode=$(BUILDTYPE_LOWER) --flaky-tests=$(FLAKY_TESTS) \
+ 		$(TEST_CI_ARGS) $(CI_JS_SUITES) $(CI_NATIVE_SUITES) $(CI_DOC)
+ 	out/Release/embedtest 'require("./test/embedding/test-embedding.js")'
++	out/Release/napi_embedding 'require("./test/embedding/test-napi-embedding.js")'
++	out/Release/napi_modules ../../test/embedding/cjs.cjs ../../test/embedding/es6.mjs
+ 	$(info Clean up any leftover processes, error if found.)
+ 	ps awwx | grep Release/node | grep -v grep | cat
+ 	@PS_OUT=`ps awwx | grep Release/node | grep -v grep | awk '{print $$1}'`; \
+Index: node-18.8.0/doc/api/embedding.md
+===================================================================
+--- node-18.8.0.orig/doc/api/embedding.md
++++ node-18.8.0/doc/api/embedding.md
+@@ -160,8 +160,47 @@ int RunNodeInstance(MultiIsolatePlatform
+ }
+ ```
+ 
++## Node-API Embedding
++
++<!--introduced_in=REPLACEME-->
++
++As an alternative, an embedded Node.js can also be fully controlled through
++Node-API. This API supports both C and C++ through [node-addon-api][].
++
++An example can be found [in the Node.js source tree][napi_embedding.c].
++
++```c
++  napi_platform platform;
++  napi_env env;
++  const char *main_script = "console.log('hello world')";
++
++  if (napi_create_platform(0, NULL, 0, NULL, NULL, 0, &platform) != napi_ok) {
++    fprintf(stderr, "Failed creating the platform\n");
++    return -1;
++  }
++
++  if (napi_create_environment(platform, NULL, main_script,
++        (napi_stdio){NULL, NULL, NULL}, &env) != napi_ok) {
++    fprintf(stderr, "Failed running JS\n");
++    return -1;
++  }
++
++  // Here you can interact with the environment through Node-API env
++
++  if (napi_destroy_environment(env, NULL) != napi_ok) {
++    return -1;
++  }
++
++  if (napi_destroy_platform(platform) != napi_ok) {
++    fprintf(stderr, "Failed destroying the platform\n");
++    return -1;
++  }
++```
++
+ [CLI options]: cli.md
+ [`process.memoryUsage()`]: process.md#processmemoryusage
+ [deprecation policy]: deprecations.md
+ [embedtest.cc]: https://github.com/nodejs/node/blob/HEAD/test/embedding/embedtest.cc
++[napi_embedding.c]: https://github.com/nodejs/node/blob/HEAD/test/embedding/napi_embedding.c
++[node-addon-api]: https://github.com/nodejs/node-addon-api
+ [src/node.h]: https://github.com/nodejs/node/blob/HEAD/src/node.h
+Index: node-18.8.0/doc/api/n-api.md
+===================================================================
+--- node-18.8.0.orig/doc/api/n-api.md
++++ node-18.8.0/doc/api/n-api.md
+@@ -6265,6 +6265,136 @@ idempotent.
+ 
+ This API may only be called from the main thread.
+ 
++## Using embedded Node.js
++
++### `napi_create_platform`
++
++<!-- YAML
++added: REPLACEME
++-->
++
++> Stability: 1 - Experimental
++
++```c
++napi_status napi_create_platform(int argc,
++                                    char** argv,
++                                    int exec_argc,
++                                    char** exec_argv,
++                                    char*** errors,
++                                    int thread_pool_size,
++                                    napi_platform* result);
++```
++
++* `[in] argc`: CLI argument count, pass 0 for autofilling.
++* `[in] argv`: CLI arguments, pass NULL for autofilling.
++* `[in] exec_argc`: Node.js CLI options count.
++* `[in] exec_argv`: Node.js CLI options.
++* `[in] errors`: If different than NULL, will receive an array of
++  strings that must be freed.
++* `[in] thread_pool_size`: Thread pool size, 0 for automatic.
++* `[out] result`: A `napi_platform` result.
++
++This function must be called once to initialize V8 and Node.js when using as a
++shared library.
++
++### `napi_destroy_platform`
++
++<!-- YAML
++added: REPLACEME
++-->
++
++> Stability: 1 - Experimental
++
++```c
++napi_status napi_destroy_platform(napi_platform platform, int *exit_code);
++```
++
++* `[in] platform`: platform handle.
++* `[out] exit_code`: if not NULL will receive the process exit code.
++
++Destroy the Node.js / V8 processes.
++
++### `napi_create_environment`
++
++<!-- YAML
++added: REPLACEME
++-->
++
++> Stability: 1 - Experimental
++
++```c
++napi_status napi_create_environment(napi_platform platform,
++                                               char*** errors,
++                                               const char* main_script,
++                                               napi_env* result);
++```
++
++* `[in] platform`: platform handle.
++* `[in] errors`: If different than NULL, will receive an array of strings
++  that must be freed.
++* `[in] main_script`: If different than NULL, custom JavaScript to run in
++  addition to the default bootstrap that creates an empty
++  ready-to-use CJS/ES6 environment with `global.require()` and
++  `global.import()` functions that resolve modules from the directory of
++  the compiled binary.
++  It can be used to redirect `process.stdin`/ `process.stdout` streams
++  since Node.js might switch these file descriptors to non-blocking mode.
++* `[out] result`: A `napi_env` result.
++
++Initialize a new environment. A single platform can hold multiple Node.js
++environments that will run in a separate V8 isolate each. If the returned
++value is `napi_ok` or `napi_pending_exception`, the environment must be
++destroyed with `napi_destroy_environment` to free all allocated memory.
++
++### `napi_run_environment`
++
++<!-- YAML
++added: REPLACEME
++-->
++
++> Stability: 1 - Experimental
++
++```c
++napi_status napi_run_environment(napi_env env);
++```
++
++### `napi_await_promise`
++
++<!-- YAML
++added: REPLACEME
++-->
++
++> Stability: 1 - Experimental
++
++```c
++napi_status napi_await_promise(napi_env env,
++                            napi_value promise,
++                            napi_value *result);
++```
++
++* `[in] env`: environment handle.
++* `[in] promise`: JS Promise.
++* `[out] result`: Will receive the value that the Promise resolved with.
++
++Iterate the event loop of the environment until the `promise` has been
++resolved. Returns `napi_pending_exception` on rejection.
++
++### `napi_destroy_environment`
++
++<!-- YAML
++added: REPLACEME
++-->
++
++> Stability: 1 - Experimental
++
++```c
++napi_status napi_destroy_environment(napi_env env);
++```
++
++* `[in] env`: environment handle.
++
++Destroy the Node.js environment / V8 isolate.
++
+ ## Miscellaneous utilities
+ 
+ ### `node_api_get_module_file_name`
+Index: node-18.8.0/node.gyp
+===================================================================
+--- node-18.8.0.orig/node.gyp
++++ node-18.8.0/node.gyp
+@@ -1291,6 +1291,58 @@
+         '<(node_lib_target_name)',
+         'deps/histogram/histogram.gyp:histogram',
+         'deps/uvwasi/uvwasi.gyp:uvwasi',
++      ],
++
++      'includes': [
++        'node.gypi'
++      ],
++
++      'include_dirs': [
++        'src',
++        'tools/msvs/genfiles',
++        'deps/v8/include',
++        'deps/cares/include',
++        'deps/uv/include',
++        'deps/uvwasi/include',
++        'test/embedding',
++      ],
++
++      'sources': [
++        'src/node_snapshot_stub.cc',
++        'test/embedding/embedtest.cc',
++      ],
++
++      'conditions': [
++        ['OS=="solaris"', {
++          'ldflags': [ '-I<(SHARED_INTERMEDIATE_DIR)' ]
++        }],
++        # Skip cctest while building shared lib node for Windows
++        [ 'OS=="win" and node_shared=="true"', {
++          'type': 'none',
++        }],
++        [ 'node_shared=="true"', {
++          'xcode_settings': {
++            'OTHER_LDFLAGS': [ '-Wl,-rpath,@loader_path', ],
++          },
++        }],
++        ['OS=="win"', {
++          'libraries': [
++            'Dbghelp.lib',
++            'winmm.lib',
++            'Ws2_32.lib',
++          ],
++        }],
++      ],
++    }, # embedtest
++
++    {
++      'target_name': 'napi_embedding',
++      'type': 'executable',
++
++      'dependencies': [
++        '<(node_lib_target_name)',
++        'deps/histogram/histogram.gyp:histogram',
++        'deps/uvwasi/uvwasi.gyp:uvwasi',
+         'node_dtrace_header',
+         'node_dtrace_ustack',
+         'node_dtrace_provider',
+@@ -1312,7 +1364,7 @@
+ 
+       'sources': [
+         'src/node_snapshot_stub.cc',
+-        'test/embedding/embedtest.cc',
++        'test/embedding/napi_embedding.c',
+       ],
+ 
+       'conditions': [
+@@ -1336,7 +1388,59 @@
+           ],
+         }],
+       ],
+-    }, # embedtest
++    }, # napi_embedding
++
++    {
++      'target_name': 'napi_modules',
++      'type': 'executable',
++
++      'dependencies': [
++        '<(node_lib_target_name)',
++        'deps/histogram/histogram.gyp:histogram',
++        'deps/uvwasi/uvwasi.gyp:uvwasi',
++      ],
++
++      'includes': [
++        'node.gypi'
++      ],
++
++      'include_dirs': [
++        'src',
++        'tools/msvs/genfiles',
++        'deps/v8/include',
++        'deps/cares/include',
++        'deps/uv/include',
++        'deps/uvwasi/include',
++        'test/embedding',
++      ],
++
++      'sources': [
++        'src/node_snapshot_stub.cc',
++        'test/embedding/napi_modules.c',
++      ],
++
++      'conditions': [
++        ['OS=="solaris"', {
++          'ldflags': [ '-I<(SHARED_INTERMEDIATE_DIR)' ]
++        }],
++        # Skip cctest while building shared lib node for Windows
++        [ 'OS=="win" and node_shared=="true"', {
++          'type': 'none',
++        }],
++        [ 'node_shared=="true"', {
++          'xcode_settings': {
++            'OTHER_LDFLAGS': [ '-Wl,-rpath,@loader_path', ],
++          },
++        }],
++        ['OS=="win"', {
++          'libraries': [
++            'Dbghelp.lib',
++            'winmm.lib',
++            'Ws2_32.lib',
++          ],
++        }],
++      ],
++    }, # napi_modules
+ 
+     {
+       'target_name': 'overlapped-checker',
+Index: node-18.8.0/src/api/embed_helpers.cc
+===================================================================
+--- node-18.8.0.orig/src/api/embed_helpers.cc
++++ node-18.8.0/src/api/embed_helpers.cc
+@@ -1,6 +1,6 @@
+-#include "node.h"
+-#include "env-inl.h"
+ #include "debug_utils-inl.h"
++#include "env-inl.h"
++#include "node.h"
+ 
+ using v8::Context;
+ using v8::Function;
+@@ -15,6 +15,57 @@ using v8::SealHandleScope;
+ 
+ namespace node {
+ 
++/**
++ * Spin the event loop until there are no pending callbacks or
++ * the condition returns false.
++ * Returns false if the environment died and true if the environment is
++ * reusable.
++ */
++bool SpinEventLoopWithoutCleanup(Environment* env,
++                                 const std::function<bool(void)>& condition) {
++  CHECK_NOT_NULL(env);
++  MultiIsolatePlatform* platform = GetMultiIsolatePlatform(env);
++  CHECK_NOT_NULL(platform);
++
++  Isolate* isolate = env->isolate();
++  HandleScope handle_scope(isolate);
++  Context::Scope context_scope(env->context());
++  SealHandleScope seal(isolate);
++
++  if (env->is_stopping()) return false;
++
++  env->set_trace_sync_io(env->options()->trace_sync_io);
++  bool more;
++  env->performance_state()->Mark(
++      node::performance::NODE_PERFORMANCE_MILESTONE_LOOP_START);
++  do {
++    if (env->is_stopping()) return false;
++    int loop;
++    do {
++      loop = uv_run(env->event_loop(), UV_RUN_ONCE);
++    } while (loop && condition() && !env->is_stopping());
++    if (env->is_stopping()) return false;
++
++    platform->DrainTasks(isolate);
++
++    more = uv_loop_alive(env->event_loop());
++  } while (more);
++  env->performance_state()->Mark(
++      node::performance::NODE_PERFORMANCE_MILESTONE_LOOP_EXIT);
++  env->set_trace_sync_io(false);
++  return true;
++}
++
++static const auto AlwaysTrue = []() { return true; };
++bool SpinEventLoopWithoutCleanup(Environment* env) {
++  return SpinEventLoopWithoutCleanup(env, AlwaysTrue);
++}
++
++/**
++ * Spin the event loop until there are no pending callbacks and
++ * then shutdown the environment. Returns a reference to the
++ * exit value or an empty reference on unexpected exit.
++ */
+ Maybe<int> SpinEventLoop(Environment* env) {
+   CHECK_NOT_NULL(env);
+   MultiIsolatePlatform* platform = GetMultiIsolatePlatform(env);
+@@ -30,20 +81,11 @@ Maybe<int> SpinEventLoop(Environment* en
+   env->set_trace_sync_io(env->options()->trace_sync_io);
+   {
+     bool more;
+-    env->performance_state()->Mark(
+-        node::performance::NODE_PERFORMANCE_MILESTONE_LOOP_START);
+-    do {
+-      if (env->is_stopping()) break;
+-      uv_run(env->event_loop(), UV_RUN_DEFAULT);
+-      if (env->is_stopping()) break;
+-
+-      platform->DrainTasks(isolate);
+ 
+-      more = uv_loop_alive(env->event_loop());
+-      if (more && !env->is_stopping()) continue;
++    do {
++      if (!SpinEventLoopWithoutCleanup(env)) break;
+ 
+-      if (EmitProcessBeforeExit(env).IsNothing())
+-        break;
++      if (EmitProcessBeforeExit(env).IsNothing()) break;
+ 
+       {
+         HandleScope handle_scope(isolate);
+@@ -52,16 +94,12 @@ Maybe<int> SpinEventLoop(Environment* en
+         }
+       }
+ 
+-      // Emit `beforeExit` if the loop became alive either after emitting
+-      // event, or after running some callbacks.
++      // Loop if after `beforeExit` the loop became alive
+       more = uv_loop_alive(env->event_loop());
+     } while (more == true && !env->is_stopping());
+-    env->performance_state()->Mark(
+-        node::performance::NODE_PERFORMANCE_MILESTONE_LOOP_EXIT);
+   }
+   if (env->is_stopping()) return Nothing<int>();
+ 
+-  env->set_trace_sync_io(false);
+   // Clear the serialize callback even though the JS-land queue should
+   // be empty this point so that the deserialized instance won't
+   // attempt to call into JS again.
+@@ -86,7 +124,7 @@ CommonEnvironmentSetup::CommonEnvironmen
+     MultiIsolatePlatform* platform,
+     std::vector<std::string>* errors,
+     std::function<Environment*(const CommonEnvironmentSetup*)> make_env)
+-  : impl_(new Impl()) {
++    : impl_(new Impl()) {
+   CHECK_NOT_NULL(platform);
+   CHECK_NOT_NULL(errors);
+ 
+@@ -109,8 +147,8 @@ CommonEnvironmentSetup::CommonEnvironmen
+   {
+     Locker locker(isolate);
+     Isolate::Scope isolate_scope(isolate);
+-    impl_->isolate_data.reset(CreateIsolateData(
+-        isolate, loop, platform, impl_->allocator.get()));
++    impl_->isolate_data.reset(
++        CreateIsolateData(isolate, loop, platform, impl_->allocator.get()));
+ 
+     HandleScope handle_scope(isolate);
+     Local<Context> context = NewContext(isolate);
+@@ -145,8 +183,7 @@ CommonEnvironmentSetup::~CommonEnvironme
+     isolate->Dispose();
+ 
+     // Wait until the platform has cleaned up all relevant resources.
+-    while (!platform_finished)
+-      uv_run(&impl_->loop, UV_RUN_ONCE);
++    while (!platform_finished) uv_run(&impl_->loop, UV_RUN_ONCE);
+   }
+ 
+   if (impl_->isolate || impl_->loop.data != nullptr)
+@@ -155,7 +192,6 @@ CommonEnvironmentSetup::~CommonEnvironme
+   delete impl_;
+ }
+ 
+-
+ uv_loop_t* CommonEnvironmentSetup::event_loop() const {
+   return &impl_->loop;
+ }
+Index: node-18.8.0/src/js_native_api.h
+===================================================================
+--- node-18.8.0.orig/src/js_native_api.h
++++ node-18.8.0/src/js_native_api.h
+@@ -102,6 +102,34 @@ node_api_symbol_for(napi_env env,
+                     size_t length,
+                     napi_value* result);
+ #endif  // NAPI_EXPERIMENTAL
++
++#ifdef NAPI_EMBEDDING
++NAPI_EXTERN napi_status NAPI_CDECL napi_create_platform(int argc,
++                                                        char** argv,
++                                                        int exec_argc,
++                                                        char** exec_argv,
++                                                        char*** errors,
++                                                        int thread_pool_size,
++                                                        napi_platform* result);
++
++NAPI_EXTERN napi_status NAPI_CDECL
++napi_destroy_platform(napi_platform platform);
++
++NAPI_EXTERN napi_status NAPI_CDECL
++napi_create_environment(napi_platform platform,
++                        char*** errors,
++                        const char* main_script,
++                        napi_env* result);
++
++NAPI_EXTERN napi_status NAPI_CDECL napi_run_environment(napi_env env);
++
++NAPI_EXTERN napi_status NAPI_CDECL napi_await_promise(napi_env env,
++                                                      napi_value promise,
++                                                      napi_value* result);
++
++NAPI_EXTERN napi_status NAPI_CDECL napi_destroy_environment(napi_env env,
++                                                            int* exit_code);
++#endif  // NAPI_EMBEDDING
+ NAPI_EXTERN napi_status NAPI_CDECL napi_create_function(napi_env env,
+                                                         const char* utf8name,
+                                                         size_t length,
+Index: node-18.8.0/src/js_native_api_types.h
+===================================================================
+--- node-18.8.0.orig/src/js_native_api_types.h
++++ node-18.8.0/src/js_native_api_types.h
+@@ -28,6 +28,8 @@ typedef struct napi_handle_scope__* napi
+ typedef struct napi_escapable_handle_scope__* napi_escapable_handle_scope;
+ typedef struct napi_callback_info__* napi_callback_info;
+ typedef struct napi_deferred__* napi_deferred;
++typedef struct napi_deferred__* napi_deferred;
++typedef struct napi_platform__* napi_platform;
+ 
+ typedef enum {
+   napi_default = 0,
+Index: node-18.8.0/src/js_native_api_v8.cc
+===================================================================
+--- node-18.8.0.orig/src/js_native_api_v8.cc
++++ node-18.8.0/src/js_native_api_v8.cc
+@@ -2,9 +2,11 @@
+ #include <climits>  // INT_MAX
+ #include <cmath>
+ #define NAPI_EXPERIMENTAL
++#define NAPI_EMBEDDING
+ #include "env-inl.h"
+ #include "js_native_api.h"
+ #include "js_native_api_v8.h"
++#include "node_api_internals.h"
+ #include "util-inl.h"
+ 
+ #define CHECK_MAYBE_NOTHING(env, maybe, status)                                \
+@@ -110,6 +112,46 @@ inline static v8impl::Persistent<v8::Val
+   return reinterpret_cast<v8impl::Persistent<v8::Value>*>(local);
+ }
+ 
++struct PlatformWrapper {
++  explicit PlatformWrapper(int argc,
++                           char** argv,
++                           int exec_argc,
++                           char** exec_argv)
++      : args(argv, argv + argc), exec_args(exec_argv, exec_argv + exec_argc) {}
++  std::unique_ptr<node::MultiIsolatePlatform> platform;
++  std::vector<std::string> args;
++  std::vector<std::string> exec_args;
++};
++
++class EmbeddedEnvironment : public node::EmbeddedEnvironment {
++ public:
++  explicit EmbeddedEnvironment(
++      std::unique_ptr<node::CommonEnvironmentSetup>&& setup)
++      : setup_(std::move(setup)),
++        locker_(setup_->isolate()),
++        isolate_scope_(setup_->isolate()),
++        handle_scope_(setup_->isolate()),
++        context_scope_(setup_->context()),
++        seal_scope_(nullptr) {}
++
++  inline node::CommonEnvironmentSetup* setup() { return setup_.get(); }
++  inline void seal() {
++    seal_scope_ =
++        std::make_unique<node::DebugSealHandleScope>(setup_->isolate());
++  }
++
++ private:
++  std::unique_ptr<node::CommonEnvironmentSetup> setup_;
++  v8::Locker locker_;
++  v8::Isolate::Scope isolate_scope_;
++  v8::HandleScope handle_scope_;
++  v8::Context::Scope context_scope_;
++  // As this handle scope will remain open for the lifetime
++  // of the environment, we seal it to prevent it from
++  // becoming everyone's favorite trash bin
++  std::unique_ptr<node::DebugSealHandleScope> seal_scope_;
++};
++
+ class HandleScopeWrapper {
+  public:
+   explicit HandleScopeWrapper(v8::Isolate* isolate) : scope(isolate) {}
+@@ -775,6 +817,185 @@ napi_status NAPI_CDECL napi_get_last_err
+   return napi_ok;
+ }
+ 
++#define HANDLE_ERRORS_VECTOR(errors, vec)                                      \
++  {                                                                            \
++    if (errors == nullptr) {                                                   \
++      for (const std::string& error : vec)                                     \
++        fprintf(stderr, "%s\n", error.c_str());                                \
++    } else {                                                                   \
++      *errors = node::Malloc<char*>(vec.size() + 1);                           \
++      if (errors == nullptr) return napi_generic_failure;                      \
++      char** cur_error = *errors;                                              \
++      for (const std::string& error : vec) {                                   \
++        *(cur_error++) = strdup(error.c_str());                                \
++      }                                                                        \
++      *cur_error = nullptr;                                                    \
++    }                                                                          \
++  }
++
++napi_status NAPI_CDECL napi_create_platform(int argc,
++                                            char** argv,
++                                            int exec_argc,
++                                            char** exec_argv,
++                                            char*** errors,
++                                            int thread_pool_size,
++                                            napi_platform* result) {
++  argv = uv_setup_args(argc, argv);
++  std::vector<std::string> errors_vec;
++
++  v8impl::PlatformWrapper* platform =
++      new v8impl::PlatformWrapper(argc, argv, exec_argc, exec_argv);
++  if (platform->args.size() < 1) platform->args.push_back("libnode");
++
++  int exit_code = node::InitializeNodeWithArgs(
++      &platform->args, &platform->exec_args, &errors_vec);
++
++  HANDLE_ERRORS_VECTOR(errors, errors_vec);
++
++  if (exit_code != 0) {
++    return napi_generic_failure;
++  }
++
++  if (thread_pool_size <= 0)
++    thread_pool_size = node::per_process::cli_options->v8_thread_pool_size;
++
++  platform->platform = node::MultiIsolatePlatform::Create(thread_pool_size);
++  v8::V8::InitializePlatform(platform->platform.get());
++  v8::V8::Initialize();
++  *result = reinterpret_cast<napi_platform>(platform);
++  return napi_ok;
++}
++
++napi_status NAPI_CDECL napi_destroy_platform(napi_platform platform) {
++  auto wrapper = reinterpret_cast<v8impl::PlatformWrapper*>(platform);
++  v8::V8::Dispose();
++  v8::V8::DisposePlatform();
++
++  // The node::CommonEnvironmentSetup::Create uniq_ptr is destroyed here
++  delete wrapper;
++  return napi_ok;
++}
++
++napi_status NAPI_CDECL napi_create_environment(napi_platform platform,
++                                               char*** errors,
++                                               const char* main_script,
++                                               napi_env* result) {
++  auto wrapper = reinterpret_cast<v8impl::PlatformWrapper*>(platform);
++  std::vector<std::string> errors_vec;
++
++  auto setup = node::CommonEnvironmentSetup::Create(
++      wrapper->platform.get(), &errors_vec, wrapper->args, wrapper->exec_args);
++  if (setup == nullptr) {
++    HANDLE_ERRORS_VECTOR(errors, errors_vec);
++    return napi_generic_failure;
++  }
++  auto emb_env = new v8impl::EmbeddedEnvironment(std::move(setup));
++
++  std::string filename =
++      wrapper->args.size() > 1 ? wrapper->args[1] : "<internal>";
++  auto env__ = new node_napi_env__(emb_env->setup()->context(), filename);
++  emb_env->setup()->env()->set_embedded(emb_env);
++  env__->node_env()->AddCleanupHook(
++      [](void* arg) { static_cast<napi_env>(arg)->Unref(); },
++      static_cast<void*>(env__));
++
++  auto env = emb_env->setup()->env();
++  if (main_script == nullptr) main_script = "";
++
++  auto path = v8::String::NewFromUtf8(emb_env->setup()->isolate(),
++                                      env->exec_path().c_str())
++                  .ToLocalChecked();
++
++  std::vector<v8::Local<v8::Value>> bootstrap_args = {
++      env->process_object(),
++      env->builtin_module_require(),
++      env->internal_binding_loader(),
++      env->primordials(),
++      path};
++
++  auto ret = node::ExecuteBootstrapper(
++      env, "internal/bootstrap/switches/is_embedded_env", &bootstrap_args);
++  if (ret.IsEmpty()) return napi_pending_exception;
++
++  ret = node::LoadEnvironment(env, main_script);
++  if (ret.IsEmpty()) return napi_pending_exception;
++
++  *result = env__;
++  emb_env->seal();
++
++  return napi_ok;
++}
++
++napi_status NAPI_CDECL napi_destroy_environment(napi_env env, int* exit_code) {
++  CHECK_ARG(env, env);
++  node_napi_env node_env = reinterpret_cast<node_napi_env>(env);
++
++  int r = node::SpinEventLoop(node_env->node_env()).FromMaybe(1);
++  if (exit_code != nullptr) *exit_code = r;
++  node::Stop(node_env->node_env());
++
++  auto emb_env = reinterpret_cast<v8impl::EmbeddedEnvironment*>(
++      node_env->node_env()->get_embedded());
++  node_env->node_env()->set_embedded(nullptr);
++  // This deletes the uniq_ptr to node::CommonEnvironmentSetup
++  // and the v8::locker
++  delete emb_env;
++
++  return napi_ok;
++}
++
++napi_status NAPI_CDECL napi_run_environment(napi_env env) {
++  CHECK_ARG(env, env);
++  node_napi_env node_env = reinterpret_cast<node_napi_env>(env);
++
++  bool r = node::SpinEventLoopWithoutCleanup(node_env->node_env());
++  if (!r) return napi_closing;
++
++  return napi_ok;
++}
++
++static void napi_promise_error_handler(
++    const v8::FunctionCallbackInfo<v8::Value>& info) {
++  return;
++}
++
++napi_status napi_await_promise(napi_env env,
++                               napi_value promise,
++                               napi_value* result) {
++  NAPI_PREAMBLE(env);
++  CHECK_ARG(env, result);
++
++  v8::EscapableHandleScope scope(env->isolate);
++  node_napi_env node_env = reinterpret_cast<node_napi_env>(env);
++
++  v8::Local<v8::Value> promise_value = v8impl::V8LocalValueFromJsValue(promise);
++  if (promise_value.IsEmpty() || !promise_value->IsPromise())
++    return napi_invalid_arg;
++  v8::Local<v8::Promise> promise_object = promise_value.As<v8::Promise>();
++
++  v8::Local<v8::Value> rejected = v8::Boolean::New(env->isolate, false);
++  v8::Local<v8::Function> err_handler =
++      v8::Function::New(env->context(), napi_promise_error_handler, rejected)
++          .ToLocalChecked();
++
++  if (promise_object->Catch(env->context(), err_handler).IsEmpty())
++    return napi_pending_exception;
++
++  bool r = node::SpinEventLoopWithoutCleanup(
++      node_env->node_env(), [&promise_object]() {
++        return promise_object->State() == v8::Promise::PromiseState::kPending;
++      });
++
++  if (!r) return napi_closing;
++
++  *result =
++      v8impl::JsValueFromV8LocalValue(scope.Escape(promise_object->Result()));
++  if (promise_object->State() == v8::Promise::PromiseState::kRejected)
++    return napi_pending_exception;
++
++  return napi_ok;
++}
++
+ napi_status NAPI_CDECL napi_create_function(napi_env env,
+                                             const char* utf8name,
+                                             size_t length,
+Index: node-18.8.0/src/node.h
+===================================================================
+--- node-18.8.0.orig/src/node.h
++++ node-18.8.0/src/node.h
+@@ -573,14 +573,26 @@ NODE_EXTERN struct uv_loop_s* GetCurrent
+ 
+ // Runs the main loop for a given Environment. This roughly performs the
+ // following steps:
+-// 1. Call uv_run() on the event loop until it is drained.
++// 1. Call uv_run() on the event loop until it is drained or the optional
++//   condition returns false.
+ // 2. Call platform->DrainTasks() on the associated platform/isolate.
+ //   3. If the event loop is alive again, go to Step 1.
+-// 4. Call EmitProcessBeforeExit().
+-//   5. If the event loop is alive again, go to Step 1.
+-// 6. Call EmitProcessExit() and forward the return value.
++// Returns false if the environment died and true if it can be reused.
++// This function only works if `env` has an associated `MultiIsolatePlatform`.
++bool SpinEventLoopWithoutCleanup(Environment* env,
++                                 const std::function<bool(void)>& condition);
++bool SpinEventLoopWithoutCleanup(Environment* env);
++
++// Runs the main loop for a given Environment and performs environment
++// shutdown when the loop exits. This roughly performs the
++// following steps:
++// 1. Call SpinEventLoopWithoutCleanup()
++// 2. Call EmitProcessBeforeExit().
++//   3. If the event loop is alive again, go to Step 1.
++// 4. Call EmitProcessExit() and forward the return value.
+ // If at any point node::Stop() is called, the function will attempt to return
+-// as soon as possible, returning an empty `Maybe`.
++// as soon as possible, returning an empty `Maybe`. Ohterwise it will return
++// a reference to the exit value.
+ // This function only works if `env` has an associated `MultiIsolatePlatform`.
+ NODE_EXTERN v8::Maybe<int> SpinEventLoop(Environment* env);
+ 
+Index: node-18.8.0/test/embedding/cjs.cjs
+===================================================================
+--- /dev/null
++++ node-18.8.0/test/embedding/cjs.cjs
+@@ -0,0 +1,3 @@
++module.exports = {
++    value: "original"
++};
+Index: node-18.8.0/test/embedding/es6.mjs
+===================================================================
+--- /dev/null
++++ node-18.8.0/test/embedding/es6.mjs
+@@ -0,0 +1 @@
++export const value = 'genuine';
+Index: node-18.8.0/test/embedding/napi_embedding.c
+===================================================================
+--- /dev/null
++++ node-18.8.0/test/embedding/napi_embedding.c
+@@ -0,0 +1,260 @@
++#define NAPI_EXPERIMENTAL
++#define NAPI_EMBEDDING
++#include <assert.h>
++#include <node_api.h>
++
++#include <stdio.h>
++#include <string.h>
++
++// Note: This file is being referred to from doc/api/embedding.md, and excerpts
++// from it are included in the documentation. Try to keep these in sync.
++
++static int RunNodeInstance(napi_platform platform);
++
++const char* main_script =
++    "const publicRequire ="
++    "  require('module').createRequire(process.cwd() + '/');"
++    "globalThis.require = publicRequire;"
++    "globalThis.embedVars = { nön_ascıı: '🏳️‍🌈' };"
++    "require('vm').runInThisContext(process.argv[1]);";
++
++#define CHECK(test, msg)                                                       \
++  if (test != napi_ok) {                                                       \
++    fprintf(stderr, "%s\n", msg);                                              \
++    goto fail;                                                                 \
++  }
++
++int main(int argc, char** argv) {
++  napi_platform platform;
++
++  CHECK(napi_create_platform(argc, argv, 0, NULL, NULL, 0, &platform),
++        "Failed creating the platform");
++
++  int exit_code = RunNodeInstance(platform);
++
++  CHECK(napi_destroy_platform(platform), "Failed destroying the platform");
++
++  return exit_code;
++fail:
++  return -1;
++}
++
++int callMe(napi_env env) {
++  napi_handle_scope scope;
++  napi_value global;
++  napi_value cb;
++  napi_value key;
++
++  napi_open_handle_scope(env, &scope);
++
++  CHECK(napi_get_global(env, &global), "Failed accessing the global object");
++
++  CHECK(napi_create_string_utf8(env, "callMe", strlen("callMe"), &key),
++        "create string");
++
++  CHECK(napi_get_property(env, global, key, &cb),
++        "Failed accessing the global object");
++
++  napi_valuetype cb_type;
++  CHECK(napi_typeof(env, cb, &cb_type), "Failed accessing the global object");
++
++  if (cb_type == napi_function) {
++    napi_value undef;
++    napi_get_undefined(env, &undef);
++    napi_value arg;
++    napi_create_string_utf8(env, "called", strlen("called"), &arg);
++    napi_value result;
++    napi_call_function(env, undef, cb, 1, &arg, &result);
++
++    char buf[32];
++    size_t len;
++    napi_get_value_string_utf8(env, result, buf, 32, &len);
++    if (strncmp(buf, "called you", strlen("called you"))) {
++      fprintf(stderr, "Invalid value received: %s\n", buf);
++      goto fail;
++    }
++    printf("%s", buf);
++  } else if (cb_type != napi_undefined) {
++    fprintf(stderr, "Invalid callMe value\n");
++    goto fail;
++  }
++
++  napi_value object;
++  CHECK(napi_create_object(env, &object), "Failed creating an object\n");
++
++  napi_close_handle_scope(env, scope);
++  return 0;
++
++fail:
++  napi_close_handle_scope(env, scope);
++  return -1;
++}
++
++char callback_buf[32];
++size_t callback_buf_len;
++napi_value c_cb(napi_env env, napi_callback_info info) {
++  napi_handle_scope scope;
++  size_t argc = 1;
++  napi_value arg;
++  napi_value undef;
++
++  napi_open_handle_scope(env, &scope);
++  napi_get_cb_info(env, info, &argc, &arg, NULL, NULL);
++
++  napi_get_value_string_utf8(env, arg, callback_buf, 32, &callback_buf_len);
++  napi_get_undefined(env, &undef);
++  napi_close_handle_scope(env, scope);
++  return undef;
++}
++
++int waitMe(napi_env env) {
++  napi_handle_scope scope;
++  napi_value global;
++  napi_value cb;
++  napi_value key;
++
++  napi_open_handle_scope(env, &scope);
++
++  CHECK(napi_get_global(env, &global), "Failed accessing the global object");
++
++  napi_create_string_utf8(env, "waitMe", strlen("waitMe"), &key);
++
++  CHECK(napi_get_property(env, global, key, &cb),
++        "Failed accessing the global object");
++
++  napi_valuetype cb_type;
++  CHECK(napi_typeof(env, cb, &cb_type), "Failed accessing the global object");
++
++  if (cb_type == napi_function) {
++    napi_value undef;
++    napi_get_undefined(env, &undef);
++    napi_value args[2];
++    napi_create_string_utf8(env, "waited", strlen("waited"), &args[0]);
++    CHECK(napi_create_function(
++              env, "wait_cb", strlen("wait_cb"), c_cb, NULL, &args[1]),
++          "Failed creating function");
++
++    napi_value result;
++    memset(callback_buf, 0, 32);
++    napi_call_function(env, undef, cb, 2, args, &result);
++    if (!strncmp(callback_buf, "waited you", strlen("waited you"))) {
++      fprintf(stderr, "Anachronism detected: %s\n", callback_buf);
++      goto fail;
++    }
++
++    CHECK(napi_run_environment(env), "Failed spinning the event loop");
++
++    if (strncmp(callback_buf, "waited you", strlen("waited you"))) {
++      fprintf(stderr, "Invalid value received: %s\n", callback_buf);
++      goto fail;
++    }
++    printf("%s", callback_buf);
++  } else if (cb_type != napi_undefined) {
++    fprintf(stderr, "Invalid waitMe value\n");
++    goto fail;
++  }
++
++  napi_close_handle_scope(env, scope);
++  return 0;
++
++fail:
++  napi_close_handle_scope(env, scope);
++  return -1;
++}
++
++int waitMeWithCheese(napi_env env) {
++  napi_handle_scope scope;
++  napi_value global;
++  napi_value cb;
++  napi_value key;
++
++  napi_open_handle_scope(env, &scope);
++
++  CHECK(napi_get_global(env, &global), "Failed accessing the global object");
++
++  napi_create_string_utf8(env, "waitPromise", strlen("waitPromise"), &key);
++
++  CHECK(napi_get_property(env, global, key, &cb),
++        "Failed accessing the global object");
++
++  napi_valuetype cb_type;
++  CHECK(napi_typeof(env, cb, &cb_type), "Failed accessing the global object");
++
++  if (cb_type == napi_function) {
++    napi_value undef;
++    napi_get_undefined(env, &undef);
++    napi_value arg;
++    bool result_type;
++
++    napi_create_string_utf8(env, "waited", strlen("waited"), &arg);
++
++    memset(callback_buf, 0, 32);
++    napi_value promise;
++    napi_value result;
++    CHECK(napi_call_function(env, undef, cb, 1, &arg, &promise),
++          "Failed evaluating the function");
++
++    if (!strncmp(
++            callback_buf, "waited with cheese", strlen("waited with cheese"))) {
++      fprintf(stderr, "Anachronism detected: %s\n", callback_buf);
++      goto fail;
++    }
++
++    CHECK(napi_is_promise(env, promise, &result_type),
++          "Failed evaluating the result");
++
++    if (!result_type) {
++      fprintf(stderr, "Result is not a Promise\n");
++      goto fail;
++    }
++
++    napi_status r = napi_await_promise(env, promise, &result);
++    if (r != napi_ok && r != napi_pending_exception) {
++      fprintf(stderr, "Failed awaiting promise: %d\n", r);
++      goto fail;
++    }
++
++    const char* expected;
++    if (r == napi_ok)
++      expected = "waited with cheese";
++    else
++      expected = "waited without cheese";
++
++    napi_get_value_string_utf8(
++        env, result, callback_buf, 32, &callback_buf_len);
++    if (strncmp(callback_buf, expected, strlen(expected))) {
++      fprintf(stderr, "Invalid value received: %s\n", callback_buf);
++      goto fail;
++    }
++    printf("%s", callback_buf);
++  } else if (cb_type != napi_undefined) {
++    fprintf(stderr, "Invalid waitPromise value\n");
++    goto fail;
++  }
++
++  napi_close_handle_scope(env, scope);
++  return 0;
++
++fail:
++  napi_close_handle_scope(env, scope);
++  return -1;
++}
++
++int RunNodeInstance(napi_platform platform) {
++  napi_env env;
++  int exit_code;
++
++  CHECK(napi_create_environment(platform, NULL, main_script, &env),
++        "Failed running JS");
++
++  if (callMe(env) != 0) exit_code = -1;
++  if (waitMe(env) != 0) exit_code = -1;
++  if (waitMeWithCheese(env) != 0) exit_code = -1;
++
++  CHECK(napi_destroy_environment(env, &exit_code), "napi_destroy_environment");
++
++  return exit_code;
++
++fail:
++  return -1;
++}
+Index: node-18.8.0/test/embedding/test-napi-embedding.js
+===================================================================
+--- /dev/null
++++ node-18.8.0/test/embedding/test-napi-embedding.js
+@@ -0,0 +1,75 @@
++'use strict';
++const common = require('../common');
++const fixtures = require('../common/fixtures');
++const assert = require('assert');
++const child_process = require('child_process');
++const path = require('path');
++
++common.allowGlobals(global.require);
++common.allowGlobals(global.embedVars);
++common.allowGlobals(global.import);
++common.allowGlobals(global.module);
++let binary = `out/${common.buildType}/napi_embedding`;
++if (common.isWindows) {
++  binary += '.exe';
++}
++binary = path.resolve(__dirname, '..', '..', binary);
++
++assert.strictEqual(
++  child_process.spawnSync(binary, ['console.log(42)'])
++    .stdout.toString().trim(),
++  '42');
++
++assert.strictEqual(
++  child_process.spawnSync(binary, ['console.log(embedVars.nön_ascıı)'])
++    .stdout.toString().trim(),
++  '🏳️‍🌈');
++
++assert.strictEqual(
++  child_process.spawnSync(binary, ['console.log(42)'])
++    .stdout.toString().trim(),
++  '42');
++
++assert.strictEqual(
++  child_process.spawnSync(binary, ['throw new Error()']).status,
++  1);
++
++assert.strictEqual(
++  child_process.spawnSync(binary, ['process.exitCode = 8']).status,
++  8);
++
++
++const fixturePath = JSON.stringify(fixtures.path('exit.js'));
++assert.strictEqual(
++  child_process.spawnSync(binary, [`require(${fixturePath})`, 92]).status,
++  92);
++
++assert.strictEqual(
++  child_process.spawnSync(binary, ['function callMe(text) { return text + " you"; }'])
++    .stdout.toString().trim(),
++  'called you');
++
++assert.strictEqual(
++  child_process.spawnSync(binary, ['function waitMe(text, cb) { setTimeout(() => cb(text + " you"), 1); }'])
++    .stdout.toString().trim(),
++  'waited you');
++
++assert.strictEqual(
++  child_process.spawnSync(binary,
++                          ['function waitPromise(text)' +
++      '{ return new Promise((res) => setTimeout(() => res(text + " with cheese"), 1)); }'])
++    .stdout.toString().trim(),
++  'waited with cheese');
++
++assert.strictEqual(
++  child_process.spawnSync(binary,
++                          ['function waitPromise(text)' +
++      '{ return new Promise((res, rej) => setTimeout(() => rej(text + " without cheese"), 1)); }'])
++    .stdout.toString().trim(),
++  'waited without cheese');
++
++assert.match(
++  child_process.spawnSync(binary,
++                          ['0syntax_error'])
++    .stderr.toString().trim(),
++  /SyntaxError: Invalid or unexpected token/);
+Index: node-18.8.0/test/embedding/.eslintrc.yaml
+===================================================================
+--- /dev/null
++++ node-18.8.0/test/embedding/.eslintrc.yaml
+@@ -0,0 +1,3 @@
++rules:
++  node-core/required-modules: off
++  node-core/require-common-first: off
+Index: node-18.8.0/test/embedding/napi_modules.c
+===================================================================
+--- /dev/null
++++ node-18.8.0/test/embedding/napi_modules.c
+@@ -0,0 +1,81 @@
++#include <stdio.h>
++#include <string.h>
++#define NAPI_EXPERIMENTAL
++#define NAPI_EMBEDDING
++#include <node_api.h>
++
++#define CHECK(op, msg)                                                         \
++  if (op != napi_ok) {                                                         \
++    fprintf(stderr, "Failed: %s\n", msg);                                              \
++    return -1;                                                                 \
++  }
++
++int main(int argc, char* argv[]) {
++  napi_platform platform;
++
++  if (argc < 3) {
++    fprintf(stderr, "napi_modules <cjs.cjs> <es6.mjs>\n");
++    return -2;
++  }
++
++  CHECK(napi_create_platform(0, NULL, 0, NULL, NULL, 0, &platform),
++        "Failed creating the platform");
++
++  napi_env env;
++  CHECK(napi_create_environment(platform, NULL, NULL, &env),
++        "Failed running JS");
++
++  napi_handle_scope scope;
++  CHECK(napi_open_handle_scope(env, &scope), "Failed creating a scope");
++
++  napi_value global, import_name, require_name, import, require, cjs, es6,
++      value;
++  CHECK(napi_get_global(env, &global), "napi_get_global");
++  CHECK(napi_create_string_utf8(env, "import", strlen("import"), &import_name),
++        "create_string");
++  CHECK(
++      napi_create_string_utf8(env, "require", strlen("require"), &require_name),
++      "create_string");
++  CHECK(napi_get_property(env, global, import_name, &import), "import");
++  CHECK(napi_get_property(env, global, require_name, &require), "require");
++
++  CHECK(napi_create_string_utf8(env, argv[1], strlen(argv[1]), &cjs),
++        "create_string");
++  CHECK(napi_create_string_utf8(env, argv[2], strlen(argv[2]), &es6),
++        "create_string");
++  CHECK(napi_create_string_utf8(env, "value", strlen("value"), &value),
++        "create_string");
++
++  napi_value es6_module, es6_promise, cjs_module, es6_result, cjs_result;
++  char buffer[32];
++  size_t bufferlen;
++
++  CHECK(napi_call_function(env, global, import, 1, &es6, &es6_promise),
++        "import");
++  napi_await_promise(env, es6_promise, &es6_module);
++  
++  CHECK(napi_get_property(env, es6_module, value, &es6_result), "value");
++  CHECK(napi_get_value_string_utf8(
++            env, es6_result, buffer, sizeof(buffer), &bufferlen),
++        "string");
++  if (strncmp(buffer, "genuine", bufferlen)) {
++    fprintf(stderr, "Unexpected value: %s\n", buffer);
++    return -1;
++  }
++
++  CHECK(napi_call_function(env, global, require, 1, &cjs, &cjs_module),
++        "require");
++  CHECK(napi_get_property(env, cjs_module, value, &cjs_result), "value");
++  CHECK(napi_get_value_string_utf8(
++            env, cjs_result, buffer, sizeof(buffer), &bufferlen),
++        "string");
++  if (strncmp(buffer, "original", bufferlen)) {
++    fprintf(stderr, "Unexpected value: %s\n", buffer);
++    return -1;
++  }
++
++  CHECK(napi_close_handle_scope(env, scope), "Failed destroying handle scope");
++  CHECK(napi_destroy_environment(env, NULL), "destroy");
++  CHECK(napi_destroy_platform(platform), "Failed destroying the platform");
++  return 0;
++}
+Index: node-18.8.0/deps/uv/src/unix/core.c
+===================================================================
+--- node-18.8.0.orig/deps/uv/src/unix/core.c
++++ node-18.8.0/deps/uv/src/unix/core.c
+@@ -377,7 +377,6 @@ int uv_run(uv_loop_t* loop, uv_run_mode
+ 
+   while (r != 0 && loop->stop_flag == 0) {
+     uv__update_time(loop);
+-    uv__run_timers(loop);
+     ran_pending = uv__run_pending(loop);
+     uv__run_idle(loop);
+     uv__run_prepare(loop);
+@@ -395,22 +394,11 @@ int uv_run(uv_loop_t* loop, uv_run_mode
+      */
+     uv__metrics_update_idle_time(loop);
+ 
++    uv__run_timers(loop);
++    
+     uv__run_check(loop);
+     uv__run_closing_handles(loop);
+ 
+-    if (mode == UV_RUN_ONCE) {
+-      /* UV_RUN_ONCE implies forward progress: at least one callback must have
+-       * been invoked when it returns. uv__io_poll() can return without doing
+-       * I/O (meaning: no callbacks) when its timeout expires - which means we
+-       * have pending timers that satisfy the forward progress constraint.
+-       *
+-       * UV_RUN_NOWAIT makes no guarantees about progress so it's omitted from
+-       * the check.
+-       */
+-      uv__update_time(loop);
+-      uv__run_timers(loop);
+-    }
+-
+     r = uv__loop_alive(loop);
+     if (mode == UV_RUN_ONCE || mode == UV_RUN_NOWAIT)
+       break;
+Index: node-18.8.0/test/sequential/test-timers-block-eventloop.js
+===================================================================
+--- node-18.8.0.orig/test/sequential/test-timers-block-eventloop.js
++++ node-18.8.0/test/sequential/test-timers-block-eventloop.js
+@@ -7,6 +7,8 @@ const { sleep } = require('internal/util
+ 
+ let called = false;
+ const t1 = setInterval(() => {
++  // Temporarily disable this test until there is a solution for
++  // https://github.com/libuv/libuv/issues/3686
+   assert(!called);
+   called = true;
+   setImmediate(common.mustCall(() => {
+Index: node-18.8.0/lib/internal/bootstrap/switches/is_embedded_env.js
+===================================================================
+--- /dev/null
++++ node-18.8.0/lib/internal/bootstrap/switches/is_embedded_env.js
+@@ -0,0 +1,21 @@
++'use strict';
++
++// This is the bootstrapping code used when creating a new environment
++// through N-API
++
++// Set up globalThis.require and globalThis.import so that they can
++// be easily accessed from C/C++
++
++/* global path, primordials, process, GetLinkedBinding, GetInternalBinding */
++
++const { globalThis, ObjectCreate } = primordials;
++const CJSLoader = require('internal/modules/cjs/loader');
++const ESMLoader = require('internal/modules/esm/loader').ESMLoader;
++
++globalThis.module = new CJSLoader.Module();
++globalThis.require = require('module').createRequire(path);
++
++const internalLoader = new ESMLoader();
++const parent_path = require('url').pathToFileURL(path);
++globalThis.import = (mod) => internalLoader.import(mod, parent_path, ObjectCreate(null));
++globalThis.import.meta = { url: parent_path };
+Index: node-18.8.0/src/env-inl.h
+===================================================================
+--- node-18.8.0.orig/src/env-inl.h
++++ node-18.8.0/src/env-inl.h
+@@ -637,6 +637,10 @@ inline bool Environment::is_main_thread(
+   return worker_context() == nullptr;
+ }
+ 
++inline bool Environment::is_embedded_env() const {
++  return embedded_ != nullptr;
++}
++
+ inline bool Environment::no_native_addons() const {
+   return (flags_ & EnvironmentFlags::kNoNativeAddons) ||
+           !options_->allow_native_addons;
+@@ -859,6 +863,13 @@ void Environment::set_process_exit_handl
+   process_exit_handler_ = std::move(handler);
+ }
+ 
++inline EmbeddedEnvironment* Environment::get_embedded() {
++  return embedded_;
++}
++inline void Environment::set_embedded(EmbeddedEnvironment* env) {
++  embedded_ = env;
++}
++
+ #define VP(PropertyName, StringValue) V(v8::Private, PropertyName)
+ #define VY(PropertyName, StringValue) V(v8::Symbol, PropertyName)
+ #define VS(PropertyName, StringValue) V(v8::String, PropertyName)
+Index: node-18.8.0/src/env.cc
+===================================================================
+--- node-18.8.0.orig/src/env.cc
++++ node-18.8.0/src/env.cc
+@@ -671,7 +671,8 @@ Environment::Environment(IsolateData* is
+       flags_(flags),
+       thread_id_(thread_id.id == static_cast<uint64_t>(-1)
+                      ? AllocateEnvironmentThreadId().id
+-                     : thread_id.id) {
++                     : thread_id.id),
++      embedded_(nullptr) {
+   // We'll be creating new objects so make sure we've entered the context.
+   HandleScope handle_scope(isolate);
+ 
+Index: node-18.8.0/src/env.h
+===================================================================
+--- node-18.8.0.orig/src/env.h
++++ node-18.8.0/src/env.h
+@@ -1021,6 +1021,8 @@ struct SnapshotData {
+   SnapshotData() = default;
+ };
+ 
++class EmbeddedEnvironment {};
++
+ class Environment : public MemoryRetainer {
+  public:
+   Environment(const Environment&) = delete;
+@@ -1254,6 +1256,7 @@ class Environment : public MemoryRetaine
+   inline void set_has_serialized_options(bool has_serialized_options);
+ 
+   inline bool is_main_thread() const;
++  inline bool is_embedded_env() const;
+   inline bool no_native_addons() const;
+   inline bool should_not_register_esm_loader() const;
+   inline bool should_create_inspector() const;
+@@ -1450,6 +1453,9 @@ class Environment : public MemoryRetaine
+   inline void set_process_exit_handler(
+       std::function<void(Environment*, int)>&& handler);
+ 
++  inline EmbeddedEnvironment* get_embedded();
++  inline void set_embedded(EmbeddedEnvironment* env);
++
+   void RunAndClearNativeImmediates(bool only_refed = false);
+   void RunAndClearInterrupts();
+ 
+@@ -1630,6 +1636,9 @@ class Environment : public MemoryRetaine
+   // track of the BackingStore for a given pointer.
+   std::unordered_map<char*, std::unique_ptr<v8::BackingStore>>
+       released_allocated_buffers_;
++
++  // Used for embedded instances
++  EmbeddedEnvironment* embedded_;
+ };
+ 
+ }  // namespace node
+Index: node-18.8.0/src/node_api.cc
+===================================================================
+--- node-18.8.0.orig/src/node_api.cc
++++ node-18.8.0/src/node_api.cc
+@@ -1,6 +1,7 @@
+ #include "async_wrap-inl.h"
+ #include "env-inl.h"
+ #define NAPI_EXPERIMENTAL
++#define NAPI_EMBEDDING
+ #include "js_native_api_v8.h"
+ #include "memory_tracker-inl.h"
+ #include "node_api.h"
+Index: node-18.8.0/src/node_api_internals.h
+===================================================================
+--- node-18.8.0.orig/src/node_api_internals.h
++++ node-18.8.0/src/node_api_internals.h
+@@ -3,6 +3,7 @@
+ 
+ #include "v8.h"
+ #define NAPI_EXPERIMENTAL
++#define NAPI_EMBEDDING
+ #include "env-inl.h"
+ #include "js_native_api_v8.h"
+ #include "node_api.h"
+Index: node-18.8.0/src/node_binding.h
+===================================================================
+--- node-18.8.0.orig/src/node_binding.h
++++ node-18.8.0/src/node_binding.h
+@@ -9,6 +9,7 @@
+ 
+ #include "node.h"
+ #define NAPI_EXPERIMENTAL
++#define NAPI_EMBEDDING
+ #include "node_api.h"
+ #include "uv.h"
+ 
+Index: node-18.8.0/src/node_builtins.cc
+===================================================================
+--- node-18.8.0.orig/src/node_builtins.cc
++++ node-18.8.0/src/node_builtins.cc
+@@ -370,12 +370,13 @@ MaybeLocal<Function> BuiltinLoader::Look
+   } else if (strncmp(id,
+                      "internal/bootstrap/",
+                      strlen("internal/bootstrap/")) == 0) {
+-    // internal/bootstrap/*: process, require, internalBinding, primordials
++    // internal/bootstrap/*: process, require, internalBinding, primordials, path
+     parameters = {
+         FIXED_ONE_BYTE_STRING(isolate, "process"),
+         FIXED_ONE_BYTE_STRING(isolate, "require"),
+         FIXED_ONE_BYTE_STRING(isolate, "internalBinding"),
+         FIXED_ONE_BYTE_STRING(isolate, "primordials"),
++        FIXED_ONE_BYTE_STRING(isolate, "path"),
+     };
+   } else {
+     // others: exports, require, module, process, internalBinding, primordials
+Index: node-18.8.0/test/parallel/test-http-client-response-timeout.js
+===================================================================
+--- node-18.8.0.orig/test/parallel/test-http-client-response-timeout.js
++++ node-18.8.0/test/parallel/test-http-client-response-timeout.js
+@@ -9,6 +9,6 @@ server.listen(common.mustCall(() => {
+     http.get({ port: server.address().port }, common.mustCall((res) => {
+       res.on('timeout', common.mustCall(() => req.destroy()));
+       res.setTimeout(1);
+-      server.close();
++      setTimeout(() => server.close(), 2);
+     }));
+ }));

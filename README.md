@@ -77,6 +77,13 @@ git clone -b napi-libnode-v16.x https://github.com/mmomtchev/node.git
 cd node && ./configure --shared && make -j4
 ```
 
+Node.js 18.x branch
+
+```shell
+git clone -b napi-libnode-v18.x https://github.com/mmomtchev/node.git
+cd node && ./configure --shared && make -j4
+```
+
 Node.js main branch
 
 ```shell

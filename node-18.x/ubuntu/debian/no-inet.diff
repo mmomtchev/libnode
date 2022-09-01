@@ -1,0 +1,71 @@
+Index: node-16.16.0/Makefile
+===================================================================
+--- node-16.16.0.orig/Makefile
++++ node-16.16.0/Makefile
+@@ -1298,7 +1298,7 @@ bench-addons-clean:
+ .PHONY: lint-md-rollup
+ lint-md-rollup:
+ 	$(RM) tools/.*mdlintstamp
+-	cd tools/lint-md && npm ci && npm run build
++	cd tools/lint-md && npm run build
+ 
+ .PHONY: lint-md-clean
+ .NOTPARALLEL: lint-md-clean
+Index: node-16.16.0/test/parallel/test-dns-setserver-when-querying.js
+===================================================================
+--- node-16.16.0.orig/test/parallel/test-dns-setserver-when-querying.js
++++ /dev/null
+@@ -1,29 +0,0 @@
+-'use strict';
+-
+-const common = require('../common');
+-
+-const assert = require('assert');
+-const dns = require('dns');
+-
+-const localhost = [ '127.0.0.1' ];
+-
+-{
+-  // Fix https://github.com/nodejs/node/issues/14734
+-
+-  {
+-    const resolver = new dns.Resolver();
+-    resolver.resolve('localhost', common.mustCall());
+-
+-    assert.throws(resolver.setServers.bind(resolver, localhost), {
+-      code: 'ERR_DNS_SET_SERVERS_FAILED',
+-      message: /^c-ares failed to set servers: "There are pending queries\." \[.+\]$/g
+-    });
+-  }
+-
+-  {
+-    dns.resolve('localhost', common.mustCall());
+-
+-    // should not throw
+-    dns.setServers(localhost);
+-  }
+-}
+Index: node-16.16.0/test/parallel/test-dns-lookupService-promises.js
+===================================================================
+--- node-16.16.0.orig/test/parallel/test-dns-lookupService-promises.js
++++ /dev/null
+@@ -1,19 +0,0 @@
+-'use strict';
+-
+-const common = require('../common');
+-
+-const assert = require('assert');
+-const dnsPromises = require('dns').promises;
+-
+-dnsPromises.lookupService('127.0.0.1', 22).then(common.mustCall((result) => {
+-  assert.strictEqual(result.service, 'ssh');
+-  assert.strictEqual(typeof result.hostname, 'string');
+-  assert.notStrictEqual(result.hostname.length, 0);
+-}));
+-
+-// Use an IP from the RFC 5737 test range to cause an error.
+-// Refs: https://tools.ietf.org/html/rfc5737
+-assert.rejects(
+-  () => dnsPromises.lookupService('192.0.2.1', 22),
+-  { code: /^(?:ENOTFOUND|EAI_AGAIN)$/ }
+-);

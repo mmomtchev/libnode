@@ -1,0 +1,37 @@
+#!/usr/bin/make -f
+
+export DEB_BUILD_MAINT_OPTIONS=optimize=-lto
+export NODE_VERSION=_NODE_VERSION_
+export CC=_GCC_
+export CXX=_GCXX_
+
+export NODE_TEST_NO_INTERNET=1
+
+%:
+	dh $@
+
+
+override_dh_auto_clean:
+	dh_auto_clean
+	find . -name __pycache__ | xargs rm -rf
+	rm -f config.status
+
+
+override_dh_auto_configure:
+	env
+	for SUB in doc clang-format lint-md; do \
+		mv tools-$${SUB}-node-modules tools/$${SUB}/node_modules; \
+	done
+	./configure --prefix=/usr --shared --without-npm --without-corepack
+
+
+override_dh_auto_install:
+	dh_auto_install 
+	mv debian/tmp/usr/include/node debian/tmp/usr/include/libnode
+	install -d debian/tmp/usr/share/doc/libnode-dev/examples
+	install examples/* debian/tmp/usr/share/doc/libnode-dev/examples
+	install -d debian/tmp/usr/share/pkgconfig
+	sed s/_VERSION_/$(NODE_VERSION)/ node.pc > debian/tmp/usr/share/pkgconfig/node.pc
+
+override_dh_compress:
+	dh_compress -Xexamples
