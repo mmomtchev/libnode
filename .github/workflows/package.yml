@@ -59,12 +59,12 @@ jobs:
       run: |
         mkdir -p node-${{matrix.branch}}.x/dist/
         if [ ! -r node-${{matrix.branch}}.x/dist/node_${NODE_VERSION}.orig.tar.gz ]; then
-          wget https://launchpad.net/~mmomtchev/+archive/ubuntu/libnode/+sourcefiles/node/${NODE_PKG_VERSION}/node_${NODE_VERSION}.orig.tar.gz \
+          wget https://launchpad.net/~mmomtchev/+archive/ubuntu/libnode/+sourcefiles/node/${NODE_VERSION}-1~${{matrix.release}}/node_${NODE_VERSION}.orig.tar.gz \
               -P node-${{matrix.branch}}.x/dist \
             || wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}.tar.gz \
               -O node-${{matrix.branch}}.x/dist/node_${NODE_VERSION}.orig.tar.gz
           tar  -zxvf node-${{matrix.branch}}.x/dist/node_${NODE_VERSION}.orig.tar.gz
-          wget https://launchpad.net/~mmomtchev/+archive/ubuntu/libnode/+sourcefiles/node/${NODE_PKG_VERSION}/node_${NODE_VERSION}.orig-examples.tar.gz \
+          wget https://launchpad.net/~mmomtchev/+archive/ubuntu/libnode/+sourcefiles/node/${NODE_VERSION}-1~${{matrix.release}}/node_${NODE_VERSION}.orig-examples.tar.gz \
               -P node-${{matrix.branch}}.x/dist \
             || tar -C examples -zcvf node-${{matrix.branch}}.x/dist/node_${NODE_VERSION}.orig-examples.tar.gz \
               --exclude-from examples/.gitignore .
@@ -72,7 +72,7 @@ jobs:
           for SUB in doc clang-format lint-md; do
               ( cd tools/${SUB} && npm ci )
               mv tools/${SUB}/node_modules tools-${SUB}-node-modules
-              wget https://launchpad.net/~mmomtchev/+archive/ubuntu/libnode/+sourcefiles/node/${NODE_PKG_VERSION}/node_${NODE_VERSION}.orig-tools-${SUB}-node-modules.tar.xz \
+              wget https://launchpad.net/~mmomtchev/+archive/ubuntu/libnode/+sourcefiles/node/${NODE_VERSION}-1~${{matrix.release}}/node_${NODE_VERSION}.orig-tools-${SUB}-node-modules.tar.xz \
                   -P ../node-${{matrix.branch}}.x/dist \
                 || tar -C tools-${SUB}-node-modules \
                   -Jcvf ../node-${{matrix.branch}}.x/dist/node_${NODE_VERSION}.orig-tools-${SUB}-node-modules.tar.xz .
