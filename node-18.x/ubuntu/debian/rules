@@ -1,6 +1,12 @@
 #!/usr/bin/make -f
 
+# Node.js seems to have a problem with LTO
 export DEB_BUILD_MAINT_OPTIONS=optimize=-lto
+
+# Most build hosts choke on the number of symbols in a Node.js full debug build
+export DEB_CFLAGS_MAINT_STRIP=-g
+export DEB_CXXFLAGS_MAINT_STRIP=-g
+
 export NODE_VERSION=_NODE_VERSION_
 export CC=_GCC_
 export CXX=_GCXX_
