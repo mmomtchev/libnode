@@ -1,3 +1,9 @@
+node (16.17.0-3~UNIVERSAL) UNIVERSAL; urgency=medium
+
+  * Do not build with debug symbols
+
+ -- Momtchil Momtchev <momtchil@momtchev.com>  Fri, 02 Sep 2022 09:37:52 +0000
+
 node (16.17.0-2~UNIVERSAL) UNIVERSAL; urgency=medium
 
   * Fix the examples

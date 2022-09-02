@@ -23,6 +23,9 @@ jobs:
           - bionic
           - focal
           - jammy
+        branch:
+          - 16
+          - 18
 
     steps:
     - uses: actions/checkout@v2
@@ -42,7 +45,7 @@ jobs:
         git_user_signingkey: true
     - name: Set Node version
       run: |
-        NODE_PKG_VERSION=`head -1 node-16.x/ubuntu/debian/changelog | cut -f 2 -d "(" | cut -f 1 -d ")" | sed s/UNIVERSAL/${{matrix.release}}/`
+        NODE_PKG_VERSION=`head -1 node-${{matrix.branch}}.x/ubuntu/debian/changelog | cut -f 2 -d "(" | cut -f 1 -d ")" | sed s/UNIVERSAL/${{matrix.release}}/`
         NODE_VERSION=`echo ${NODE_PKG_VERSION} | cut -f 1 -d "-"`
         echo NODE_PKG_VERSION=${NODE_PKG_VERSION} >> ${GITHUB_ENV}
         echo NODE_VERSION=${NODE_VERSION} >> ${GITHUB_ENV}
@@ -54,25 +57,25 @@ jobs:
         echo NAPI_VERSION=${NAPI_VERSION} >> ${GITHUB_ENV}
     - name: Create Node.js tarball
       run: |
-        mkdir -p node-16.x/dist/
-        if [ ! -r node-16.x/dist/node_${NODE_VERSION}.orig.tar.gz ]; then
-          wget https://launchpad.net/~mmomtchev/+archive/ubuntu/libnode/+sourcefiles/node/${NODE_PKG_VERSION}/node_${NODE_VERSION}.orig.tar.gz \
-              -P node-16.x/dist \
+        mkdir -p node-${{matrix.branch}}.x/dist/
+        if [ ! -r node-${{matrix.branch}}.x/dist/node_${NODE_VERSION}.orig.tar.gz ]; then
+          wget https://launchpad.net/~mmomtchev/+archive/ubuntu/libnode/+sourcefiles/node/${NODE_VERSION}-1~${{matrix.release}}/node_${NODE_VERSION}.orig.tar.gz \
+              -P node-${{matrix.branch}}.x/dist \
             || wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}.tar.gz \
-              -O node-16.x/dist/node_${NODE_VERSION}.orig.tar.gz
-          tar  -zxvf node-16.x/dist/node_${NODE_VERSION}.orig.tar.gz
-          wget https://launchpad.net/~mmomtchev/+archive/ubuntu/libnode/+sourcefiles/node/${NODE_PKG_VERSION}/node_${NODE_VERSION}.orig-examples.tar.gz \
-              -P node-16.x/dist \
-            || tar -C examples -zcvf node-16.x/dist/node_${NODE_VERSION}.orig-examples.tar.gz \
+              -O node-${{matrix.branch}}.x/dist/node_${NODE_VERSION}.orig.tar.gz
+          tar  -zxvf node-${{matrix.branch}}.x/dist/node_${NODE_VERSION}.orig.tar.gz
+          wget https://launchpad.net/~mmomtchev/+archive/ubuntu/libnode/+sourcefiles/node/${NODE_VERSION}-1~${{matrix.release}}/node_${NODE_VERSION}.orig-examples.tar.gz \
+              -P node-${{matrix.branch}}.x/dist \
+            || tar -C examples -zcvf node-${{matrix.branch}}.x/dist/node_${NODE_VERSION}.orig-examples.tar.gz \
               --exclude-from examples/.gitignore .
           cd node-${NODE_VERSION}
           for SUB in doc clang-format lint-md; do
               ( cd tools/${SUB} && npm ci )
               mv tools/${SUB}/node_modules tools-${SUB}-node-modules
-              wget https://launchpad.net/~mmomtchev/+archive/ubuntu/libnode/+sourcefiles/node/${NODE_PKG_VERSION}/node_${NODE_VERSION}.orig-tools-${SUB}-node-modules.tar.xz \
-                  -P ../node-16.x/dist \
+              wget https://launchpad.net/~mmomtchev/+archive/ubuntu/libnode/+sourcefiles/node/${NODE_VERSION}-1~${{matrix.release}}/node_${NODE_VERSION}.orig-tools-${SUB}-node-modules.tar.xz \
+                  -P ../node-${{matrix.branch}}.x/dist \
                 || tar -C tools-${SUB}-node-modules \
-                  -Jcvf ../node-16.x/dist/node_${NODE_VERSION}.orig-tools-${SUB}-node-modules.tar.xz .
+                  -Jcvf ../node-${{matrix.branch}}.x/dist/node_${NODE_VERSION}.orig-tools-${SUB}-node-modules.tar.xz .
           done
         fi
     - name: Create node-addon-api tarball
@@ -90,7 +93,7 @@ jobs:
         registry: docker.pkg.github.com
         image_name: libnode-ubuntu-${{matrix.release}}
         image_tag: latest
-        context: node-16.x
+        context: node-${{matrix.branch}}.x
         build_extra_args:
           ${{env.ARG_FAST}}
           --build-arg RELEASE=${{matrix.release}}

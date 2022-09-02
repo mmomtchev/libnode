@@ -6,7 +6,10 @@
 
 This repository contains the packaging used to generate the Ubuntu and Debian (_upcoming_) packages of `libnode` with [PR #43542](https://github.com/nodejs/node/pull/43542) bringing full Node-API and `node-addon-api` support to `libnode`.
 
-Ubuntu PPA: https://launchpad.net/~mmomtchev/+archive/ubuntu/libnode
+Ubuntu PPA: 
+* Node.js 16.x branch https://launchpad.net/~mmomtchev/+archive/ubuntu/libnode
+* Node.js 18.x branch https://launchpad.net/~mmomtchev/+archive/ubuntu/libnode-18.x
+(you can have both shared libraries but only one development package for building)
 
 Unlike the distributions built-in packages, these packages:
 
@@ -74,6 +77,13 @@ Node.js 16.x branch
 
 ```shell
 git clone -b napi-libnode-v16.x https://github.com/mmomtchev/node.git
+cd node && ./configure --shared && make -j4
+```
+
+Node.js 18.x branch
+
+```shell
+git clone -b napi-libnode-v18.x https://github.com/mmomtchev/node.git
 cd node && ./configure --shared && make -j4
 ```
 
