@@ -1,3 +1,9 @@
+node (18.8.0-4~UNIVERSAL) UNIVERSAL; urgency=medium
+
+  * Regnerate all RSA keys
+
+ -- Momtchil Momtchev <momtchil@momtchev.com>  Sat, 03 Sep 2022 11:12:42 +0000
+
 node (18.8.0-3~UNIVERSAL) UNIVERSAL; urgency=medium
 
   * Upgrade all RSA keys to at least 2048 bits
