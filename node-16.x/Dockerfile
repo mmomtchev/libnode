@@ -7,10 +7,11 @@ ARG NAPI_VERSION=5.0.0
 ENV NODE_VERSION=${NODE_VERSION}
 ENV NAPI_VERSION=${NAPI_VERSION}
 
-ARG FAST
-ENV DEB_BUILD_OPTIONS=${FAST:+nocheck}
+ARG CACHE
+ARG NOCHECK
+ENV DEB_BUILD_OPTIONS=${NOCHECK:+nocheck}
 ENV CCACHE_LOGFILE=/tmp/cache.debug
-ENV CCACHE_ARGS=${FAST:+"--preserve-envvar=CCACHE_DIR --preserve-envvar=CCACHE_LOGFILE --prepend-path=/usr/lib/ccache"}
+ENV CCACHE_ARGS=${CACHE:+"--preserve-envvar=CCACHE_DIR --preserve-envvar=CCACHE_LOGFILE --prepend-path=/usr/lib/ccache"}
 
 RUN set -ex && \
     DEBIAN_FRONTEND=noninteractive apt-get update && \
