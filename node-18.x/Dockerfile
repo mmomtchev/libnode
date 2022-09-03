@@ -55,9 +55,11 @@ WORKDIR /node-${NODE_VERSION}
 ENTRYPOINT exec /bin/bash -c \
     'set -ex && \
     env && \
-    debuild -sa -S && \
-    mkdir -p /out/source && \
-    cp ../node*tar* ../*.changes ../*.dsc ../*.buildinfo /out/source && \
+    if [ ! -n "${BIN_ONLY}" ]; then \
+        debuild -sa -S && \
+        mkdir -p /out/source && \
+        cp ../node*tar* ../*.changes ../*.dsc ../*.buildinfo /out/source; \
+    fi && \
     if [ ! -n "${SRC_ONLY}" ]; then \
         debuild ${CCACHE_ARGS} && \
         mkdir -p /out/amd64 && \

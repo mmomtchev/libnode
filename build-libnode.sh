@@ -29,6 +29,7 @@ for RELEASE in ${RELEASES}; do
 
     docker run --network none \
         --env SRC_ONLY=${SRC_ONLY} \
+        --env BIN_ONLY=${BIN_ONLY} \
         -v `ccache --get-config=cache_dir`:/ccache --env CCACHE_DIR=/ccache \
         -v `pwd`/artifacts:/out \
         -v ${HOME}/.gnupg:/root/.gnupg \
@@ -36,6 +37,8 @@ for RELEASE in ${RELEASES}; do
 
     (
         cd artifacts/source
-        #dput --force ${PPA} node_${PACKAGE_VERSION}~${RELEASE}_source.changes
+        if [ -n "${PUBLISH}" ]; then
+            dput --force ${PPA} node_${PACKAGE_VERSION}~${RELEASE}_source.changes
+        fi
     )
 done
