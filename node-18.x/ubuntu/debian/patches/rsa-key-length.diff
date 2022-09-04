@@ -2,120 +2,140 @@ Index: node-18.8.0/test/fixtures/keys/Makefile
 ===================================================================
 --- node-18.8.0.orig/test/fixtures/keys/Makefile
 +++ node-18.8.0/test/fixtures/keys/Makefile
-@@ -111,7 +111,7 @@ ca2-cert.pem: ca2.cnf
+@@ -55,10 +55,8 @@ all: \
+   rsa_cert_foafssl_b.exponent \
+   rsa_spkac.spkac \
+   rsa_spkac_invalid.spkac \
+-  rsa_private_1024.pem \
+   rsa_private_2048.pem \
+   rsa_private_4096.pem \
+-  rsa_public_1024.pem \
+   rsa_public_2048.pem \
+   rsa_public_4096.pem \
+   rsa_pss_private_2048.pem \
+@@ -111,7 +109,7 @@ ca2-cert.pem: ca2.cnf
  # ('password' is used for the CA password.)
  #
  ca3-key.pem:
 -	openssl genrsa -out ca3-key.pem 1024
-+	openssl genrsa -out ca3-key.pem 4096
++	openssl genrsa -out ca3-key.pem 2048
  
  ca3-csr.pem: ca3.cnf ca3-key.pem
  	openssl req -new \
-@@ -137,7 +137,7 @@ ca3-cert.pem: ca3-csr.pem ca3-key.pem ca
+@@ -137,7 +135,7 @@ ca3-cert.pem: ca3-csr.pem ca3-key.pem ca
  # ('password' is used for the CA password.)
  #
  ca4-key.pem:
 -	openssl genrsa -out ca4-key.pem 1024
-+	openssl genrsa -out ca4-key.pem 4096
++	openssl genrsa -out ca4-key.pem 2048
  
  ca4-csr.pem: ca4.cnf ca4-key.pem
  	openssl req -new \
-@@ -240,7 +240,7 @@ fake-startcom-root-cert.pem: fake-startc
+@@ -240,7 +238,7 @@ fake-startcom-root-cert.pem: fake-startc
  #
  
  agent1-key.pem:
 -	openssl genrsa -out agent1-key.pem 1024
-+	openssl genrsa -out agent1-key.pem 4096
++	openssl genrsa -out agent1-key.pem 2048
  
  agent1-csr.pem: agent1.cnf agent1-key.pem
  	openssl req -new -config agent1.cnf -key agent1-key.pem -out agent1-csr.pem
-@@ -275,7 +275,7 @@ agent1-verify: agent1-cert.pem ca1-cert.
+@@ -275,7 +273,7 @@ agent1-verify: agent1-cert.pem ca1-cert.
  #
  # Generate new private key
  agent2-key.pem:
 -	openssl genrsa -out agent2-key.pem 1024
-+	openssl genrsa -out agent2-key.pem 4096
++	openssl genrsa -out agent2-key.pem 2048
  
  # Create a Certificate Signing Request for the key
  agent2-csr.pem: agent2-key.pem agent2.cnf
-@@ -297,7 +297,7 @@ agent2-verify: agent2-cert.pem
+@@ -297,7 +295,7 @@ agent2-verify: agent2-cert.pem
  #
  
  agent3-key.pem:
 -	openssl genrsa -out agent3-key.pem 1024
-+	openssl genrsa -out agent3-key.pem 4096
++	openssl genrsa -out agent3-key.pem 2048
  
  agent3-csr.pem: agent3.cnf agent3-key.pem
  	openssl req -new -config agent3.cnf -key agent3-key.pem -out agent3-csr.pem
-@@ -321,7 +321,7 @@ agent3-verify: agent3-cert.pem ca2-cert.
+@@ -321,7 +319,7 @@ agent3-verify: agent3-cert.pem ca2-cert.
  #
  
  agent4-key.pem:
 -	openssl genrsa -out agent4-key.pem 1024
-+	openssl genrsa -out agent4-key.pem 4096
++	openssl genrsa -out agent4-key.pem 2048
  
  agent4-csr.pem: agent4.cnf agent4-key.pem
  	openssl req -new -config agent4.cnf -key agent4-key.pem -out agent4-csr.pem
-@@ -363,7 +363,7 @@ ca2-crl.pem: ca2-key.pem ca2-cert.pem ca
+@@ -363,7 +361,7 @@ ca2-crl.pem: ca2-key.pem ca2-cert.pem ca
  #
  
  agent5-key.pem:
 -	openssl genrsa -out agent5-key.pem 1024
-+	openssl genrsa -out agent5-key.pem 4096
++	openssl genrsa -out agent5-key.pem 2048
  
  agent5-csr.pem: agent5.cnf agent5-key.pem
  	openssl req -new -config agent5.cnf -key agent5-key.pem -out agent5-csr.pem
-@@ -388,7 +388,7 @@ agent5-verify: agent5-cert.pem ca2-cert.
+@@ -388,7 +386,7 @@ agent5-verify: agent5-cert.pem ca2-cert.
  #
  
  agent6-key.pem:
 -	openssl genrsa -out agent6-key.pem 1024
-+	openssl genrsa -out agent6-key.pem 4096
++	openssl genrsa -out agent6-key.pem 2048
  
  agent6-csr.pem: agent6.cnf agent6-key.pem
  	openssl req -new -config agent6.cnf -key agent6-key.pem -out agent6-csr.pem
-@@ -499,7 +499,7 @@ agent9-cert.pem: agent9-csr.pem
+@@ -499,7 +497,7 @@ agent9-cert.pem: agent9-csr.pem
  #
  
  agent10-key.pem:
 -	openssl genrsa -out agent10-key.pem 1024
-+	openssl genrsa -out agent10-key.pem 4096
++	openssl genrsa -out agent10-key.pem 2048
  
  agent10-csr.pem: agent10.cnf agent10-key.pem
  	openssl req -new -config agent10.cnf -key agent10-key.pem -out agent10-csr.pem
-@@ -627,7 +627,7 @@ dsa_public_1025.pem:
- 	openssl dsa -in dsa_private_1025.pem -pubout -out dsa_public_1025.pem
+@@ -596,8 +594,8 @@ dh1024.pem:
+ dh2048.pem:
+ 	openssl dhparam -out dh2048.pem 2048
  
- rsa_private.pem:
--	openssl genrsa -out rsa_private.pem 2048
-+	openssl genrsa -out rsa_private.pem 4096
+-dherror.pem: dh512.pem
+-	sed 's/^[^-].*/AAAAAAAAAA/g' dh512.pem > dherror.pem
++dherror.pem: dh1024.pem
++	sed 's/^[^-].*/AAAAAAAAAA/g' dh1024.pem > dherror.pem
  
- rsa_private_encrypted.pem: rsa_private.pem
- 	openssl rsa -aes256 -in rsa_private.pem -passout 'pass:password' -out rsa_private_encrypted.pem
-@@ -657,7 +657,7 @@ rsa_public_sha1_signature_signedby_rsa_p
- 	openssl dgst -sha1 -sign rsa_private_pkcs8.pem -out rsa_public_sha1_signature_signedby_rsa_private_pkcs8.sha1 rsa_public.pem
+ dsa_params.pem:
+ 	openssl dsaparam -out dsa_params.pem 2048
+@@ -687,18 +685,12 @@ rsa_spkac.spkac: rsa_private.pem
+ rsa_spkac_invalid.spkac: rsa_spkac.spkac
+ 	cat rsa_spkac.spkac | cut -c 5- > rsa_spkac_invalid.spkac
  
- rsa_private_b.pem:
--	openssl genrsa -out rsa_private_b.pem 2048
-+	openssl genrsa -out rsa_private_b.pem 4096
+-rsa_private_1024.pem:
+-	openssl genrsa -out rsa_private_1024.pem 1024
+-
+ rsa_private_2048.pem:
+ 	openssl genrsa -out rsa_private_2048.pem 2048
  
- I_AM_THE_WALRUS_sha256_signature_signedby_rsa_private_b.sha256: rsa_private_b.pem
- 	echo -n "I AM THE WALRUS" | openssl dgst -sha256 -sign rsa_private_b.pem -out I_AM_THE_WALRUS_sha256_signature_signedby_rsa_private_b.sha256
+ rsa_private_4096.pem:
+ 	openssl genrsa -out rsa_private_4096.pem 4096
+ 
+-rsa_public_1024.pem: rsa_private_1024.pem
+-	openssl rsa -in rsa_private_1024.pem -pubout -out rsa_public_1024.pem
+-
+ rsa_public_2048.pem: rsa_private_2048.pem
+ 	openssl rsa -in rsa_private_2048.pem -pubout -out rsa_public_2048.pem
+ 
 Index: node-18.8.0/test/fixtures/keys/agent1-cert.pem
 ===================================================================
 --- node-18.8.0.orig/test/fixtures/keys/agent1-cert.pem
 +++ node-18.8.0/test/fixtures/keys/agent1-cert.pem
-@@ -1,18 +1,26 @@
+@@ -1,18 +1,23 @@
  -----BEGIN CERTIFICATE-----
 -MIIC2DCCAkGgAwIBAgIJAOzJuFYnDamoMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
-+MIIEXDCCA8WgAwIBAgIJAOzJuFYnDampMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
- BAYTAlVTMQswCQYDVQQIDAJDQTELMAkGA1UEBwwCU0YxDzANBgNVBAoMBkpveWVu
- dDEQMA4GA1UECwwHTm9kZS5qczEMMAoGA1UEAwwDY2ExMSAwHgYJKoZIhvcNAQkB
+-BAYTAlVTMQswCQYDVQQIDAJDQTELMAkGA1UEBwwCU0YxDzANBgNVBAoMBkpveWVu
+-dDEQMA4GA1UECwwHTm9kZS5qczEMMAoGA1UEAwwDY2ExMSAwHgYJKoZIhvcNAQkB
 -FhFyeUB0aW55Y2xvdWRzLm9yZzAgFw0xODExMTYxODQyMjFaGA8yMjkyMDgzMDE4
 -NDIyMVowfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQHDAJTRjEP
-+FhFyeUB0aW55Y2xvdWRzLm9yZzAgFw0yMjA5MDMxMTA5MDlaGA8yMjk2MDYxNzEx
-+MDkwOVowfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQHDAJTRjEP
- MA0GA1UECgwGSm95ZW50MRAwDgYDVQQLDAdOb2RlLmpzMQ8wDQYDVQQDDAZhZ2Vu
+-MA0GA1UECgwGSm95ZW50MRAwDgYDVQQLDAdOb2RlLmpzMQ8wDQYDVQQDDAZhZ2Vu
 -dDExIDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIGfMA0GCSqGSIb3
 -DQEBAQUAA4GNADCBiQKBgQDvVEBwFjfiirsDjlZB+CjYNMNCqdJe27hqK/b72AnL
 -jgN6mLcXCOABJC5N61TGFkiF9Zndh6IyFXRZVb4gQX4zxNDRuAydo95BmiYHGV0v
@@ -126,33 +146,36 @@ Index: node-18.8.0/test/fixtures/keys/agent1-cert.pem
 -ICvoJ0+BObYPjqIZZm9+/5c36SpzKzGO9CN9qUEj3KxPmijnb+Zjsm1CSCrG1m04
 -C73+AjAIPnQ+eWZnF1K4L2kuEDTpv8nQzYKYiGxsmW58PSMeAq1TmaFwtSW3TxHX
 -7ROnqBX0uXQlOo1m
-+dDExIDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIICIjANBgkqhkiG
-+9w0BAQEFAAOCAg8AMIICCgKCAgEAk8XfZdGOl4FHdm9oxnL090RiXRryrEMbEFAH
-+ruQNGxfJw4oHJQkV7v55Xkp7GWCcqHukV2mkKuVB2kI2SiTHN96hiSVg4gMAmUgO
-+8mlh+kYHuhnqRiIxugAt1XAnlBtNox1IlBh36tGdIeMbHWPK1cA8qYXpMwPtCnC3
-+oEPP3+sqxNQb1s4/hIgF2gjcp3Pb2V29cNmO8TjgokVKFPmBIML1PSXQcNvVDk2t
-+z09ASF55MMPHL1Yai//9VJ8LgZmN3yn8eBsjQfF8zUHOGfR3d6Ta5ywIXqXB2cvL
-+CIaRN9hrX8tDFe+mOD0ctoqPZJ9J0+JqiYh0VqzReuz8dg8jkVdDxbdE3ZhMm3hr
-+eBVU0lomCAKnsc6S6Wk9u+LvyAzyV5YDslqoP1obgdjpPJm5SdQ3ula3XPSmfvJJ
-+nn3XR/cabPKy9DzVLTbh8QaM0bxX38ba8CLYMJLE4eOHLiSUCKkrcn/Vyrmq1p0Y
-+AssCcGhNPcgC4YwKI6jxEjYJUUICV7EyXY3aF8d53dGi355Xc5T/+q5caeMRBq81
-+BfMjhQOCegJpp/PumN+XFZhaKciVsFkG6j3p1Cuf26HTtGrlgoxvL5vZBoqUG5v2
-+W+Z3GuAbN9uXOBJ6OjTsZglTszaYG6ArTTu+l0AezoFnUZnkeJ3UTiK/Bo5vUNwi
-+xVfVSI0CAwEAAaNhMF8wXQYIKwYBBQUHAQEEUTBPMCMGCCsGAQUFBzABhhdodHRw
-+Oi8vb2NzcC5ub2RlanMub3JnLzAoBggrBgEFBQcwAoYcaHR0cDovL2NhLm5vZGVq
-+cy5vcmcvY2EuY2VydDANBgkqhkiG9w0BAQsFAAOBgQCRSYfYjiaQ/sndWHt9ns4C
-+eTrO9rsxw0r8rKVL7xjEbe/JbV+nos0mm0Xl79lYLqZ47/TRrkcqWc636QVulJk5
-+CD+woBzB0n6N+HTwNDgzF4qGePxYduk2kdGgyvh82wt+atfSm+6m5Xhus9r6nyaB
-+R0Lxyx+v43AvdKPrnFArwg==
++MIID6DCCAtCgAwIBAgIUFH02wcL3Qgben6tfIibXitsApCYwDQYJKoZIhvcNAQEL
++BQAwejELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQHDAJTRjEPMA0G
++A1UECgwGSm95ZW50MRAwDgYDVQQLDAdOb2RlLmpzMQwwCgYDVQQDDANjYTExIDAe
++BgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMCAXDTIyMDkwMzIxNDAzN1oY
++DzIyOTYwNjE3MjE0MDM3WjB9MQswCQYDVQQGEwJVUzELMAkGA1UECAwCQ0ExCzAJ
++BgNVBAcMAlNGMQ8wDQYDVQQKDAZKb3llbnQxEDAOBgNVBAsMB05vZGUuanMxDzAN
++BgNVBAMMBmFnZW50MTEgMB4GCSqGSIb3DQEJARYRcnlAdGlueWNsb3Vkcy5vcmcw
++ggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDUVjIK+yDTgnCT3CxChO0E
++37q9VuHdrlKeKLeQzUJW2yczSfNzX/0zfHpjY+zKWie39z3HCJqWxtiG2wxiOI8c
++3WqWOvzVmdWADlh6EfkIlg+E7VC6JaKDA+zabmhPvnuu3JzogBMnsWl68lCXzuPx
++deQAmEwNtqjrh74DtM+Ud0ulb//Ixjxo1q3rYKu+aaexSramuee6qJta2rjrB4l8
++B/bU+j1mDf9XQQfSjo9jRnp4hiTFdBl2k+lZzqE2L/rhu6EMjA2IhAq/7xA2MbLo
++9cObVUin6lfoo5+JKRgT9Fp2xEgDOit+2EA/S6oUfPNeLSVUqmXOSWlXlwlb9Nxr
++AgMBAAGjYTBfMF0GCCsGAQUFBwEBBFEwTzAjBggrBgEFBQcwAYYXaHR0cDovL29j
++c3Aubm9kZWpzLm9yZy8wKAYIKwYBBQUHMAKGHGh0dHA6Ly9jYS5ub2RlanMub3Jn
++L2NhLmNlcnQwDQYJKoZIhvcNAQELBQADggEBAMM0mBBjLMt9pYXePtUeNO0VTw9y
++FWCM8nAcAO2kRNwkJwcsispNpkcsHZ5o8Xf5mpCotdvziEWG1hyxwU6nAWyNOLcN
++G0a0KUfbMO3B6ZYe1GwPDjXaQnv75SkAdxgX5zOzca3xnhITcjUUGjQ0fbDfwFV5
++ix8mnzvfXjDONdEznVa7PFcN6QliFUMwR/h8pCRHtE5+a10OSPeJSrGG+FtrGnRW
++G1IJUv6oiGF/MvWCr84REVgc1j78xomGANJIu2hN7bnD1nEMON6em8IfnDOUtynV
++9wfWTqiQYD5Zifj6WcGa0aAHMuetyFG4lIfMAHmd3gaKpks7j9l26LwRPvI=
  -----END CERTIFICATE-----
 Index: node-18.8.0/test/fixtures/keys/agent1-csr.pem
 ===================================================================
 --- node-18.8.0.orig/test/fixtures/keys/agent1-csr.pem
 +++ node-18.8.0/test/fixtures/keys/agent1-csr.pem
-@@ -1,13 +1,29 @@
+@@ -1,13 +1,18 @@
  -----BEGIN CERTIFICATE REQUEST-----
 -MIIB4jCCAUsCAQAwfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
-+MIIE5zCCAs8CAQAwfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
++MIIC5zCCAc8CAQAwfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
  DAJTRjEPMA0GA1UECgwGSm95ZW50MRAwDgYDVQQLDAdOb2RlLmpzMQ8wDQYDVQQD
 -DAZhZ2VudDExIDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIGfMA0G
 -CSqGSIb3DQEBAQUAA4GNADCBiQKBgQDvVEBwFjfiirsDjlZB+CjYNMNCqdJe27hq
@@ -163,37 +186,26 @@ Index: node-18.8.0/test/fixtures/keys/agent1-csr.pem
 -S2kS3XfZqkEawMu2HF/y5yWX7EyGs7OkRXZxJSR67GlgdrTi82qCBC3H2xF7fKXr
 -s5b6ges5NZFjEA9JTvX5PFSAfo5APbXuuhRWBdxvagi00szTnYiaKgGU4C/dZWAz
 -E0/tTFT4
-+DAZhZ2VudDExIDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIICIjAN
-+BgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAk8XfZdGOl4FHdm9oxnL090RiXRry
-+rEMbEFAHruQNGxfJw4oHJQkV7v55Xkp7GWCcqHukV2mkKuVB2kI2SiTHN96hiSVg
-+4gMAmUgO8mlh+kYHuhnqRiIxugAt1XAnlBtNox1IlBh36tGdIeMbHWPK1cA8qYXp
-+MwPtCnC3oEPP3+sqxNQb1s4/hIgF2gjcp3Pb2V29cNmO8TjgokVKFPmBIML1PSXQ
-+cNvVDk2tz09ASF55MMPHL1Yai//9VJ8LgZmN3yn8eBsjQfF8zUHOGfR3d6Ta5ywI
-+XqXB2cvLCIaRN9hrX8tDFe+mOD0ctoqPZJ9J0+JqiYh0VqzReuz8dg8jkVdDxbdE
-+3ZhMm3hreBVU0lomCAKnsc6S6Wk9u+LvyAzyV5YDslqoP1obgdjpPJm5SdQ3ula3
-+XPSmfvJJnn3XR/cabPKy9DzVLTbh8QaM0bxX38ba8CLYMJLE4eOHLiSUCKkrcn/V
-+yrmq1p0YAssCcGhNPcgC4YwKI6jxEjYJUUICV7EyXY3aF8d53dGi355Xc5T/+q5c
-+aeMRBq81BfMjhQOCegJpp/PumN+XFZhaKciVsFkG6j3p1Cuf26HTtGrlgoxvL5vZ
-+BoqUG5v2W+Z3GuAbN9uXOBJ6OjTsZglTszaYG6ArTTu+l0AezoFnUZnkeJ3UTiK/
-+Bo5vUNwixVfVSI0CAwEAAaAlMCMGCSqGSIb3DQEJBzEWDBRBIGNoYWxsZW5nZSBw
-+YXNzd29yZDANBgkqhkiG9w0BAQsFAAOCAgEAFVK1rBAhSVMxX6mfP4XKbJD+tLgR
-+V1MDDrfJny11T+hmJ6H9QK6BfaPCtFFaWA+N1IHOzmvJ+izlpn0yHk9x5QCCk/H+
-+brMOqHXL90jZu1kG2JYzL5plv1MzMfyd1gS4ZJyrLp49ZISCGHVL1NatEKSrAXHY
-+bMxQ0byQEJhFTR/1LHPAU8PS5k2UYvF0IQoVYNIZ/vgYQ+fKNpxYvC214od9W0hz
-+yeQmBSrqcxphRel1hoW89CXggGPWlrzzK6cbhqNiuiNJR4sS6SFn0vB14QcqC7/l
-+PK5BltDN/OO2io2Dt80/o/yKAx+zbOCnM84pp9SOeh948r85y7uWY0UKI4N7fCo5
-+jGpoAJAnav1+kT4riHRf+3rw/KFFk/pO73eH77LPeEy+8F/IPn3Cv6j4mDpXfpCS
-+lZH0wN1HfFHhmjOoXm7Sboveqi3rSiT4svBQ63/eiWr8vN9fIHG8lwSlifOKNxdY
-+QCkkzwPbxcZ562Aai1HiKMnr8X29WTZfBoXkmVrnSa1xvfstMSsIjnuKhew4aFm6
-+UkZsrffNzqik2apx9YJjeSNJC5Lpunyc9TLRfFp2T+bMDfKGfRLKehreJrGB8Kc9
-+O+zzNP37xm97cSiRsy0tr1Mi70TJwt+Nudg+JW9HfSE87xXgiaqXgAXEPphlB7ZO
-+5go+ruyNJVw6FoE=
++DAZhZ2VudDExIDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIIBIjAN
++BgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1FYyCvsg04Jwk9wsQoTtBN+6vVbh
++3a5Snii3kM1CVtsnM0nzc1/9M3x6Y2Psylont/c9xwialsbYhtsMYjiPHN1qljr8
++1ZnVgA5YehH5CJYPhO1QuiWigwPs2m5oT757rtyc6IATJ7FpevJQl87j8XXkAJhM
++Dbao64e+A7TPlHdLpW//yMY8aNat62CrvmmnsUq2prnnuqibWtq46weJfAf21Po9
++Zg3/V0EH0o6PY0Z6eIYkxXQZdpPpWc6hNi/64buhDIwNiIQKv+8QNjGy6PXDm1VI
++p+pX6KOfiSkYE/RadsRIAzorfthAP0uqFHzzXi0lVKplzklpV5cJW/TcawIDAQAB
++oCUwIwYJKoZIhvcNAQkHMRYMFEEgY2hhbGxlbmdlIHBhc3N3b3JkMA0GCSqGSIb3
++DQEBCwUAA4IBAQATzujigTUF/P+Vg6uU7+Q6BnedpVyMGk9K4zPFLodcx0h3gEgp
++KqkE6fUKd57uScFce6mHLG4ZhdH9BFwluf1RCrYVo2FnIfAQn9Spu1o8TagSUt4L
++fAme4MwIKohCuLwJKwdOawz+ahtZq4imyKAh9VTBM1VJ9xBb49hG8L9GjxnsO37P
++uYp3Hc9+VEZpi8BSf21+HUqDnCU+ITliUD0y1HZJZtxlm0Oj+vsAU+VIzbMtiJ9B
++gbkYQ4s2UceymctE97MNeqzCYW2QDJdzVkvpg0pNWqdR1hLdVtaT21mvChyvjEWC
++uSNiGBIjS1zN22sHibty/se0URjJXk5UMroc
  -----END CERTIFICATE REQUEST-----
 Index: node-18.8.0/test/fixtures/keys/agent1-key.pem
 ===================================================================
 --- node-18.8.0.orig/test/fixtures/keys/agent1-key.pem
 +++ node-18.8.0/test/fixtures/keys/agent1-key.pem
-@@ -1,15 +1,51 @@
+@@ -1,15 +1,27 @@
  -----BEGIN RSA PRIVATE KEY-----
 -MIICXQIBAAKBgQDvVEBwFjfiirsDjlZB+CjYNMNCqdJe27hqK/b72AnLjgN6mLcX
 -COABJC5N61TGFkiF9Zndh6IyFXRZVb4gQX4zxNDRuAydo95BmiYHGV0vt1ZXsLv7
@@ -208,71 +220,44 @@ Index: node-18.8.0/test/fixtures/keys/agent1-key.pem
 -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
-+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
++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
  -----END RSA PRIVATE KEY-----
 Index: node-18.8.0/test/fixtures/keys/agent10-cert.pem
 ===================================================================
 --- node-18.8.0.orig/test/fixtures/keys/agent10-cert.pem
 +++ node-18.8.0/test/fixtures/keys/agent10-cert.pem
-@@ -1,18 +1,26 @@
+@@ -1,32 +1,41 @@
  -----BEGIN CERTIFICATE-----
 -MIICfzCCAeigAwIBAgIJAOyvM6GMZDW6MA0GCSqGSIb3DQEBCwUAMIGIMQswCQYD
-+MIIEAzCCA2ygAwIBAgIJAOyvM6GMZDW7MA0GCSqGSIb3DQEBCwUAMIGIMQswCQYD
- VQQGEwJVUzELMAkGA1UECAwCQ0ExCzAJBgNVBAcMAlNGMR8wHQYDVQQKDBZUaGUg
- Tm9kZS5qcyBGb3VuZGF0aW9uMRAwDgYDVQQLDAdOb2RlLmpzMQwwCgYDVQQDDANj
+-VQQGEwJVUzELMAkGA1UECAwCQ0ExCzAJBgNVBAcMAlNGMR8wHQYDVQQKDBZUaGUg
+-Tm9kZS5qcyBGb3VuZGF0aW9uMRAwDgYDVQQLDAdOb2RlLmpzMQwwCgYDVQQDDANj
 -YTQxHjAcBgkqhkiG9w0BCQEWD2NhNEBleGFtcGxlLm9yZzAgFw0xODExMTYxODQy
 -MjFaGA8yMjkyMDgzMDE4NDIyMVoweDELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNB
-+YTQxHjAcBgkqhkiG9w0BCQEWD2NhNEBleGFtcGxlLm9yZzAgFw0yMjA5MDMxMTA5
-+MTRaGA8yMjk2MDYxNzExMDkxNFoweDELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNB
- MQswCQYDVQQHDAJTRjEfMB0GA1UECgwWVGhlIE5vZGUuanMgRm91bmRhdGlvbjEQ
+-MQswCQYDVQQHDAJTRjEfMB0GA1UECgwWVGhlIE5vZGUuanMgRm91bmRhdGlvbjEQ
 -MA4GA1UECwwHTm9kZS5qczEcMBoGA1UEAwwTYWdlbnQxMC5leGFtcGxlLmNvbTCB
 -nzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEArV2diVumrKDS5k81MrcdECnYYVZ5
 -feQ/FZDqwEHM/zlXvs6vphU3rGmZeASMQEdHg7vUjzzvE8PDqJuJXKrC5lEO1OUY
@@ -281,33 +266,64 @@ Index: node-18.8.0/test/fixtures/keys/agent10-cert.pem
 -acWiUbc7CJ4RWjlSeA+fhd1G00x0Hl5hjt6IAqEHe4T9fV41U05X1eo5KaN3jXWU
 -IS56SVX8BxOhU53lr0iID0MpxMqttA9LgjE3fc6uAjThnx1zX50VGR4P8LQqG+HL
 -WJUW0+3oJrOgRbJ6wAEs0iCcTg==
-+MA4GA1UECwwHTm9kZS5qczEcMBoGA1UEAwwTYWdlbnQxMC5leGFtcGxlLmNvbTCC
-+AiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOTCvZyId7XQL8eGVE/+JKfJ
-+XGNtzdLt5uxV3FBMFxP6oKtfKvwiggaw8LEU3TTeNx+eAwRmfgjoD2U98UYCXNwo
-+O/Mzgg2dZpKer+Dmz39XyEs0wTzm58FspPo4ZcdafvHUrrZMwQ7MyKxDKSReAkT6
-+Yng7XDL1hrRdhsCNXDorczhN843vhBx9vcrsCpNebAPG5uJJtorevirFIZnzMfj3
-+zLc+EpsAJiPe2+57uvYs264//egoxCJ2XdSyyWkWIJf7FzMVVs0CboxKwLIBtqQI
-+IpAvDH4fYL06carQwqyBLnA08DpN7dJ1x7toZ8fbu8tlnnGFeq6toZ7wfvpPew9O
-+WRoxESHyjm6aBAvrAnPmbsGhNB++qhs/nvS05dnfMNtI+breo4Pr+ZXdfdEZ5qVN
-+SgdhAZ5UuSGU22kmkfjtKvcCnr4DlQYqv0HFqdlENV6AXqmUW+b0GktRheOXd542
-+YQwsdbvV3ZBLmBcSG2abTeg8e1zr3CDpGZU9oa2a1DyWHQI8F/6TxJG7u3gaLITt
-+Ns37O2uf0ZlJpVIhP90g/U/Ewcg78/dtntAHVYevIFLdAVDMXrM5ztgnQ3GrPG3I
-+GJirik71WQX5l+s547USvoBUED76IJKPigaGGpg9LkO90SUMD1qCEbws6271PyeY
-+DIrtRumanoqqSanEH877AgMBAAEwDQYJKoZIhvcNAQELBQADgYEAdzHr5RgmR/uk
-+QmQRn+6dTzKBiiAVqqmQsuqe87WHZ2KVvjUNrw0y1CoHAM81glxhr9qcuo86lIPR
-+PdMtsrJecLSOCwYMPXMiAWt+u3sHxo0DZl3bRt8dQr1Nj8SWtuTDHu5JVDG0Oi69
-+XT8ZWQVfE6dup82sOdKJQYl4On/hGHA=
++MIIDjjCCAnagAwIBAgITMVaZ0eX5Kp8NI4vaKFVI592wTjANBgkqhkiG9w0BAQsF
++ADCBiDELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQHDAJTRjEfMB0G
++A1UECgwWVGhlIE5vZGUuanMgRm91bmRhdGlvbjEQMA4GA1UECwwHTm9kZS5qczEM
++MAoGA1UEAwwDY2E0MR4wHAYJKoZIhvcNAQkBFg9jYTRAZXhhbXBsZS5vcmcwIBcN
++MjIwOTAzMjE0MDM3WhgPMjI5NjA2MTcyMTQwMzdaMHgxCzAJBgNVBAYTAlVTMQsw
++CQYDVQQIDAJDQTELMAkGA1UEBwwCU0YxHzAdBgNVBAoMFlRoZSBOb2RlLmpzIEZv
++dW5kYXRpb24xEDAOBgNVBAsMB05vZGUuanMxHDAaBgNVBAMME2FnZW50MTAuZXhh
++bXBsZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDP49yjMES5
++1sfYG4ac06jR7DnSizMDgW+0V6CFPguv6p1D08aBA60mhY8+tjsbin3DYRiTB2HN
++7C9svZ2cAffKK9W/40G6+jfJuB6I8g+LtdZ9hViw2RC0k4PFLzpG3VsJRpM4Wfos
++/ubZqBuNGLN+K68sAFU0jbUra4dtJQXMi7SlFlJIUx2g10OF312uJcREfFVgNAw4
++EIZ2H7bmGtpE0p3UfBir4HTy5nz4ruYCbbzNWDuX7RIGZSXtqaQc7P9QPvuLzspl
++feI8S2oRTLRIgDEatXJFlIWzGu1kF7XjftOrnFHwRWICK6joqSzdLhSS02qfqIRF
++JFVZ8QNq11bhAgMBAAEwDQYJKoZIhvcNAQELBQADggEBACenzaglCUisBHiI7H/v
++tOF/75jxDUO8FmV3mksh33EpTmzoBiQD1DiTFQu/EEJ/iAbdTRJ1PVnJsMTFH0Bm
++7SmkYOCpETleXjU1MwHZIvh/gGa/CjLZhop26FkK2oqENl7iaM9vvqxxQ8H4Niit
++ay3cn+aB9o8MjTH9Ki9iH0LS6bwtqqRimXXX0sx3HTUnFxD/7tzE7s6t7ayk+rIJ
++6mBeQAw3UjNzjtLTvSxHoPFto7z5imF+6/v236UlOTdQpkbRS1KlxA8wm/NisWeq
++TLjPh5BkZof+CwTUoAFK+WILsIHuvVY9SZBNcsQvsBao/whRR2Z8bU1HDAh8jHnk
++4wo=
  -----END CERTIFICATE-----
  -----BEGIN CERTIFICATE-----
- MIICkzCCAfygAwIBAgIJAJHwBmNgafKbMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
+-MIICkzCCAfygAwIBAgIJAJHwBmNgafKbMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
++MIIDFzCCAoCgAwIBAgIJAJHwBmNgafKfMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
+ BAYTAlVTMQswCQYDVQQIDAJDQTELMAkGA1UEBwwCU0YxDzANBgNVBAoMBkpveWVu
+ dDEQMA4GA1UECwwHTm9kZS5qczEMMAoGA1UEAwwDY2EyMSAwHgYJKoZIhvcNAQkB
+-FhFyeUB0aW55Y2xvdWRzLm9yZzAgFw0xODExMTYxODQyMjFaGA8yMjkyMDgzMDE4
+-NDIyMVowgYgxCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJDQTELMAkGA1UEBwwCU0Yx
++FhFyeUB0aW55Y2xvdWRzLm9yZzAgFw0yMjA5MDMxNDQ2NTFaGA8yMjk2MDYxNzE0
++NDY1MVowgYgxCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJDQTELMAkGA1UEBwwCU0Yx
+ HzAdBgNVBAoMFlRoZSBOb2RlLmpzIEZvdW5kYXRpb24xEDAOBgNVBAsMB05vZGUu
+ anMxDDAKBgNVBAMMA2NhNDEeMBwGCSqGSIb3DQEJARYPY2E0QGV4YW1wbGUub3Jn
+-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDC1M2aGVYsmrBiut1n0nfTU+9v
+-TNVdAmKQBjnNsv3IIch/PPaEOIEm7dFhgdk86Z+wVCN3sAKu54Bz4JDKdPsFGvDy
+-18JGuGH1vIVW5285IW7fMrzvAdZtETeBAiPM10Q69ddB4M6FbLiF273ZqCJ+vSsw
+-kl5Dkas8YTZ0uwqKjQIDAQABoxAwDjAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEB
+-CwUAA4GBAGDMGSbPg/B4OripSxT2scXFIwoej47PW1byJgWaGoMJ8zgKUoKE7Z7A
+-aWQbD22In05F0kBllqpSJWEZpTuVFsyyLeb3R7cuGQWs/puaaPul7sx+PRGhwxYe
+-nrNIGtsaBf8TO/kb5lMiXWbhM5gZbBtbMMv3xWA4FxqU0AgfO3jM
++MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0HnUahyfA25t8kaziu0i
++vVMkTWntm0pJ8oemeO7yCGaY4QHEwN+QUzrzO7y7ngl2Dt76eEvj0mrgaW8Ao7Ns
++ePfp3663g8RrBsb4cR1da2Tc8kpXCqgwbcTlm8HI/7OAdHGA2YDLNv7iyVk9meHM
++gYfO9dVgrZ7RxfnGwNMJdNjYJrd02xeU6euoKl9j/ZWCG5xHAM2xAXOKHGm8toIm
+++Ss6iZXY8kypy7Fjwyv7jMT8V+pzIWu24xd3Y3s07r59nkFmQ29nHMTaLP7Tf3TY
++MBI5mp8fet732aBoywpQ/w05LR9gdM1jpUvIlmhj4qGskv17AMEmRecwic3opq/b
++yQIDAQABoxAwDjAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBCwUAA4GBADsFOR+N
++Bcm2FyHOutoFpQn70qAFg0xlO3NTH87uubbs6rf3LDrsskhjskfs6wpUk56IJOoU
++H7+F7aDDtSrnxzxxC5eZeGyaN05T5N01OdK3xvqUnr7mg/Ce0jnxrZhxHI8SHOqs
++Kwrg4fRasUHGhH286Y13xOj2pLSrVoSbkXsA
+ -----END CERTIFICATE-----
 Index: node-18.8.0/test/fixtures/keys/agent10-csr.pem
 ===================================================================
 --- node-18.8.0.orig/test/fixtures/keys/agent10-csr.pem
 +++ node-18.8.0/test/fixtures/keys/agent10-csr.pem
-@@ -1,13 +1,29 @@
+@@ -1,13 +1,18 @@
  -----BEGIN CERTIFICATE REQUEST-----
 -MIIB3TCCAUYCAQAweDELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
-+MIIE4jCCAsoCAQAweDELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
++MIIC4jCCAcoCAQAweDELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
  DAJTRjEfMB0GA1UECgwWVGhlIE5vZGUuanMgRm91bmRhdGlvbjEQMA4GA1UECwwH
 -Tm9kZS5qczEcMBoGA1UEAwwTYWdlbnQxMC5leGFtcGxlLmNvbTCBnzANBgkqhkiG
 -9w0BAQEFAAOBjQAwgYkCgYEArV2diVumrKDS5k81MrcdECnYYVZ5feQ/FZDqwEHM
@@ -318,37 +334,26 @@ Index: node-18.8.0/test/fixtures/keys/agent10-csr.pem
 -vmGJ43XgeYiN/U6xREQ7DZMss+C14mfQvp5oM0zQRWwQhLgV7YlIIIe09CYTKTfC
 -xxc18OJewNQUje5cG5aSMZb2HfHmLDaavAJqK0Yaoj69e+iEnAkVFVZALqlhezS+
 -xQ==
-+Tm9kZS5qczEcMBoGA1UEAwwTYWdlbnQxMC5leGFtcGxlLmNvbTCCAiIwDQYJKoZI
-+hvcNAQEBBQADggIPADCCAgoCggIBAOTCvZyId7XQL8eGVE/+JKfJXGNtzdLt5uxV
-+3FBMFxP6oKtfKvwiggaw8LEU3TTeNx+eAwRmfgjoD2U98UYCXNwoO/Mzgg2dZpKe
-+r+Dmz39XyEs0wTzm58FspPo4ZcdafvHUrrZMwQ7MyKxDKSReAkT6Yng7XDL1hrRd
-+hsCNXDorczhN843vhBx9vcrsCpNebAPG5uJJtorevirFIZnzMfj3zLc+EpsAJiPe
-+2+57uvYs264//egoxCJ2XdSyyWkWIJf7FzMVVs0CboxKwLIBtqQIIpAvDH4fYL06
-+carQwqyBLnA08DpN7dJ1x7toZ8fbu8tlnnGFeq6toZ7wfvpPew9OWRoxESHyjm6a
-+BAvrAnPmbsGhNB++qhs/nvS05dnfMNtI+breo4Pr+ZXdfdEZ5qVNSgdhAZ5UuSGU
-+22kmkfjtKvcCnr4DlQYqv0HFqdlENV6AXqmUW+b0GktRheOXd542YQwsdbvV3ZBL
-+mBcSG2abTeg8e1zr3CDpGZU9oa2a1DyWHQI8F/6TxJG7u3gaLITtNs37O2uf0ZlJ
-+pVIhP90g/U/Ewcg78/dtntAHVYevIFLdAVDMXrM5ztgnQ3GrPG3IGJirik71WQX5
-+l+s547USvoBUED76IJKPigaGGpg9LkO90SUMD1qCEbws6271PyeYDIrtRumanoqq
-+SanEH877AgMBAAGgJTAjBgkqhkiG9w0BCQcxFgwUQSBjaGFsbGVuZ2UgcGFzc3dv
-+cmQwDQYJKoZIhvcNAQELBQADggIBAIzE/DhbSR9aiODaA66vPVVAjsf+yn1dmniI
-+iRo7scheU5dBmYcJOqnkZ57QWbnB5qoYrcddJ17ijgA4fCV0IPnAunE6RCh4HBlx
-+AtXcniC4ftZRnezQJdIUlR6j+w6NFQlYW8DR8uvROV13scoXngfC2dQCxrvsorTH
-+6NlenyvMI1TH4wPTgqtFAaMie4HnP78J30fvTfzwhJisWiqwc6G7EtZ0cnpmJdH/
-+0L8jgDkfetCzTBb+4JjSdElNR0rYZZYDK5QbVkhNw9K+vvB+UcAwANDkTVcwRzeZ
-+gmujiXLouALHuaKjTpYkRa5M8TDVMHVNUJPphRCzQcDVGJMOCxS2jmHe7Q67uvWm
-+vSuEsuCOjc5K5dz2La2d7q4GmzVb+3IdFqSJ3QfWnARMp2KttxpmYm4VbpNBj+Z0
-+jNA+uWgOHOmpsOMn2u4A/72o5QNPM6jcdifiY2KALOT+uPcuOBLTIEBmN9s1/9Yr
-+fdTDsI26IOMf6NfaaFyggW+mut1SUFQt5XDP3B5MLzEjr9/vi9aKl8pmGqHwI+LN
-+UGl5l/e7I77e+FCbtuw8pmeolmJfK2T4EKi1hC1axz32zwTh5IkPirn6HdsEYOUb
-+qyMIUFDI4Df4BxeFJtcApgyV8b2lko3QdiihckGJvyd0FWPG7utOFh9bffrJR7IF
-+2rTgD8U+
++Tm9kZS5qczEcMBoGA1UEAwwTYWdlbnQxMC5leGFtcGxlLmNvbTCCASIwDQYJKoZI
++hvcNAQEBBQADggEPADCCAQoCggEBAM/j3KMwRLnWx9gbhpzTqNHsOdKLMwOBb7RX
++oIU+C6/qnUPTxoEDrSaFjz62OxuKfcNhGJMHYc3sL2y9nZwB98or1b/jQbr6N8m4
++HojyD4u11n2FWLDZELSTg8UvOkbdWwlGkzhZ+iz+5tmoG40Ys34rrywAVTSNtStr
++h20lBcyLtKUWUkhTHaDXQ4XfXa4lxER8VWA0DDgQhnYftuYa2kTSndR8GKvgdPLm
++fPiu5gJtvM1YO5ftEgZlJe2ppBzs/1A++4vOymV94jxLahFMtEiAMRq1ckWUhbMa
++7WQXteN+06ucUfBFYgIrqOipLN0uFJLTap+ohEUkVVnxA2rXVuECAwEAAaAlMCMG
++CSqGSIb3DQEJBzEWDBRBIGNoYWxsZW5nZSBwYXNzd29yZDANBgkqhkiG9w0BAQsF
++AAOCAQEAD3q34x4w7sHJg833f5jTsaa1lnzn/eKRQPluQayGFD+AkGMaBdR9AaKe
++no26lRIzI4tD+qCxRPStldnmZG7lKEBXuEzSP0xhbOfY3RAUjHQMRdMMHxPx3M7Z
++sl7sq5Cfzs58sKaEL+FBcYVkNFke06N2E3CsLjw5kkQYHuYrq4+1Vq0wS0KEbpIt
++Bt2jWf6GNnESVV6qNS0Nl0zwewFJjnLO72g3C+WJuAs3UMUAdFh8FS7W4E2Fr68S
++YNb3qvGkovA5xcnIYX86B7mdSPR1G00QZ5K2nHilXNvkbEbHEo49XtnxOEWZEz3G
++WTK6u7EmXDXjCV9t58PrEcEkJmICBg==
  -----END CERTIFICATE REQUEST-----
 Index: node-18.8.0/test/fixtures/keys/agent10-key.pem
 ===================================================================
 --- node-18.8.0.orig/test/fixtures/keys/agent10-key.pem
 +++ node-18.8.0/test/fixtures/keys/agent10-key.pem
-@@ -1,15 +1,51 @@
+@@ -1,15 +1,27 @@
  -----BEGIN RSA PRIVATE KEY-----
 -MIICXAIBAAKBgQCtXZ2JW6asoNLmTzUytx0QKdhhVnl95D8VkOrAQcz/OVe+zq+m
 -FTesaZl4BIxAR0eDu9SPPO8Tw8Oom4lcqsLmUQ7U5Rh5QOFpn9C9hL20OnupMnM5
@@ -363,61 +368,37 @@ Index: node-18.8.0/test/fixtures/keys/agent10-key.pem
 -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
-+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
++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
  -----END RSA PRIVATE KEY-----
 Index: node-18.8.0/test/fixtures/keys/agent2-cert.pem
 ===================================================================
 --- node-18.8.0.orig/test/fixtures/keys/agent2-cert.pem
 +++ node-18.8.0/test/fixtures/keys/agent2-cert.pem
-@@ -1,16 +1,32 @@
+@@ -1,16 +1,21 @@
  -----BEGIN CERTIFICATE-----
 -MIICczCCAdwCCQCtrfdcbYDS0jANBgkqhkiG9w0BAQsFADB9MQswCQYDVQQGEwJV
 -UzELMAkGA1UECAwCQ0ExCzAJBgNVBAcMAlNGMQ8wDQYDVQQKDAZKb3llbnQxEDAO
@@ -433,45 +414,34 @@ Index: node-18.8.0/test/fixtures/keys/agent2-cert.pem
 -bIwhpLPo9jf7iPW9VayxQKvV5HXuiT1vpIjuvhbRRH3wGj3by0TtI+sqECcPKu1v
 -5bg2e+bX8s1OXFJh+x93KCnrcFNEwOVk9VjUX+ilJdTkdcGA75N4ZO7qEV5wKl9g
 -658PRZl3KA==
-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
++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
-+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
++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
-+VQQDDAZhZ2VudDIxIDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIIC
-+IjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAzFbysXv+9Krce+YF58ByJq4v
-+rQ1/0t2jHVlcWmAVONDpG4ntF8y02xlkwmZGLIX0EoQAbSI7gvJT+s3GEc2WHdH9
-+rTQu4vqGTRdec7bcBZryoW9mZiZyc5xEsXEWcFzZNhnrRbUPeJ7jsR8qAdAkDzRV
-+W4uCKWjdbetVDGbsEdO5kzjaL2rmLeYq17x+obGuvSzuzV4lZgAujQgug7bapQjg
-+RvVbwPi+kDFjVDlTgNoX8/xK2mGnrg3Eh5XAGDp95uqZifu0MGZ2MUEhjJTjw/7l
-+UxdOnVXzEPf5FhuWHXx3Jmuy18pvDume+Pwww1r/R6+9w8k6qJaC/fgKlr3pVxqf
-+83BkowsdeGaj24mdhz/rjv82vTdgimWr98O3tkiTUAX3J7T+Bc/SpFqLjB+rdki4
-+yAyXkgxDQa9ZpMOz0y9+NJYP8r7VH24pk9YVABYI8MHyLVIYoVew7LE0uVDRp7a8
-+tP0LClHOzemPgj6Z+HA9rSfqkh98txPpzhGJL0/j/XirY8vIp6vfkL+V8cYtGJ87
-+lQvspe24ZDWbSjCv0L560mNu48VRLGk1HwhzcapzVIdb2lX+tJCPBnakK23YXFZX
-+qFXlLNwE3dGAPprxyJyqWj4Brgkz8qXrFDJIOATnh5trV8Ogy3ytM1xDB4ohRtjv
-+PlUVzPzim2UwVV4oJfECAwEAATANBgkqhkiG9w0BAQsFAAOCAgEAzD4rAd7agBgo
-+WFKt5v3mUuBOaYJJ4jwd9wbvpd96rbsg17MLwa6U8XDLQh5j6gHLFDP1pAbdHeC3
-+SPIj6PwsLdFCteN9yVoJd9SiNOjmf8DOQtSPCiczlOHQg3jsLh4Kj1FXimbESFvX
-+imk+KNoR7DWX29Xrcqnqtnau2Eb86dZfSAvFCh9KKFCcXwHbhJEuiPjq9dzYqheT
-+I7Vgr0piXy3LYWzeIjpgKzRg/tRr7PINqL/2mSS/yP9VGk88dLPaFk7R1NiXy2w/
-+fx8QS0UOuOPOGIqGg1jF/AxRLHrlURF/daRFikidFpfsqMMaUn1BhDKT/yZaKG39
-+x640t16ZLKeMcYDmswdx5tu+YiNckzYaZgrxmBk6NIvhemDbndCINRsbgJEKTEDo
-+UspA/tWTFRWVUfW+zNBwx4VaOdhI3Xhj7tInMfnvJVvo5vPXIQ8m7WwdE9CYu4/H
-+xxJ3pU7SehGhUF+tV/HCEBuudUKaVVXNr+Cn6Qqp+sCyk0Wb1iXC/alyus/C7WAa
-+s58VLUNAPRsreV91p45qnCMwH8hMoVgx7AryUn1kKx5Ani9Kd7VPaEbVkdAWhqyD
-+J6gXcoDBEy/GkFEl7H623wgjarKp/wqTh+m1AHvRtsBlTlZ6Tid7opdGB6v9Dx6b
-+F7o9bZYIzydgFkjcMAPDNmkgGjd5eqE=
++VQQDDAZhZ2VudDIxIDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIIB
++IjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvqt/4KDehQLLDH+I2KXOxg4G
++WfNBISWmKlExPBfz9i1LY/rwoRwryv3Lpr40M05Dx+Rt4LMC+If7NGvrV8hdNSOz
++jW7P7R6upVdNXpeZDmHvhq+G/xv+x/Hdv3+Sdm/JC8TD2HRYcHSSWsirRbfA9eJe
++L0ADh1mJGNpWS+9FNXtbR3LRWsRwNjP1Lb39tXIsfHiWrJ/F6yAhWOU+ZZvvjazp
++bZX7Kes0lxVtyWCzLFpnzYa/gajGLdGJwTrfKXsSz2wk6szKlbO0mzX0aHviPRPT
++ftUVs91qORJ8tkAU4u78bpV0eCM8tVJh/N/oSm7ysLUjxhJrfNxHmmkGyaRL/QID
++AQABMA0GCSqGSIb3DQEBCwUAA4IBAQA+94z0pI0JEU1dX4bHGkhP6hwmv5tu7KlA
++R0hK33pF+boiagbySHrXW/y119VLp+o1FjuOlS4ETgAjcIjN2dDmJc0JEj6jnXyc
++4IYhRMDg4INAnmXX9bdCmpYuvhw/73cuxkdkMxH8p4O7v5HSqfpwjTEX8tWtpeMI
++IZ4+H/ddOKyvF3SO8lfrYJ7TXyypWfxzEiBuJnhZgpMG7zpZMGIzTkcN9VFTCv8d
++DCW0Lr2Ix/GY7nf/R9zDFnEZTW6IIkRp9UsUdOrgqgfSxp/C48foFv7gqMO/9PD8
++E8uE8986AFd5cK67imYPspHXv5UycySifwsSixi0hI9lDZqUIoWH
  -----END CERTIFICATE-----
 Index: node-18.8.0/test/fixtures/keys/agent2-csr.pem
 ===================================================================
 --- node-18.8.0.orig/test/fixtures/keys/agent2-csr.pem
 +++ node-18.8.0/test/fixtures/keys/agent2-csr.pem
-@@ -1,13 +1,29 @@
+@@ -1,13 +1,18 @@
  -----BEGIN CERTIFICATE REQUEST-----
 -MIIB4jCCAUsCAQAwfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
-+MIIE5zCCAs8CAQAwfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
++MIIC5zCCAc8CAQAwfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
  DAJTRjEPMA0GA1UECgwGSm95ZW50MRAwDgYDVQQLDAdOb2RlLmpzMQ8wDQYDVQQD
 -DAZhZ2VudDIxIDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIGfMA0G
 -CSqGSIb3DQEBAQUAA4GNADCBiQKBgQCrYG2i9zCUhQ1UCLe6RvJC95k2DdWSTEHo
@@ -482,37 +452,26 @@ Index: node-18.8.0/test/fixtures/keys/agent2-csr.pem
 -Xl0n84f14WDi/N9rF0IfGMSVWoLDCc5gcoqKal0X/vQI4lpPiZ0hctU5cXru1Pvi
 -yfDbIPB0td7POf3Q3Ge3a3RHf4I4cfRuzA6jfzMlorpgQmAKL+sstC94LZZnDiNp
 -ihciaeK7
-+DAZhZ2VudDIxIDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIICIjAN
-+BgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAzFbysXv+9Krce+YF58ByJq4vrQ1/
-+0t2jHVlcWmAVONDpG4ntF8y02xlkwmZGLIX0EoQAbSI7gvJT+s3GEc2WHdH9rTQu
-+4vqGTRdec7bcBZryoW9mZiZyc5xEsXEWcFzZNhnrRbUPeJ7jsR8qAdAkDzRVW4uC
-+KWjdbetVDGbsEdO5kzjaL2rmLeYq17x+obGuvSzuzV4lZgAujQgug7bapQjgRvVb
-+wPi+kDFjVDlTgNoX8/xK2mGnrg3Eh5XAGDp95uqZifu0MGZ2MUEhjJTjw/7lUxdO
-+nVXzEPf5FhuWHXx3Jmuy18pvDume+Pwww1r/R6+9w8k6qJaC/fgKlr3pVxqf83Bk
-+owsdeGaj24mdhz/rjv82vTdgimWr98O3tkiTUAX3J7T+Bc/SpFqLjB+rdki4yAyX
-+kgxDQa9ZpMOz0y9+NJYP8r7VH24pk9YVABYI8MHyLVIYoVew7LE0uVDRp7a8tP0L
-+ClHOzemPgj6Z+HA9rSfqkh98txPpzhGJL0/j/XirY8vIp6vfkL+V8cYtGJ87lQvs
-+pe24ZDWbSjCv0L560mNu48VRLGk1HwhzcapzVIdb2lX+tJCPBnakK23YXFZXqFXl
-+LNwE3dGAPprxyJyqWj4Brgkz8qXrFDJIOATnh5trV8Ogy3ytM1xDB4ohRtjvPlUV
-+zPzim2UwVV4oJfECAwEAAaAlMCMGCSqGSIb3DQEJBzEWDBRBIGNoYWxsZW5nZSBw
-+YXNzd29yZDANBgkqhkiG9w0BAQsFAAOCAgEArhog4yLb8jn8x7FKArlSkjeQInXj
-+ydZjT6SIxbNvRzw+RaqL6b30CFdc4csAcyJocsy+m+wc1xUwoPKcI3JwG/WPX5ni
-+Qlx9dok6wuwIOX4b82oE/IItP0RPTJXkP+z+4i/wIfRhVywo199yJx1M3W3g7gBZ
-+CkJn3XswdIpjiEwc5AgtRjmnL5gNfDjA4wYcKydMBmqjb3JoXKlN8KEzLtUz3XN/
-+h2g4uGMLped83AJY3CHi/ZwQ/4EboIvbD4c8n3DQChBIUof11DmqAaqt1+CW7rzy
-+xWPDWnnw6+9qLjD5WLyIrya6lZp4t1QCzQVFko/PIZkcO8/vrNmrvwzvqF34z0yY
-+4GorVmlsHcjZUtpPVMMBNhDZweBOKT2LKIhlbnyU8GNWJPXz7QvdTMhdCMubPM3C
-+eoS0aACiUM/K3wCE2ljXB8HKxnEXAAOJo2FwtL1ZvYEv3cKNcNHfb0AA3XJN1yMr
-+du/99dph6/emeVnSDRI7sTQc12D8J9Ck6Mq+LDPQ7HvjeC6mvp7D9yMOqWgd4kd1
-+QwL0u+qp3sFMKfcStgP/4dqZKwyjzuFS3fLrVXMGxZ46bTXVhITkSRSal7/WgCBx
-+NXzYnP+S+0/hEg/7j6Vx904cvFNS7+jhUTUs2oU3lj9m4VZ2yE8w0XqYn/Cw+dE9
-+AbOwQGKDn+Kq04s=
++DAZhZ2VudDIxIDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIIBIjAN
++BgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvqt/4KDehQLLDH+I2KXOxg4GWfNB
++ISWmKlExPBfz9i1LY/rwoRwryv3Lpr40M05Dx+Rt4LMC+If7NGvrV8hdNSOzjW7P
++7R6upVdNXpeZDmHvhq+G/xv+x/Hdv3+Sdm/JC8TD2HRYcHSSWsirRbfA9eJeL0AD
++h1mJGNpWS+9FNXtbR3LRWsRwNjP1Lb39tXIsfHiWrJ/F6yAhWOU+ZZvvjazpbZX7
++Kes0lxVtyWCzLFpnzYa/gajGLdGJwTrfKXsSz2wk6szKlbO0mzX0aHviPRPTftUV
++s91qORJ8tkAU4u78bpV0eCM8tVJh/N/oSm7ysLUjxhJrfNxHmmkGyaRL/QIDAQAB
++oCUwIwYJKoZIhvcNAQkHMRYMFEEgY2hhbGxlbmdlIHBhc3N3b3JkMA0GCSqGSIb3
++DQEBCwUAA4IBAQCs0NyX5JY6NuiWNSQDmenYjZ3eRnM2DJPhBTr3RiniYpPMpa9H
++aP4IXRrvZA+N1wGf7UVminYwL54FdSfCcXuCPQAGGJOc4ZrEO0vt2z6gnKZLnXwb
++vYd1rcYVHGTgwtIL10cV4IJvpEvcw5nF3MQD7upi/16esasQmRIVA2qezG8qkUFG
++WKn89PdDQKQVLDG3c5bPN1IXOr+4SaFdUBsSymx97BH2cpWzt7q2FJbbJqgnaz+e
++7YS5MDaupRgZ3x6ojh/cHhrMvDPe8rQEXWWXkUuTQmmy3dpu7RTi9hqRGjU6MOlU
++L74fsBv88h6Kmg3R1ueIGB4t3iBUCZT53nAC
  -----END CERTIFICATE REQUEST-----
 Index: node-18.8.0/test/fixtures/keys/agent2-key.pem
 ===================================================================
 --- node-18.8.0.orig/test/fixtures/keys/agent2-key.pem
 +++ node-18.8.0/test/fixtures/keys/agent2-key.pem
-@@ -1,15 +1,51 @@
+@@ -1,15 +1,27 @@
  -----BEGIN RSA PRIVATE KEY-----
 -MIICXAIBAAKBgQCrYG2i9zCUhQ1UCLe6RvJC95k2DdWSTEHoiH4IvvRURffSOLkS
 -lCoaPCTlRvq1Fh+4YfAFZI7z5bY/C12mUNu4g6grkwCn7CQNEILwfWXiLxx04D3s
@@ -527,68 +486,44 @@ Index: node-18.8.0/test/fixtures/keys/agent2-key.pem
 -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
-+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
++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
  -----END RSA PRIVATE KEY-----
 Index: node-18.8.0/test/fixtures/keys/agent3-cert.pem
 ===================================================================
 --- node-18.8.0.orig/test/fixtures/keys/agent3-cert.pem
 +++ node-18.8.0/test/fixtures/keys/agent3-cert.pem
-@@ -1,16 +1,24 @@
+@@ -1,16 +1,18 @@
  -----BEGIN CERTIFICATE-----
 -MIICcDCCAdkCCQCR8AZjYGnynDANBgkqhkiG9w0BAQsFADB6MQswCQYDVQQGEwJV
-+MIID9DCCA10CCQCR8AZjYGnynzANBgkqhkiG9w0BAQsFADB6MQswCQYDVQQGEwJV
++MIIC9DCCAl0CCQCR8AZjYGnyoDANBgkqhkiG9w0BAQsFADB6MQswCQYDVQQGEwJV
  UzELMAkGA1UECAwCQ0ExCzAJBgNVBAcMAlNGMQ8wDQYDVQQKDAZKb3llbnQxEDAO
  BgNVBAsMB05vZGUuanMxDDAKBgNVBAMMA2NhMjEgMB4GCSqGSIb3DQEJARYRcnlA
 -dGlueWNsb3Vkcy5vcmcwIBcNMTgxMTE2MTg0MjIxWhgPMjI5MjA4MzAxODQyMjFa
-+dGlueWNsb3Vkcy5vcmcwIBcNMjIwOTAzMTEwOTExWhgPMjI5NjA2MTcxMTA5MTFa
++dGlueWNsb3Vkcy5vcmcwIBcNMjIwOTAzMTQ0NjUxWhgPMjI5NjA2MTcxNDQ2NTFa
  MH0xCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJDQTELMAkGA1UEBwwCU0YxDzANBgNV
  BAoMBkpveWVudDEQMA4GA1UECwwHTm9kZS5qczEPMA0GA1UEAwwGYWdlbnQzMSAw
 -HgYJKoZIhvcNAQkBFhFyeUB0aW55Y2xvdWRzLm9yZzCBnzANBgkqhkiG9w0BAQEF
@@ -599,31 +534,25 @@ Index: node-18.8.0/test/fixtures/keys/agent3-cert.pem
 -6/t82tLGnrCEglMTFHFp7MJCNiKCY16Ixi5WCZoUrGCfbh+Obtd4bP/wAlR8AS67
 -lYZDvjADGU4e7Aqu0o0AHeb4MiRUQbkD0EUioyD8091Qhzlrx43UtdojPvakwAXM
 -N/LFEw==
-+HgYJKoZIhvcNAQkBFhFyeUB0aW55Y2xvdWRzLm9yZzCCAiIwDQYJKoZIhvcNAQEB
-+BQADggIPADCCAgoCggIBAJ+hODcaGManC6vB09X8HsPFpDu/n9fWhoj23dFJb02c
-+gvjwSqHE+F5is/WSxZ8unTYaDQycW7xIdn43LbFpmUsQIWnDWypjLHvnX3lmG6HU
-+vAkfBVt4UMvKq8bycdTQT0jJcvhcB1Hifwkm6soST/ssUa52jryKWMkYm/VElIm3
-+99oV6fcXFrKNrhtx2OavI4ftVVc8OYJBFzPa6dFvmIiE1v2xyEmE+N8dzgl1Jar8
-+5l/4vdAWCn7MmKkgBBVxaNQKv6dY/Cf6Bc0krCx2B0enTQc7/Fz8Nzqt/Hw6u3GF
-+v+Bw9X1Bo8+56b3gzJD/xXLwWwQdUJPwNGjeAUf5jImccvC6joGuc43Rh+Gh8HnP
-+f7tNg9r9P+vhaF9vBXd/cRyrmQhanSk+zkQdL3fCsPn/wQGyxlB8ZhPnmzJTQEXf
-+h+bHUSH8JDvnPdu4GDN6PzNkCsRtLDW+mk1WvO/9fdxd5RVXZCDicVFh9hFwHEeP
-++qWwlOA2pJPAdEeSmpwIIS3DE5k1UBOSllqMYzUKnH/j8hSaGT5+CvOB1G4r5p/g
-+borE4br+wdoOG91tvYxCqbYn/DOPun20kXkg8RQM4cT98QZMU5l7ZL2DveXQ0H3H
-+tOPkxB+3bpOTBVN1Yse/4uJ5xIF+8QTsBgbtA9VsqZJyp0XmWqebYxEy4DxyiiMv
-+AgMBAAEwDQYJKoZIhvcNAQELBQADgYEAZvaTyenSVZgGG+o8UvRwlKycjAZnm5n/
-+SPwS+cqkJVYwpnCsPUho9wY3AMI6+DhDh7KaAG2TnkPBIjpLIMtGruYX8sRZUKOp
-+KBuglQw9C22sQUDpA2HYstIrjCao4nUQYMCTq1M7lBmkmAAIbLp4IF9UPFyl+vhr
-+Nb6T5PDR73s=
++HgYJKoZIhvcNAQkBFhFyeUB0aW55Y2xvdWRzLm9yZzCCASIwDQYJKoZIhvcNAQEB
++BQADggEPADCCAQoCggEBAMwdFX1RDh/WG1MyegBg2PqcmMSd3wKmO6QxSYpEdv2o
++rhBJ8opfsdvMDvk66UfqBgMIryJhHWf1iznmAC2aT4hDYyKuqFuN7EDzHOWH7ta5
++E5+OXR/UvgYvsq5ptNKAUUbZ3MoOnQluEbNnJS0wqKSQWu1apnih8fUiqrTQjI/d
++lnnN9A1aQwD2JMPy/GYD6bjx3psFcBjrPiSm/WuZxpcFg/r9cNW3mylEMMw2TUe2
++Wwaz92GfX6AbF/ENAS9DZSwz7UzVwaHzwv69TXTlskdvAvGA4j6FCvpbuTFNc03Y
++YGUfnhO7WpiaS9lppj7UMAUOI0KLAIoYZYOCYarZeN0CAwEAATANBgkqhkiG9w0B
++AQsFAAOBgQC3K2rmDobXHmAvKjQOndWY6xPUmmSzLPWr+WtFormgLG5UOiKAYa7K
++ErG6aklZw2ZnYRSebotC+eVh1ZSuOdpFnLw36dt6XGe+ulp3jgc9nggTZGagCFB1
++yhgZ4y+7zx4u1t2oVqCbYn6mtw+AuwoszkdzHQqZIA42USnxUCLJPQ==
  -----END CERTIFICATE-----
 Index: node-18.8.0/test/fixtures/keys/agent3-csr.pem
 ===================================================================
 --- node-18.8.0.orig/test/fixtures/keys/agent3-csr.pem
 +++ node-18.8.0/test/fixtures/keys/agent3-csr.pem
-@@ -1,13 +1,29 @@
+@@ -1,13 +1,18 @@
  -----BEGIN CERTIFICATE REQUEST-----
 -MIIB4jCCAUsCAQAwfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
-+MIIE5zCCAs8CAQAwfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
++MIIC5zCCAc8CAQAwfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
  DAJTRjEPMA0GA1UECgwGSm95ZW50MRAwDgYDVQQLDAdOb2RlLmpzMQ8wDQYDVQQD
 -DAZhZ2VudDMxIDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIGfMA0G
 -CSqGSIb3DQEBAQUAA4GNADCBiQKBgQC/6HB9JW4l8cNA5eYXYP8ewjYlmSyl+s9A
@@ -634,37 +563,26 @@ Index: node-18.8.0/test/fixtures/keys/agent3-csr.pem
 -lh1N2vSf9vx663ni6lG9XQrQZXyPH8n7vvyyX1bJE5X6dAKuiD4GYlcGUUCnsvcA
 -r+JzSBrbtwD57bPnn21YSUl2QEoG2b+/6uPKWxKr8e1sreMxHOLwsPgSavnQ84Bc
 -GvSLlIcR
-+DAZhZ2VudDMxIDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIICIjAN
-+BgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAn6E4NxoYxqcLq8HT1fwew8WkO7+f
-+19aGiPbd0UlvTZyC+PBKocT4XmKz9ZLFny6dNhoNDJxbvEh2fjctsWmZSxAhacNb
-+KmMse+dfeWYbodS8CR8FW3hQy8qrxvJx1NBPSMly+FwHUeJ/CSbqyhJP+yxRrnaO
-+vIpYyRib9USUibf32hXp9xcWso2uG3HY5q8jh+1VVzw5gkEXM9rp0W+YiITW/bHI
-+SYT43x3OCXUlqvzmX/i90BYKfsyYqSAEFXFo1Aq/p1j8J/oFzSSsLHYHR6dNBzv8
-+XPw3Oq38fDq7cYW/4HD1fUGjz7npveDMkP/FcvBbBB1Qk/A0aN4BR/mMiZxy8LqO
-+ga5zjdGH4aHwec9/u02D2v0/6+FoX28Fd39xHKuZCFqdKT7ORB0vd8Kw+f/BAbLG
-+UHxmE+ebMlNARd+H5sdRIfwkO+c927gYM3o/M2QKxG0sNb6aTVa87/193F3lFVdk
-+IOJxUWH2EXAcR4/6pbCU4Dakk8B0R5KanAghLcMTmTVQE5KWWoxjNQqcf+PyFJoZ
-+Pn4K84HUbivmn+BuisThuv7B2g4b3W29jEKptif8M4+6fbSReSDxFAzhxP3xBkxT
-+mXtkvYO95dDQfce04+TEH7duk5MFU3Vix7/i4nnEgX7xBOwGBu0D1WypknKnReZa
-+p5tjETLgPHKKIy8CAwEAAaAlMCMGCSqGSIb3DQEJBzEWDBRBIGNoYWxsZW5nZSBw
-+YXNzd29yZDANBgkqhkiG9w0BAQsFAAOCAgEAOK0lgzISKQfsE4pun8iVjdrbF92R
-+evMV+LpRhoFFCXDF4ksEDUTMTOpaqrQ7H4LPRnsjRY2B6JRRiyZph72BnE+rSfy+
-+whJKTkANrsReBka+Smd9QTq4sX30cyhHXykR2eVLO2rpbrc7M09KYyrOhKv6akfn
-+ZNlmz4UVu8cnlLPRAV7QGvPM0oZ7fLixa7H2WAtUeAf6XWgbCfM7RgqAFI+LNVVi
-+TNXKeuKxWrUZJ3kXoEZyycqDBsViT0LKeXZjs4j9JRK1VSz3M2iAjMlhJeYWHwCB
-+rcLCn9VtxvGkUWtrnZYO9MJTtdviluJPho+6sD9Fs2rtUIVYeBaOAg/wau+jMB/d
-+jpuZlwAvE7HuFUIGU+ydASL4cnH11x87z2AsKGnTjfMRuOSdLbA9p9rfXLP0cKmW
-+GUNXdGrWoxI9NceEZ74CapUqhC+WNMmtPKUmOl0O8aeUt2UZfMTstKrWWvK8HGbN
-+FfsZCtI/Gyaou6HeYmmmLptgYeme0aLDsUScBoBVD1bHGhaaQM87RyGtgIgrBktc
-+d/ilrkhIklTj3+o8mH7CCfaHvUEbe/0od2lMDkIiSZdSqmcnu+VrD6F5lhmriGX6
-+oQBI5i4By5J4fiAavDSpqjh1bzM+/WTKxH/g81t7VvnF/M+FviqovnrWtgxo9ziN
-+yD47tTUxh+FyJ9k=
++DAZhZ2VudDMxIDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIIBIjAN
++BgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzB0VfVEOH9YbUzJ6AGDY+pyYxJ3f
++AqY7pDFJikR2/aiuEEnyil+x28wO+TrpR+oGAwivImEdZ/WLOeYALZpPiENjIq6o
++W43sQPMc5Yfu1rkTn45dH9S+Bi+yrmm00oBRRtncyg6dCW4Rs2clLTCopJBa7Vqm
++eKHx9SKqtNCMj92Wec30DVpDAPYkw/L8ZgPpuPHemwVwGOs+JKb9a5nGlwWD+v1w
++1bebKUQwzDZNR7ZbBrP3YZ9foBsX8Q0BL0NlLDPtTNXBofPC/r1NdOWyR28C8YDi
++PoUK+lu5MU1zTdhgZR+eE7tamJpL2WmmPtQwBQ4jQosAihhlg4Jhqtl43QIDAQAB
++oCUwIwYJKoZIhvcNAQkHMRYMFEEgY2hhbGxlbmdlIHBhc3N3b3JkMA0GCSqGSIb3
++DQEBCwUAA4IBAQBBYLg+yfXXYhJcWP2VcUrKZVrs6YA+tzY0fUNCj7+6BpsLJRod
++4oG8ZD+lWFD3zsZtwnu2cJf9dKQfW7yGPWzXARRdJFTdp2EifaQCf7Mgykq21zEG
++xQ755WvJvSM7dK/tCZXl0fQWk6Gbj8JStgz5MkLuTuZkCxfllNQ0Zd102fAyI+Os
++gf9AI3tgvt8wV8QMvS0YmBBNZdilxLvm0WhuNWfeSM5RxeUqbZ4YPfxELNPyb2wl
++QVnSSu2Hw6qCsUrLFwVkohgaP8c160NhZ0djqDw2wSQcFdx+ypt1ZwHG2T4zMBYF
++0zr/VjWtevRXULFRF7BPE+nSY1Fz6S9LMTS3
  -----END CERTIFICATE REQUEST-----
 Index: node-18.8.0/test/fixtures/keys/agent3-key.pem
 ===================================================================
 --- node-18.8.0.orig/test/fixtures/keys/agent3-key.pem
 +++ node-18.8.0/test/fixtures/keys/agent3-key.pem
-@@ -1,15 +1,51 @@
+@@ -1,15 +1,27 @@
  -----BEGIN RSA PRIVATE KEY-----
 -MIICXAIBAAKBgQC/6HB9JW4l8cNA5eYXYP8ewjYlmSyl+s9AT9kvW0gjZxdGe6wi
 -pZm8uD2/shVjSBK/HmBYwfGaqporvkxxUm87VcTMtilr0N2ePTrGo1aXqHAsec9t
@@ -679,70 +597,46 @@ Index: node-18.8.0/test/fixtures/keys/agent3-key.pem
 -YclVAaRWzKK/b/Ga5Gy36x7UybDzPNCHyZF5Bp8PppcqnKHrFB4GfqxlwgyHW8bm
 -alC9pBBz7jr+3RJNWq0CQFHxhrjdhQFhYJoW8b+pqE1ryNSSSf/1yBEug6Xsqsjn
 -MSuyCTLXRpoS/LAdL95ENCX3ULsu/5nlpKZmy99yY2M=
-+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
++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
  -----END RSA PRIVATE KEY-----
 Index: node-18.8.0/test/fixtures/keys/agent4-cert.pem
 ===================================================================
 --- node-18.8.0.orig/test/fixtures/keys/agent4-cert.pem
 +++ node-18.8.0/test/fixtures/keys/agent4-cert.pem
-@@ -1,16 +1,24 @@
+@@ -1,16 +1,19 @@
  -----BEGIN CERTIFICATE-----
 -MIICjjCCAfegAwIBAgIJAJHwBmNgafKaMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
-+MIIEEjCCA3ugAwIBAgIJAJHwBmNgafKeMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
++MIIDEjCCAnugAwIBAgIJAJHwBmNgafKeMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
  BAYTAlVTMQswCQYDVQQIDAJDQTELMAkGA1UEBwwCU0YxDzANBgNVBAoMBkpveWVu
  dDEQMA4GA1UECwwHTm9kZS5qczEMMAoGA1UEAwwDY2EyMSAwHgYJKoZIhvcNAQkB
 -FhFyeUB0aW55Y2xvdWRzLm9yZzAgFw0xODExMTYxODQyMjBaGA8yMjkyMDgzMDE4
 -NDIyMFowfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQHDAJTRjEP
-+FhFyeUB0aW55Y2xvdWRzLm9yZzAgFw0yMjA5MDMxMTA5MDhaGA8yMjk2MDYxNzEx
-+MDkwOFowfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQHDAJTRjEP
++FhFyeUB0aW55Y2xvdWRzLm9yZzAgFw0yMjA5MDMxNDQ2NTFaGA8yMjk2MDYxNzE0
++NDY1MVowfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQHDAJTRjEP
  MA0GA1UECgwGSm95ZW50MRAwDgYDVQQLDAdOb2RlLmpzMQ8wDQYDVQQDDAZhZ2Vu
 -dDQxIDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIGfMA0GCSqGSIb3
 -DQEBAQUAA4GNADCBiQKBgQCvcVH69FzdPGCUXgwowuBz4lLAV+COzishbuyNGF5l
@@ -752,31 +646,26 @@ Index: node-18.8.0/test/fixtures/keys/agent4-cert.pem
 -gQAykzKtLG++xAfLoq2AZ3OKlEYGC4RuOCy9J75RYWNRuy18UnYl0HGSepeqQ/4c
 -0r+dy/SLUVKxC7e87hs7gP8UX+f9UaVM7dvqvZbZMVH+A6w2nIAcO3zwtSJlfQ8H
 -NJAdQl1lZ6qc97APtBlfeTMTdi/hTghqZLah21/hIE5lFw==
-+dDQxIDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIICIjANBgkqhkiG
-+9w0BAQEFAAOCAg8AMIICCgKCAgEApNuN4v7Hazql+8SlRqZ5Cxo+ewOIJ6A+vj7s
-+dazpnp53HNuqgx2BUG7XMOTlwkd2PrAu8Ff77b3epDzsxwxU8BOCp441ue+U7T8/
-+zAGBTtVngtRsFVyNTZg+AhxZWv1r1o0nQZ+uq9ViMj0wJGpoVrhWm3TVq7DCz/Qz
-+Tx9I7vmTN4iCZkfSpd4WS9HI7hkI2WHmTRi562jle5meoHGp7Aq5kxFyX0Ajj8YL
-+Z8ZshmTuSWfWAasdQZfUkF9WCpIrjo+wwdIsfNsFsEDGFA6Ji2tc0uqfZyk5zC2o
-+IJELtIC6jo1Cza7+pMkIATV6ztrnliuAOkWKLI2A/ZloadVqPMouj1WkePAnmpj7
-+OyHwZWs2bnGvVa5CWQvcXiFOzLikKLUOV6fZunq9kEaJFqEnAQD3xTCBZnoa6/hX
-+P3pKQHt1rzZBvsmXv2zj+B7tTydbN55Q2fwrIbP1ZV3OTPNdyh1ebEEKNX0rllnO
-+xwa048Cl+fPzCXckFYy+RIDZhUVFFPy03JxUVOlpo/NMur+G1gq5UgNYgzvyfXLS
-+x1B7V+fGKp/pDbiwc6SK8sX5a9WKSlfZg0HtgIkk9JjcA10uhP29nAQwGqxNkniv
-+sdDPs6ZYy/xTSIO8F0bnfCcCx6YMb3gg3Y4UZjWKSx/fOSXCPx54H8aDcYXyN2+p
-+qIgKITUCAwEAAaMXMBUwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDQYJKoZIhvcNAQEL
-+BQADgYEAHtF/BAWE6Lw4jN2RykAmyzn5ra9GMYI9cqH54BiJb773Z7IIu3XaWL2c
-+HFAW/Zd+TOxKuU+BfKOQOmOgf5bwO5m6WBvLqSdyAgK7y5z8T8zzoz8OzVvg/V8g
-+83OFWtQdjpIdoSD/ayrs93wqN0N/x65+j5NJFJYs4r++v7zGbe0=
++dDQxIDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIIBIjANBgkqhkiG
++9w0BAQEFAAOCAQ8AMIIBCgKCAQEA9loX+bQq2o1Sh+p2vfnNvDs/lvCexuKKWCst
++/LZZyPhd6ywuUos0lxs0AN7B4cY54Aq0OUEfoX7oPBxS3rIuTdUwWcswz9Jg2PnU
++EAvekJtFS78v77ORAqnegEyeQzpJ1i+MYZ/Ebnrp6m2Pt11UrvQpkSVofzerrZbx
++SBBIRm2pianctaPuonL3tyV11kZb3i5YD9s0J+g3A51PfUCOB2umPnzDgeAAl97F
++w/E+0bQu0C57Ej86AxEfSEnbj9l+ZKkDMuXQTZKVloY+Ec/6wj2m0/ABEsWN9h6q
++Q0pb4oB15zFBpgCeRzWuRfL2tr96nGwYjQiM3dAzEkvSmDF3TwIDAQABoxcwFTAT
++BgNVHSUEDDAKBggrBgEFBQcDAjANBgkqhkiG9w0BAQsFAAOBgQB9szRHxchcB2qQ
+++92InxIollN27xqUklcdNhlSqmH6MD1VOj2M3xwmRGzIroIx9da+A51k7h/QPsc9
++xMHrIRlRxb+/rJ2K6ayvwI2EPgduSjMfaor72CNRJ+/lsiRffo6weoBju1szAFgI
++cSeYOOo8obGa7if3LvdzolXPue3dkg==
  -----END CERTIFICATE-----
 Index: node-18.8.0/test/fixtures/keys/agent4-csr.pem
 ===================================================================
 --- node-18.8.0.orig/test/fixtures/keys/agent4-csr.pem
 +++ node-18.8.0/test/fixtures/keys/agent4-csr.pem
-@@ -1,13 +1,29 @@
+@@ -1,13 +1,18 @@
  -----BEGIN CERTIFICATE REQUEST-----
 -MIIB4jCCAUsCAQAwfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
-+MIIE5zCCAs8CAQAwfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
++MIIC5zCCAc8CAQAwfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
  DAJTRjEPMA0GA1UECgwGSm95ZW50MRAwDgYDVQQLDAdOb2RlLmpzMQ8wDQYDVQQD
 -DAZhZ2VudDQxIDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIGfMA0G
 -CSqGSIb3DQEBAQUAA4GNADCBiQKBgQCvcVH69FzdPGCUXgwowuBz4lLAV+COzish
@@ -787,37 +676,26 @@ Index: node-18.8.0/test/fixtures/keys/agent4-csr.pem
 -wHU1f8jVM2v9Df5eInArMvAVya4gXtuZnMpRZKNrcbnwPUK9spwIzHxPyw7qjeCP
 -SG+TusJoFFIGgpZBo6zVdtpRCRbTxNfKteK+y34g+sYZolt88AmlzY8H2QYeQabI
 -1SBuLdBH
-+DAZhZ2VudDQxIDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIICIjAN
-+BgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEApNuN4v7Hazql+8SlRqZ5Cxo+ewOI
-+J6A+vj7sdazpnp53HNuqgx2BUG7XMOTlwkd2PrAu8Ff77b3epDzsxwxU8BOCp441
-+ue+U7T8/zAGBTtVngtRsFVyNTZg+AhxZWv1r1o0nQZ+uq9ViMj0wJGpoVrhWm3TV
-+q7DCz/QzTx9I7vmTN4iCZkfSpd4WS9HI7hkI2WHmTRi562jle5meoHGp7Aq5kxFy
-+X0Ajj8YLZ8ZshmTuSWfWAasdQZfUkF9WCpIrjo+wwdIsfNsFsEDGFA6Ji2tc0uqf
-+Zyk5zC2oIJELtIC6jo1Cza7+pMkIATV6ztrnliuAOkWKLI2A/ZloadVqPMouj1Wk
-+ePAnmpj7OyHwZWs2bnGvVa5CWQvcXiFOzLikKLUOV6fZunq9kEaJFqEnAQD3xTCB
-+Znoa6/hXP3pKQHt1rzZBvsmXv2zj+B7tTydbN55Q2fwrIbP1ZV3OTPNdyh1ebEEK
-+NX0rllnOxwa048Cl+fPzCXckFYy+RIDZhUVFFPy03JxUVOlpo/NMur+G1gq5UgNY
-+gzvyfXLSx1B7V+fGKp/pDbiwc6SK8sX5a9WKSlfZg0HtgIkk9JjcA10uhP29nAQw
-+GqxNknivsdDPs6ZYy/xTSIO8F0bnfCcCx6YMb3gg3Y4UZjWKSx/fOSXCPx54H8aD
-+cYXyN2+pqIgKITUCAwEAAaAlMCMGCSqGSIb3DQEJBzEWDBRBIGNoYWxsZW5nZSBw
-+YXNzd29yZDANBgkqhkiG9w0BAQsFAAOCAgEAQpI1UGlgAzV6rSt8EmKojC/xE9O2
-+Kj8OWKVCXUisJd7q8HmXLgF6ffGg8EElpWlGXqCDEQkSnD2GPEIMUGWlVoES42pL
-+ox0IolKivdDU9eMrOASiOcgeviRZufM6i13cztfXsl8kdA5CeIy3Z7TReTWU7i+3
-+stu4lS7kPN60NsioLbVZMZgkAsimWHNquzoxdd1RNf2t2pbx/QBY3vnXEYfBlm6n
-+74V3lfkcbjbe4vnNLVDOEz8hLj5wle4/yBmeU6YAWr9/30jjyJvbqqZ8C4xV7pA7
-+wFiOjZWeDPb3+iql8WjdMql9y9utf7RS9kao9f+G5X6rIvRE/LNPaxAOqPLxpIvd
-+QywnO6HrooOkpkE+KaSmw5BPkrMcVsG3YnRBXbKuONEOUC6Sxa0JGBhzv6doMO++
-+cBWWsmQkiXa1f6DVKJpAohasbMCTx0I9VVBFyv2FtZLKcvN44ucp02teAyU5rdUO
-+VJiYtTk4rORbyOEqUf4+lgx7Zq3DoTakmmtwf7s3F/EYhlEqTLFSW6AGjGSk5HP+
-+V1+EqfII8QNsBsfQ2L0vcU48B1v9fbCTZMMgvicpvEJJYToV1CvbuZ10KVQiBe53
-+Rh++BXcScvn9dV7CHfNdA4WyAouMPcLX1eiC3yizX6rX+KMNTdULO3vS1zUVOV3H
-+Tq95hW3fkeml220=
++DAZhZ2VudDQxIDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIIBIjAN
++BgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA9loX+bQq2o1Sh+p2vfnNvDs/lvCe
++xuKKWCst/LZZyPhd6ywuUos0lxs0AN7B4cY54Aq0OUEfoX7oPBxS3rIuTdUwWcsw
++z9Jg2PnUEAvekJtFS78v77ORAqnegEyeQzpJ1i+MYZ/Ebnrp6m2Pt11UrvQpkSVo
++fzerrZbxSBBIRm2pianctaPuonL3tyV11kZb3i5YD9s0J+g3A51PfUCOB2umPnzD
++geAAl97Fw/E+0bQu0C57Ej86AxEfSEnbj9l+ZKkDMuXQTZKVloY+Ec/6wj2m0/AB
++EsWN9h6qQ0pb4oB15zFBpgCeRzWuRfL2tr96nGwYjQiM3dAzEkvSmDF3TwIDAQAB
++oCUwIwYJKoZIhvcNAQkHMRYMFEEgY2hhbGxlbmdlIHBhc3N3b3JkMA0GCSqGSIb3
++DQEBCwUAA4IBAQDwjbBNgtbNyejw3c3dGbIq1GenEUEEbf/HuxwZ4RRFhdMoLiN5
++k9FwNiicLgejE9wCpdKLI6ctVnarHNVwnZBxg8Ej+cmOm7kkoOLEWDJyjDkpxbfk
++Bn0wdHU3lZQs0mzedwY15OV2s7cifysWHMSbWw9QIsqkEtYbC2yIZW7jx4NpQ8V/
++H/43M/aJgQ3NWx4F/GOW8SQhQ3QYNwf6YDoIG2PsS1aLI2KA2syUoMe/dw039YxL
++wS4y0YsKeC3gG6Gr6GAbVG3+byIvv0t6OIFJtAqKD+L7pPYZ5cFJvJ8uq4cg7N4C
++m01T5ZP+HXr2KpI+6SZWEfBvJMAjWOHm3JR/
  -----END CERTIFICATE REQUEST-----
 Index: node-18.8.0/test/fixtures/keys/agent4-key.pem
 ===================================================================
 --- node-18.8.0.orig/test/fixtures/keys/agent4-key.pem
 +++ node-18.8.0/test/fixtures/keys/agent4-key.pem
-@@ -1,15 +1,51 @@
+@@ -1,15 +1,27 @@
  -----BEGIN RSA PRIVATE KEY-----
 -MIICXQIBAAKBgQCvcVH69FzdPGCUXgwowuBz4lLAV+COzishbuyNGF5lJ6mw6eY8
 -gizLmpxh0r6d/REnlzKRy3Uy9FdZEQZKKfeK63MxLU6BYaHX0fnqz2y1oCaA2eW4
@@ -832,70 +710,46 @@ Index: node-18.8.0/test/fixtures/keys/agent4-key.pem
 -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
-+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
++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
  -----END RSA PRIVATE KEY-----
 Index: node-18.8.0/test/fixtures/keys/agent5-cert.pem
 ===================================================================
 --- node-18.8.0.orig/test/fixtures/keys/agent5-cert.pem
 +++ node-18.8.0/test/fixtures/keys/agent5-cert.pem
-@@ -1,16 +1,24 @@
+@@ -1,16 +1,19 @@
  -----BEGIN CERTIFICATE-----
 -MIIChTCCAe6gAwIBAgIJAJHwBmNgafKdMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
-+MIIECTCCA3KgAwIBAgIJAJHwBmNgafKgMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
++MIIDCTCCAnKgAwIBAgIJAJHwBmNgafKhMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
  BAYTAlVTMQswCQYDVQQIDAJDQTELMAkGA1UEBwwCU0YxDzANBgNVBAoMBkpveWVu
  dDEQMA4GA1UECwwHTm9kZS5qczEMMAoGA1UEAwwDY2EyMSAwHgYJKoZIhvcNAQkB
 -FhFyeUB0aW55Y2xvdWRzLm9yZzAgFw0xODExMTYxODQyMjFaGA8yMjkyMDgzMDE4
 -NDIyMVowdDELMAkGA1UEBhMCSFUxETAPBgNVBAcMCEJ1ZGFwZXN0MREwDwYDVQQK
-+FhFyeUB0aW55Y2xvdWRzLm9yZzAgFw0yMjA5MDMxMTA5MTFaGA8yMjk2MDYxNzEx
-+MDkxMVowdDELMAkGA1UEBhMCSFUxETAPBgNVBAcMCEJ1ZGFwZXN0MREwDwYDVQQK
++FhFyeUB0aW55Y2xvdWRzLm9yZzAgFw0yMjA5MDMxNDQ2NTJaGA8yMjk2MDYxNzE0
++NDY1MlowdDELMAkGA1UEBhMCSFUxETAPBgNVBAcMCEJ1ZGFwZXN0MREwDwYDVQQK
  DAhUcmVzb3JpdDEWMBQGA1UEAwwNw4Fkw6FtIExpcHBhaTEnMCUGCSqGSIb3DQEJ
 -ARYYYWRhbS5saXBwYWlAdHJlc29yaXQuY29tMIGfMA0GCSqGSIb3DQEBAQUAA4GN
 -ADCBiQKBgQCksphKSkbE4aCa68r2o7j2xWbxbWP+bjAGwWWYQwnacQ6p5tlhaN10
@@ -905,31 +759,26 @@ Index: node-18.8.0/test/fixtures/keys/agent5-cert.pem
 -5GNqnVdJW4dndeUvllYW3txxuUXhcxgvT7b0glDXSp/cRq0yxZb1jRCLqESsHer0
 -o064S5GCWCktZWwbDo75YFE2Vo1R8TChhmD1txFcAi2J161yn9QVoHVbOhyyIHXz
 -Yw9zhrnJURZA+1lUpIarcRmkUsbSR25gyg==
-+ARYYYWRhbS5saXBwYWlAdHJlc29yaXQuY29tMIICIjANBgkqhkiG9w0BAQEFAAOC
-+Ag8AMIICCgKCAgEA3msOYI+6e28yBNBmiWxMHGWRjPmGyWoTx5RbYgNbsi8gZ/AN
-+15ddi87k8OPC0EOCcFkdk10uh2Fjjc6TW2WHKBrmfesxiTLmCcNbaWmWSauHyIm8
-+SQvr3FcUO5Hdy78VJzFHPA6T1J4pRi97xxpDrvvvAVbRemY039pYs51vsVM0wMP0
-+zNJ6dwEZcIqZ92faT7s0GJx5AITZGBaC0jDNgjcSTkaPpAUSmys0joZ3vvBQIr7v
-+QDEOXNymSY+Rqs/oi7Q32kySDJgVziTYa0D6f3DLAbAslgjuu1N3G1ckWruSaTwv
-+XrM/Nu7D3SwOtvRLSM6zWFaBFF2ql4BQNDKs8aF9RhAGY9bvUQVMcgYj5hIhWaTw
-+VOzuYoGDJY3U98+ouPR+YpbVWt3GqVcjtr60tPc79i5Yn0shNPnTrykV6oJyFiLO
-+loP91MZsWjsEC1wiRYrrkbM/1FjgroWE4uweEOvlDOLhlHy+24dy85lg+wAKE7oH
-+Vaid3ibhZx5zVuq+2ewcFUSKsuWC3S3mjgYGUu15t5YafaOhakpvXVoDG1Q8/LPy
-+JyFi1f6n/RZXXd/GS9Xgfq3oWNH/PVeuJblNRPNrt3496a1kAtRfVuwGj6sQ6LeF
-+/4JNnliS4o2L6ebGo+gqLtue38gf0G7TQvGsCPBq1ujLNNKrfefGzJXCMjcCAwEA
-+AaMXMBUwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDQYJKoZIhvcNAQELBQADgYEAACw0
-+8lNKnFOQ05UTMVwXi85PIxIST9aRe4faboAew0jw3CvOhUl2HHIqBFFI4N9HH7lT
-+cbs+SLzmsdEkRPcEmwxIyVc63aaDwqZsWIa2HUGlys52S3QlsdiU8IdAr2d4w4gB
-+1thLOK1SrXYWeOx7A59jsfFaZjpF1R0A7ecsZMk=
++ARYYYWRhbS5saXBwYWlAdHJlc29yaXQuY29tMIIBIjANBgkqhkiG9w0BAQEFAAOC
++AQ8AMIIBCgKCAQEA0oKK05Cl/JmoVBAMR/bbJ4EPYGdh3GCrppPKNcgqGtvnmmJ7
++CMKWLzb4FA4O43SD/P0u9jJZdkOTfpzNMk9wjrQvBeXxCiSVS0fjDb+9YDolIfjq
++hs/9arPa2FKQJcWX/2/TgBndEw1NOvumwrktxlgRK8IxxF4/28ub5Y4Kqo3DFks/
++uicH+IInjkujLV9hu3XfPTme6mr/NmKPa6DV3fm2rib7hby5Kk7WFfsYTiMGxl6S
++WhHuoyeqK4sFycL3ly8letX8D/Kfz27dx2zBOIbXADbK0afJCtLDOYIFBEhZAYhi
+++NWBRlP9NQrd1vT1zS2/eBlvB6QqCTgoX6uXEQIDAQABoxcwFTATBgNVHSUEDDAK
++BggrBgEFBQcDAjANBgkqhkiG9w0BAQsFAAOBgQAQtX59XTk/vLNN/nqSECzhelMV
++WBOvtjGnA4WK/jtFpOLwFPwSp/FOpGT1Gbi38NseEAhEKjy6J266F/ncMS+UJetu
++zDn27MRwGEUx0ZZR4Z2g8bf10XAZSUmS7SpzSCovsCeQ9g6oH3PIMvzRCeSUwzfD
++c6KyjtZ++jH3gz6FlA==
  -----END CERTIFICATE-----
 Index: node-18.8.0/test/fixtures/keys/agent5-csr.pem
 ===================================================================
 --- node-18.8.0.orig/test/fixtures/keys/agent5-csr.pem
 +++ node-18.8.0/test/fixtures/keys/agent5-csr.pem
-@@ -1,12 +1,29 @@
+@@ -1,12 +1,18 @@
  -----BEGIN CERTIFICATE REQUEST-----
 -MIIB2TCCAUICAQAwdDELMAkGA1UEBhMCSFUxETAPBgNVBAcMCEJ1ZGFwZXN0MREw
-+MIIE3jCCAsYCAQAwdDELMAkGA1UEBhMCSFUxETAPBgNVBAcMCEJ1ZGFwZXN0MREw
++MIIC3jCCAcYCAQAwdDELMAkGA1UEBhMCSFUxETAPBgNVBAcMCEJ1ZGFwZXN0MREw
  DwYDVQQKDAhUcmVzb3JpdDEWMBQGA1UEAwwNw4Fkw6FtIExpcHBhaTEnMCUGCSqG
 -SIb3DQEJARYYYWRhbS5saXBwYWlAdHJlc29yaXQuY29tMIGfMA0GCSqGSIb3DQEB
 -AQUAA4GNADCBiQKBgQCksphKSkbE4aCa68r2o7j2xWbxbWP+bjAGwWWYQwnacQ6p
@@ -939,37 +788,26 @@ Index: node-18.8.0/test/fixtures/keys/agent5-csr.pem
 -SIb3DQEBCwUAA4GBABmDywVdbouxznVhI5cnTB2cZTGKMDYCnYx+0pFOZw6ux1eR
 -oUF59E/QCIfibOI6b1+Dd7O3hK81aCQxd6oBiWWg8gyCjFcoCVqOkR/Ug176asZv
 -72+l6pBLYoZlmPrQXkxtfL+FtLM3/xLdt6hDSZEWyznWcraanDqKx9M4NEgG
-+SIb3DQEJARYYYWRhbS5saXBwYWlAdHJlc29yaXQuY29tMIICIjANBgkqhkiG9w0B
-+AQEFAAOCAg8AMIICCgKCAgEA3msOYI+6e28yBNBmiWxMHGWRjPmGyWoTx5RbYgNb
-+si8gZ/AN15ddi87k8OPC0EOCcFkdk10uh2Fjjc6TW2WHKBrmfesxiTLmCcNbaWmW
-+SauHyIm8SQvr3FcUO5Hdy78VJzFHPA6T1J4pRi97xxpDrvvvAVbRemY039pYs51v
-+sVM0wMP0zNJ6dwEZcIqZ92faT7s0GJx5AITZGBaC0jDNgjcSTkaPpAUSmys0joZ3
-+vvBQIr7vQDEOXNymSY+Rqs/oi7Q32kySDJgVziTYa0D6f3DLAbAslgjuu1N3G1ck
-+WruSaTwvXrM/Nu7D3SwOtvRLSM6zWFaBFF2ql4BQNDKs8aF9RhAGY9bvUQVMcgYj
-+5hIhWaTwVOzuYoGDJY3U98+ouPR+YpbVWt3GqVcjtr60tPc79i5Yn0shNPnTrykV
-+6oJyFiLOloP91MZsWjsEC1wiRYrrkbM/1FjgroWE4uweEOvlDOLhlHy+24dy85lg
-++wAKE7oHVaid3ibhZx5zVuq+2ewcFUSKsuWC3S3mjgYGUu15t5YafaOhakpvXVoD
-+G1Q8/LPyJyFi1f6n/RZXXd/GS9Xgfq3oWNH/PVeuJblNRPNrt3496a1kAtRfVuwG
-+j6sQ6LeF/4JNnliS4o2L6ebGo+gqLtue38gf0G7TQvGsCPBq1ujLNNKrfefGzJXC
-+MjcCAwEAAaAlMCMGCSqGSIb3DQEJBzEWDBRBIGNoYWxsZW5nZSBwYXNzd29yZDAN
-+BgkqhkiG9w0BAQsFAAOCAgEA26zlKDezY8AObq61vclU36w1KIDt7JBSmPKqSSEr
-+ZXdjaP/uTq7FNwtyhkCbcMnaW+AbWG6MZZ3HQgH+xePaHT4bqmJqvzFOSc3yTxOn
-+NQw5G5ggtD+BJcqkiW71gZMmXXqwuih4q84l02dGY51a2x0DIEHrAi7ERQpHYCmS
-+GKU3mEpih5KIJyu6Wm9P7mibMz9OUKM0dWmgcmf14EGf5Z0XSslq3OpPsvz2xody
-+Q2fgHtMLTL65yPwKa4EsSlSJrqeGb2Owb1L5yMr2sgbIH9Bqxou0UUxILLBydCjE
-+3oWMXOpJbAWUqrjrundF04uLPPNiXBPI+yIX4A714q1Hn429+so8Y+OYuu+i+E8f
-+iJym6STBE3O4/18D2CfSeTl7K7/tDZwwKvqmNgLtPuiKyCljZBB0Dx/Shu4xbeKj
-+L0mHfcVbwtQD5fZrpXAr1NePCcFkCFE9gzejp3v3rYzX7goDdev/PdIF5VTWb1Jg
-+0j6Dt2LAWTiEOGgzhMzkElpAsJy5KD463sKrc0zDPpKIl73fIqtYj8xtthJjb77T
-+n07kQlXEW7aZUx6D6GtXexKHWZm4shZ/YKT+762WGHzHyCAVp4NuyxB2aj6TjoAo
-+3wxgDJX5uyHvVjflKvvDDbg9hLjpze26xMpMBeFJgtDCODRxk77oWcV/WoHPmMea
-+WMk=
++SIb3DQEJARYYYWRhbS5saXBwYWlAdHJlc29yaXQuY29tMIIBIjANBgkqhkiG9w0B
++AQEFAAOCAQ8AMIIBCgKCAQEA0oKK05Cl/JmoVBAMR/bbJ4EPYGdh3GCrppPKNcgq
++GtvnmmJ7CMKWLzb4FA4O43SD/P0u9jJZdkOTfpzNMk9wjrQvBeXxCiSVS0fjDb+9
++YDolIfjqhs/9arPa2FKQJcWX/2/TgBndEw1NOvumwrktxlgRK8IxxF4/28ub5Y4K
++qo3DFks/uicH+IInjkujLV9hu3XfPTme6mr/NmKPa6DV3fm2rib7hby5Kk7WFfsY
++TiMGxl6SWhHuoyeqK4sFycL3ly8letX8D/Kfz27dx2zBOIbXADbK0afJCtLDOYIF
++BEhZAYhi+NWBRlP9NQrd1vT1zS2/eBlvB6QqCTgoX6uXEQIDAQABoCUwIwYJKoZI
++hvcNAQkHMRYMFEEgY2hhbGxlbmdlIHBhc3N3b3JkMA0GCSqGSIb3DQEBCwUAA4IB
++AQAj0KMKQU0V2sDTp33b76MFgJUw08X+8dML69Cb8QKG7DtcCaZDjohgcx94xo+S
++VahBE0nPGWNQwtzR7/PtLp0Ba21yZ76Hfnv7KC3CuHkzV4QcFDava2p9hxNwHppe
++cWIlgg9VL56+Rcg++U3ebNUSJTIWpul0SRb8ms+ptfwPmEizf46xevYipOkPzz9Y
++FixtUiiNHNTWrzXiOG/eEJd0GNVvvaxaaL0lHKoSh8Ha57xkrGJRZo0y8vniKkIo
++icCFACkfEuFU/FZmRR3wjL+4So0yM9SgqOikCTrMplkcuVepXXj/kpVlv/MTHUP9
++6VyWJMRwMaPezZu6uoo5W1N+
  -----END CERTIFICATE REQUEST-----
 Index: node-18.8.0/test/fixtures/keys/agent5-key.pem
 ===================================================================
 --- node-18.8.0.orig/test/fixtures/keys/agent5-key.pem
 +++ node-18.8.0/test/fixtures/keys/agent5-key.pem
-@@ -1,15 +1,51 @@
+@@ -1,15 +1,27 @@
  -----BEGIN RSA PRIVATE KEY-----
 -MIICXAIBAAKBgQCksphKSkbE4aCa68r2o7j2xWbxbWP+bjAGwWWYQwnacQ6p5tlh
 -aN10ebDAmPVakLo8xxPEXMqWFxCU2AWg0Wtd6TgqIQtIMNXQz6cif5Ufxo3lhus+
@@ -984,71 +822,44 @@ Index: node-18.8.0/test/fixtures/keys/agent5-key.pem
 -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
-+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
++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
  -----END RSA PRIVATE KEY-----
 Index: node-18.8.0/test/fixtures/keys/agent6-cert.pem
 ===================================================================
 --- node-18.8.0.orig/test/fixtures/keys/agent6-cert.pem
 +++ node-18.8.0/test/fixtures/keys/agent6-cert.pem
-@@ -1,17 +1,26 @@
+@@ -1,31 +1,43 @@
  -----BEGIN CERTIFICATE-----
 -MIICbDCCAdWgAwIBAgIJANAIL0WLbvvoMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
-+MIID8DCCA1mgAwIBAgIJANAIL0WLbvvpMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
- BAYTAlVTMQswCQYDVQQIDAJDQTELMAkGA1UEBwwCU0YxDzANBgNVBAoMBkpveWVu
- dDEQMA4GA1UECwwHTm9kZS5qczEMMAoGA1UEAwwDY2EzMSAwHgYJKoZIhvcNAQkB
+-BAYTAlVTMQswCQYDVQQIDAJDQTELMAkGA1UEBwwCU0YxDzANBgNVBAoMBkpveWVu
+-dDEQMA4GA1UECwwHTm9kZS5qczEMMAoGA1UEAwwDY2EzMSAwHgYJKoZIhvcNAQkB
 -FhFyeUB0aW55Y2xvdWRzLm9yZzAgFw0xODExMTYxODQyMjFaGA8yMjkyMDgzMDE4
 -NDIyMVowdDELMAkGA1UEBhMCSFUxETAPBgNVBAcMCEJ1ZGFwZXN0MREwDwYDVQQK
-+FhFyeUB0aW55Y2xvdWRzLm9yZzAgFw0yMjA5MDMxMTA5MTJaGA8yMjk2MDYxNzEx
-+MDkxMlowdDELMAkGA1UEBhMCSFUxETAPBgNVBAcMCEJ1ZGFwZXN0MREwDwYDVQQK
- DAhUcmVzb3JpdDEWMBQGA1UEAwwNw4Fkw6FtIExpcHBhaTEnMCUGCSqGSIb3DQEJ
+-DAhUcmVzb3JpdDEWMBQGA1UEAwwNw4Fkw6FtIExpcHBhaTEnMCUGCSqGSIb3DQEJ
 -ARYYYWRhbS5saXBwYWlAdHJlc29yaXQuY29tMIGfMA0GCSqGSIb3DQEBAQUAA4GN
 -ADCBiQKBgQDBIF2kWViZb+GpjUKfQ2Jevk68mLWXib66z6vCi+mjpcvZeq6A5Z0M
 -qNJYftEgSykluxL9EkpRqWr6qCDsSrpazMHG2HB+yip8/lfLWCv/xGAHh9+4XY3s
@@ -1056,33 +867,70 @@ Index: node-18.8.0/test/fixtures/keys/agent6-cert.pem
 -CSqGSIb3DQEBCwUAA4GBAFU3MAVxVCmsaoNxr0y+KK/n0iEAzsOH9r0L3PL2gJtl
 -p62iOaOPw1/9x8c77RA6z/nXPX9IyAwASv0n8FEdxuIF2+KqFG6bXw5nyfgPIszr
 -U7YSV2Pi/Heinr76RrI6aWGtvEuD56Qt3Ce5TYiMnzAWtqEcPLGjgsx0MAv+m48B
-+ARYYYWRhbS5saXBwYWlAdHJlc29yaXQuY29tMIICIjANBgkqhkiG9w0BAQEFAAOC
-+Ag8AMIICCgKCAgEAxT2iTvgZGxgJ78nf0/KYmc55mUpH24UwvQ049KJyYQsMu1Wo
-+hHOXrqVGDyXSYffK+ca9wxZilh8sIOTe0CNUHSWY6U84b0owxaNuukrzQHS9avfL
-+BY6dlHbdBHBUQIEk13QxslwnwVD55wJXHHiiPO5BJ+ENpFO0o/kVtd8PQoMbTSXO
-+XBtJuXX+LHzwf+A46iXC9FqzKXEBUH5EMnFH4oRjTXO0Q/0brhYhT2QKeQG2tbyf
-+Zr/SbKlN85ArX/Psm/FkH2Ed30hWtZT1m8s+KlM3NT6LlblUdaPkf5LmzX+t6a2J
-+tgYM1Hcc0D9kUEdYzSo/KZMmjsm64YZkSI/ecCLUeKf1wnIDKCGACasaxjrl7xxy
-+QP/7KJm7KxZN/9xSeN4he4NkZ9uqvhXrZsjEzLvZtfwJIlIqmqBRAq2vXscEmCU3
-+5LOdkP24fzI0FA8+QfiHu3zf2nl0DkrHzCc2YbAyWNRqaLR7udyw2RV8ChUWzcsr
-+Qr72ZFRokzi9tdeaH9t03w34vHHA8Wo5Fzmrx2AF555uAryw3hjhL20ENYW7Se4m
-+WqY1n/93Ed0jacx0RRTT/SZDWPY+JsqOT55x46lOQfsf0d0RIe213/4/H8rnwFvp
-+d5NpPFakjCSM7Nr9B9Znc3M6sIF0sMJZWE5b+P38Awqw7VstSgxiRFtjdl0CAwEA
-+ATANBgkqhkiG9w0BAQsFAAOBgQAHi5IR8dV4+xdWU/CZRwjn6h0EvJHyCRNa+Jgw
-+7n4+izYa3mXXNJlQzlNvW43AVbqCc+jpqplonUBY7V/NsTHXC5eVo4Zjvs2LVGLA
-+CBASVPB5W6NZ74Pjk6HRTnPGWZ3DVmC3+7jzs9zDGVtbJgCnIHcI5wtLn0Mhu6Ai
-+ldbmyg==
++MIIDfDCCAmSgAwIBAgIUW3XXftx/tbf6nxQk2kxk+4Fdy94wDQYJKoZIhvcNAQEL
++BQAwejELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQHDAJTRjEPMA0G
++A1UECgwGSm95ZW50MRAwDgYDVQQLDAdOb2RlLmpzMQwwCgYDVQQDDANjYTMxIDAe
++BgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMCAXDTIyMDkwMzIxNDAzN1oY
++DzIyOTYwNjE3MjE0MDM3WjB0MQswCQYDVQQGEwJIVTERMA8GA1UEBwwIQnVkYXBl
++c3QxETAPBgNVBAoMCFRyZXNvcml0MRYwFAYDVQQDDA3DgWTDoW0gTGlwcGFpMScw
++JQYJKoZIhvcNAQkBFhhhZGFtLmxpcHBhaUB0cmVzb3JpdC5jb20wggEiMA0GCSqG
++SIb3DQEBAQUAA4IBDwAwggEKAoIBAQDL+3lXygi/1QUopZMz1aW6eMvhbCWfm8/F
++a8rkI6Rc+7LNEWdG37c2V/kgh+xRjFKuwRfh0BWX4xDo77asV2ejTaz6yI5DrSJO
++paQdcKxgH9xqFsG96U+ODoqykXYSfO9E5qweFDZVPlUky18Ofv1k+dxQBSDAKJe3
++e9MSt3jgQ0vD3ZQIl9A2TOfRVJIbYcm0EQthQxpZSMA15W5FTdjMc4wB3i5tanH6
++NdKYV5L0cWGiLXAXkRYGmj/iQMSHipSazEHJAmmixuBa1HLGdwaUFziQ6syI0I2x
++bBqJkyj2OhiNWTFcGWHoQP1DePDfqcF5MIfDej7mRwnaL3qD27cFAgMBAAEwDQYJ
++KoZIhvcNAQELBQADggEBAFhJ0t5egdr3Z2zWuYmM+YQzOeLaGtfTQST7H5W64Ckx
++OHwkYH1LjO5pGs+HGvbaA0DIocCB6fliWaf+kxUo7t+wyHr1Dnr5Po3ZvpHe6AU5
++i/J9bmFUk1oE28Ijgk8ktL77Lj8baihcaq1ca0o03zM16MEaA7eiT95ds2QDXgPL
++8hdCsOHiEOllspcYRl3uh1WQQjzLOZmCi4dZI+nuTQ2rviD0T5KYZYJY4nzTssEK
++yzfYeUUwUu14J1wYGTgTxKXAWjN0IkxFNq1hX6rC/2U819sVEYF8uWUp9dWJ1slT
++z09yT9qZWiF5tebRaRNL1al/IjWkmN39W9DGEFMX2Vk=
  -----END CERTIFICATE-----
  -----BEGIN CERTIFICATE-----
- MIIChDCCAe2gAwIBAgIJAOzJuFYnDamnMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
+-MIIChDCCAe2gAwIBAgIJAOzJuFYnDamnMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
+-BAYTAlVTMQswCQYDVQQIDAJDQTELMAkGA1UEBwwCU0YxDzANBgNVBAoMBkpveWVu
+-dDEQMA4GA1UECwwHTm9kZS5qczEMMAoGA1UEAwwDY2ExMSAwHgYJKoZIhvcNAQkB
+-FhFyeUB0aW55Y2xvdWRzLm9yZzAgFw0xODExMTYxODQyMjFaGA8yMjkyMDgzMDE4
+-NDIyMVowejELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQHDAJTRjEP
+-MA0GA1UECgwGSm95ZW50MRAwDgYDVQQLDAdOb2RlLmpzMQwwCgYDVQQDDANjYTMx
+-IDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIGfMA0GCSqGSIb3DQEB
+-AQUAA4GNADCBiQKBgQCZ9fF/1UcYaurFIX0QIyAJdojn9+bfsTcjEIoGbsAnQLz2
+-bsZ4pqRNhZbYJApxqc+oDzZOqJOaxe8mlB5jUZ/sUA9Sp+wfWly95tkEHBMSse4x
+-UNJVM4vFPfOG4fv9fYGH3pcmAU1QnST4Fh+qZRzrh9wa99ltmB/U2mJEF6NriwID
+-AQABoxAwDjAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBCwUAA4GBAM3CFiDdGEcx
+-07J6pm4zGX399VxPr50PID110jmX7BRAfqva+wBRhwweSxZ/QRcKe1v/FK3GE87y
+-RbaXhFfnPRUHoUHQMtGwmZuZcdK65Pim9RPGb7qrEJ2wlPt/C1Q6VjL/fBGqjtJM
+-Bq/2GR2GoBsE85jGM287hcvXV0eG5OwM
++MIIDlDCCAnygAwIBAgIUFH02wcL3Qgben6tfIibXitsApCUwDQYJKoZIhvcNAQEL
++BQAwejELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQHDAJTRjEPMA0G
++A1UECgwGSm95ZW50MRAwDgYDVQQLDAdOb2RlLmpzMQwwCgYDVQQDDANjYTExIDAe
++BgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMCAXDTIyMDkwMzIxNDAzN1oY
++DzIyOTYwNjE3MjE0MDM3WjB6MQswCQYDVQQGEwJVUzELMAkGA1UECAwCQ0ExCzAJ
++BgNVBAcMAlNGMQ8wDQYDVQQKDAZKb3llbnQxEDAOBgNVBAsMB05vZGUuanMxDDAK
++BgNVBAMMA2NhMzEgMB4GCSqGSIb3DQEJARYRcnlAdGlueWNsb3Vkcy5vcmcwggEi
++MA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC76GtbMvRM7E1diL6l/Y4qQuDK
++ubmGWYOpz7kkUcApfJTa8gIhQvfvNdU/itpLIf1Nhmp9cDRk3BV6gU3P4SetVP+V
++x3PSiZ6MJDbQXETn7cLJIewtMexGf8wJldTJ3wcv6/1dZDU3RM3ME7XCgNGBXPOj
++c/TOz2StEGf4iwXKE7MHV0D2/hquOwuctqLjV969w8jea6BNqQjcKbq5Y17V4sxH
++AO+epbpC88byAaMgmRcqlM660zpKdcsfjQZ/4Vzoce9OOSd/+aHdwLZM3BVL6vAI
++09UqkaB+3M4n2pK6dPCQtimbaDyo7QZYgWpmp3/YDN1Hhh6IBoMoQqSu+/DFAgMB
++AAGjEDAOMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAJwGWU3qa5eT
++EEP/IXeZUJuZhqND+kBvBPPUYTeCXSbVRI2c6WaU7NZUqYkDz+lVrAMMG+eGPCW1
++8h8DehudZLNDvrz8uEPsYbgvZD+grFRmWh5kUdc2yz6gVVzTTGwy7ARgSoebUqK0
++O4uI8BW/UlF+OpGSpimMBnHqAq13k1Eb9kjckyZw2qIhW02mCsv9PnVQ8waDUq+C
++3No8ZoNqgQVVOFSuJz9wxGFPdt0KhizYMh0n+BP7U5srTn0LwWBEXoPsHBWhudTC
++NWYtx++OIWK/3QEufal83p2W3ICxAW3yqY7Qy03Z2LW07BDDdAmoFN9NTYuZKGd4
++DQYB7oHNx8E=
+ -----END CERTIFICATE-----
 Index: node-18.8.0/test/fixtures/keys/agent6-csr.pem
 ===================================================================
 --- node-18.8.0.orig/test/fixtures/keys/agent6-csr.pem
 +++ node-18.8.0/test/fixtures/keys/agent6-csr.pem
-@@ -1,12 +1,29 @@
+@@ -1,12 +1,18 @@
  -----BEGIN CERTIFICATE REQUEST-----
 -MIIB2TCCAUICAQAwdDELMAkGA1UEBhMCSFUxETAPBgNVBAcMCEJ1ZGFwZXN0MREw
-+MIIE3jCCAsYCAQAwdDELMAkGA1UEBhMCSFUxETAPBgNVBAcMCEJ1ZGFwZXN0MREw
++MIIC3jCCAcYCAQAwdDELMAkGA1UEBhMCSFUxETAPBgNVBAcMCEJ1ZGFwZXN0MREw
  DwYDVQQKDAhUcmVzb3JpdDEWMBQGA1UEAwwNw4Fkw6FtIExpcHBhaTEnMCUGCSqG
 -SIb3DQEJARYYYWRhbS5saXBwYWlAdHJlc29yaXQuY29tMIGfMA0GCSqGSIb3DQEB
 -AQUAA4GNADCBiQKBgQDBIF2kWViZb+GpjUKfQ2Jevk68mLWXib66z6vCi+mjpcvZ
@@ -1092,37 +940,26 @@ Index: node-18.8.0/test/fixtures/keys/agent6-csr.pem
 -SIb3DQEBCwUAA4GBAAX9mbfgDULEA541c1teuG+eW0KLghFaaotFb0+R6WD1ZQLO
 -Url8y1iz6T/qqfuoAWu5OA8/7sKDdta/0mzV6UoGnDOcnWnH5FURmnQPUS/hBJ6A
 -mJBslJx6y0z4Rl/fxJUy5K31YbeRHHLEneM211usTv8QguAD0y2BNAQ0Mno0
-+SIb3DQEJARYYYWRhbS5saXBwYWlAdHJlc29yaXQuY29tMIICIjANBgkqhkiG9w0B
-+AQEFAAOCAg8AMIICCgKCAgEAxT2iTvgZGxgJ78nf0/KYmc55mUpH24UwvQ049KJy
-+YQsMu1WohHOXrqVGDyXSYffK+ca9wxZilh8sIOTe0CNUHSWY6U84b0owxaNuukrz
-+QHS9avfLBY6dlHbdBHBUQIEk13QxslwnwVD55wJXHHiiPO5BJ+ENpFO0o/kVtd8P
-+QoMbTSXOXBtJuXX+LHzwf+A46iXC9FqzKXEBUH5EMnFH4oRjTXO0Q/0brhYhT2QK
-+eQG2tbyfZr/SbKlN85ArX/Psm/FkH2Ed30hWtZT1m8s+KlM3NT6LlblUdaPkf5Lm
-+zX+t6a2JtgYM1Hcc0D9kUEdYzSo/KZMmjsm64YZkSI/ecCLUeKf1wnIDKCGACasa
-+xjrl7xxyQP/7KJm7KxZN/9xSeN4he4NkZ9uqvhXrZsjEzLvZtfwJIlIqmqBRAq2v
-+XscEmCU35LOdkP24fzI0FA8+QfiHu3zf2nl0DkrHzCc2YbAyWNRqaLR7udyw2RV8
-+ChUWzcsrQr72ZFRokzi9tdeaH9t03w34vHHA8Wo5Fzmrx2AF555uAryw3hjhL20E
-+NYW7Se4mWqY1n/93Ed0jacx0RRTT/SZDWPY+JsqOT55x46lOQfsf0d0RIe213/4/
-+H8rnwFvpd5NpPFakjCSM7Nr9B9Znc3M6sIF0sMJZWE5b+P38Awqw7VstSgxiRFtj
-+dl0CAwEAAaAlMCMGCSqGSIb3DQEJBzEWDBRBIGNoYWxsZW5nZSBwYXNzd29yZDAN
-+BgkqhkiG9w0BAQsFAAOCAgEAKx4x1MMOtJund9zwPS8LbbXNfjwmIw1Xr44MLbfO
-+Jm8AIcQdow9MtqEIVOc5YIXycg3a5qtaPUzPbl/BXoXPFwgoinofuJ2JchWH0gr8
-+9vo5ioTkmmLUNi4pGdRQYE3aNxZc18y5B0vvaNSdtD/qdEVa0JyOnaFrl69rJPNl
-+Idm3+pa1hgioVx6A18vnCdjoRpZhdRqXx6KDnL1BdBxknNMz4dBeuQg0DWd25zan
-+salhsjScA9hKbpJHpgTm+XImDUMzDA9NbYo3+y+9wl3hxX7J2OtWGlvn0g7JKjKQ
-+IISdnk+Wk2S/u8270XxbWnwX0lFNDwNUZ2AM4++yHLsyV+DcTllAVIyJecu0d740
-+KVEySQYuXGn9dtiyrdIT56jupT5v8vQUTd6r3upp6tYN/Txv3ojDVCudZbctEVJW
-+xq9v8BfmiKnbcUfACHk3OeScec/ffzrtTlXmZEuk3z90lXZM44SNporYSdflj2KU
-+zSgLexPGRLLjTQYlKMUhoqUWFjFu9VK9yAG+6ZBCZYwIUnMDC5DUz0qegdZSMJIV
-+rFOLNWKRR1HhH7I6LJ2aOJ9t+b7DDnm8GvkudegVEEzS6jw7fyBD2Bv2Qt81ykXd
-+ac460mHpyRLJToxd+KDpcYv5alTJjTWGH4uphlMbRaq5TC5X8xqE2lA7IMxcs2Ne
-+Z04=
++SIb3DQEJARYYYWRhbS5saXBwYWlAdHJlc29yaXQuY29tMIIBIjANBgkqhkiG9w0B
++AQEFAAOCAQ8AMIIBCgKCAQEAy/t5V8oIv9UFKKWTM9WlunjL4Wwln5vPxWvK5COk
++XPuyzRFnRt+3Nlf5IIfsUYxSrsEX4dAVl+MQ6O+2rFdno02s+siOQ60iTqWkHXCs
++YB/cahbBvelPjg6KspF2EnzvROasHhQ2VT5VJMtfDn79ZPncUAUgwCiXt3vTErd4
++4ENLw92UCJfQNkzn0VSSG2HJtBELYUMaWUjANeVuRU3YzHOMAd4ubWpx+jXSmFeS
++9HFhoi1wF5EWBpo/4kDEh4qUmsxByQJposbgWtRyxncGlBc4kOrMiNCNsWwaiZMo
++9joYjVkxXBlh6ED9Q3jw36nBeTCHw3o+5kcJ2i96g9u3BQIDAQABoCUwIwYJKoZI
++hvcNAQkHMRYMFEEgY2hhbGxlbmdlIHBhc3N3b3JkMA0GCSqGSIb3DQEBCwUAA4IB
++AQBE9dGSXocJ++efLSH7IOUy5NdeasaMDRIr2D8jnWQLR9rokTf9gV7OYPe9mXnU
++RTJJIv27BifyuphHPqyQT4x9bePxQb1TiG60JpFCXpMk0Fl/yUo6ZL4IPQ2RFdMA
++EIakZA9aCGB6ZxhtBIbKL9RDpSsdTxi+duP0YzE3cb9Nn1hD/ft85PwAg4WZ8Wlj
++l5ij8jZEqq+JJ72fYW2/ajGzvplNeysGPHf4KEeA0tlREAWsJm0Zgtg7tX+7t8qy
++MC+PCw+uLFISxJij1T5bepqgwUMa5MCk6JbwC3uWGb3arBoIJuGx+itRyeVofcTn
++MyGKULYmRlkITGBKrDFZVZ3j
  -----END CERTIFICATE REQUEST-----
 Index: node-18.8.0/test/fixtures/keys/agent6-key.pem
 ===================================================================
 --- node-18.8.0.orig/test/fixtures/keys/agent6-key.pem
 +++ node-18.8.0/test/fixtures/keys/agent6-key.pem
-@@ -1,15 +1,51 @@
+@@ -1,15 +1,27 @@
  -----BEGIN RSA PRIVATE KEY-----
 -MIICXAIBAAKBgQDBIF2kWViZb+GpjUKfQ2Jevk68mLWXib66z6vCi+mjpcvZeq6A
 -5Z0MqNJYftEgSykluxL9EkpRqWr6qCDsSrpazMHG2HB+yip8/lfLWCv/xGAHh9+4
@@ -1137,55 +974,31 @@ Index: node-18.8.0/test/fixtures/keys/agent6-key.pem
 -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
-+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
++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
  -----END RSA PRIVATE KEY-----
 Index: node-18.8.0/test/fixtures/keys/agent7-cert.pem
 ===================================================================
@@ -1198,7 +1011,7 @@ Index: node-18.8.0/test/fixtures/keys/agent7-cert.pem
 -ODExMTYxODQyMjFaGA8yMjkyMDgzMDE4NDIyMVowXTELMAkGA1UEBhMCVVMxCzAJ
 +MIIDEjCCAfqgAwIBAgIJAJ4TtCDh9ccZMA0GCSqGSIb3DQEBCwUAMDIxCzAJBgNV
 +BAYTAkNOMQ4wDAYDVQQKDAVDTk5JQzETMBEGA1UEAwwKQ05OSUMgUk9PVDAgFw0y
-+MjA5MDMxMTA5MTJaGA8yMjk2MDYxNzExMDkxMlowXTELMAkGA1UEBhMCVVMxCzAJ
++MjA5MDMxNDQ2NTJaGA8yMjk2MDYxNzE0NDY1MlowXTELMAkGA1UEBhMCVVMxCzAJ
  BgNVBAgMAkNBMQswCQYDVQQHDAJTRjENMAsGA1UECgwESU9KUzERMA8GA1UECwwI
  aW9qcy5vcmcxEjAQBgNVBAMMCWxvY2FsaG9zdDCCASIwDQYJKoZIhvcNAQEBBQAD
 -ggEPADCCAQoCggEBAM2+DkRxPeRGI4JK0YpuaqCJkNswMYMyZM4VQYyn99SL7xS8
@@ -1213,18 +1026,18 @@ Index: node-18.8.0/test/fixtures/keys/agent7-cert.pem
 -TY5bW4+3NFaHfaR2p2T20bY3no25/vfV7K5endff6pgzcZR3/SptGTywC4EZzIcz
 -9Q0JnALQtxAAxq1yrljQcvpjM/aAYY7BxwFHJuLmb/FpMulkzZ2vJALluF/3G5ne
 -RT9QhxJdwUz+Juv5QKH2i+nnb2Ur6g==
-+ggEPADCCAQoCggEBANE8b9BsxopW22PEetz3St3bkhOYNcwB3PZHOlI2cDB9qNKJ
-+DjCPjBxt1fiG01sopOtRGk+nvj+4l0oc+R5X6eEpGGrfDKP9W2x7woBxRLPa0Xra
-+u4DuAjBy8SfsiuOJlnzR8D60nvH64lJcYeBLSQRocGZ+LqKjYfE1h+r8oStKiOT9
-+m5IWHBZxC9mc5qylRdcH3eEoRekRKzrBgRJE38fKX0seM2r9D62SOcjd2oZHLoju
-+D4ly919AFPT8vYO8Z+thPANomriLoSOrexgKRlpnIQmGTKhTmWIlkOHCc7mwzf/o
-+L88FaNaVDf4EYk49GcbJpIcR9Bd1bkdQsMOOij0CAwEAATANBgkqhkiG9w0BAQsF
-+AAOCAQEAKVuF2GTgTpEk+OEoG/0ShG72foquVHMiMd8BO40UZ4HJRuW7rAcseeeD
-+MD7869UJpdBTrmNXs7YQj7wHrPR/1esigpHccjzYcJUV4NtOPLB8XlObLs3aSMAS
-+mDZLhOuxTpKzsjs6cppX8sIm+4tL2SYHWJBSEdQKAQOSx6qiPU0DW/Mw5/9oW3aD
-+JIq7AkPKu72GxCDo6tfUdLrkhFBKFt6lGMFIBtlMeZJjRgQQipCmv/WbHR20hMQS
-+kcfa7MSeOGOZhcepdhGe2b9voFM6yqlpqqa+GhkkMlKmlvTqXIU+hRgpBYELu29f
-+Zt9Kjwf1jpO8GMXgLn0SrVeH135uyQ==
++ggEPADCCAQoCggEBAMflnrnnwcWdlh7e95M6fw1tTcLepNEW2W6QtB2/Dy0pwlp2
++LT1ImYWGcH5NukLG5EW6Sv1nTEaZzifo5jWOIDIUJAPFi17WGn/KIHEKpkTdQvon
++3xDnXtXqGNYFzB3SgsKAa+gd3jAB7e7QMm16sWJja8P1FH695jyCmFf0MxAxRHOm
++1VMl6dzyOcOA6pXSJelad3GOX+hTEoTYWkypgXkEiLBz6aIV3oWhXujNCGKoNNPG
++2RHVS+BzL5B3I/nrOWBWIExJiTfeAAE7LuBatKuC7qpoinkPj+o3irPmEXe05D2t
++vbc7K5+XFyIOTkbgJofsHUrgT7/gPLAV6AW4F0UCAwEAATANBgkqhkiG9w0BAQsF
++AAOCAQEANGQsVaUD8LF0cFHR/A/AkN017JPQKELKP7Jgg/vz7xYcz390tLfOx6Vd
++FpJddFF9gPrkcCdkxpu8PlLbGJOdHFgi09MkqPwl50UNbALitJo3H6U+owjzkJhX
++PdyvRaLDnmZXJ+KRcwh9QI24Hk8XrnofViKhWpy8J1Yw+G0QvmC7YRnrtzISYOfQ
++Z/o+/enw65DDUZKjL8XcsyeUgbbdKRzljTga9XzaXS6GPKXy6YRO6ZMcMvN6f7jS
++S2RXIzULCt511hd4yn9EcALxJi2SwFaEUxIi7pxxU2PFnsW/+QVAZCzNl9OFzhoC
+++VaeJLcP8IwRpNHk+du/+mt8wpxFUw==
  -----END CERTIFICATE-----
 Index: node-18.8.0/test/fixtures/keys/agent7-csr.pem
 ===================================================================
@@ -1247,19 +1060,19 @@ Index: node-18.8.0/test/fixtures/keys/agent7-csr.pem
 -3VU2mDoxPc17ZInR5x0A8hJHDHY9SlDL96n6QTEAByXfqNq/c8S7bkBPEJJUln7G
 -L/8YWxQJ25971PEX/QLbWADMkSPGkHCHF0znZhtJ6wxTFRkdQJSa9FASKpVgDMMu
 -wQVEnOa10z2aQ3PayZUHh43zq441FakE7LAseeOoJChPb00lFrN3ph+TnQ==
-+CWxvY2FsaG9zdDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANE8b9Bs
-+xopW22PEetz3St3bkhOYNcwB3PZHOlI2cDB9qNKJDjCPjBxt1fiG01sopOtRGk+n
-+vj+4l0oc+R5X6eEpGGrfDKP9W2x7woBxRLPa0Xrau4DuAjBy8SfsiuOJlnzR8D60
-+nvH64lJcYeBLSQRocGZ+LqKjYfE1h+r8oStKiOT9m5IWHBZxC9mc5qylRdcH3eEo
-+RekRKzrBgRJE38fKX0seM2r9D62SOcjd2oZHLojuD4ly919AFPT8vYO8Z+thPANo
-+mriLoSOrexgKRlpnIQmGTKhTmWIlkOHCc7mwzf/oL88FaNaVDf4EYk49GcbJpIcR
-+9Bd1bkdQsMOOij0CAwEAAaAlMCMGCSqGSIb3DQEJBzEWDBRBIGNoYWxsZW5nZSBw
-+YXNzd29yZDANBgkqhkiG9w0BAQsFAAOCAQEAO6TxDrT3i4Z8MpouaeClU/k5cpZ9
-+cypmjq4EANLiX62bwlOPE5Y7Ms/LzmBrsgBE572KVUiy9EGpDApRC6Me/jqCp38v
-+4vgGEldDZNiB51zm2Gk+X70DfRtsloDqsT4jnUnO5hZHRvGCGLGZPSo3V7a9eSU2
-+ydnnPMfT6f9exhAEbKkhupxwanhT7gVfM3Z5f+l39f3mVwJmlGe3IYpi710/qy4K
-+P03GstYgAmnmp6GhdNz9wbwX0A8+qI6lCf0+dj67G3RUSwo1rvjImep4NzBonscY
-+U2peOXktduVgIBZpqZnlOfiBRlNP+uVGeaI4u0lwnm7uYZlF4mpB8xr1CA==
++CWxvY2FsaG9zdDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMflnrnn
++wcWdlh7e95M6fw1tTcLepNEW2W6QtB2/Dy0pwlp2LT1ImYWGcH5NukLG5EW6Sv1n
++TEaZzifo5jWOIDIUJAPFi17WGn/KIHEKpkTdQvon3xDnXtXqGNYFzB3SgsKAa+gd
++3jAB7e7QMm16sWJja8P1FH695jyCmFf0MxAxRHOm1VMl6dzyOcOA6pXSJelad3GO
++X+hTEoTYWkypgXkEiLBz6aIV3oWhXujNCGKoNNPG2RHVS+BzL5B3I/nrOWBWIExJ
++iTfeAAE7LuBatKuC7qpoinkPj+o3irPmEXe05D2tvbc7K5+XFyIOTkbgJofsHUrg
++T7/gPLAV6AW4F0UCAwEAAaAlMCMGCSqGSIb3DQEJBzEWDBRBIGNoYWxsZW5nZSBw
++YXNzd29yZDANBgkqhkiG9w0BAQsFAAOCAQEAVIVSPkSLBmAmtm2wF1u+kt/7zl8L
++rC/IlwjQC7/SogBUKfWB5zF+S01V8JDg/M8Q1yD4pJaJFUWa0RhgxI5OJ0S789QU
++TisuPHS23FCcCEHXTJKsWXmKbGCWIAdQifiO0uZmg/q1msuh20BTadV5MXNk/Q0m
++Ney5NhJ9VFPnhS7togzNBsW2cNV070q8VGPq4TPoGXCSkY9x8CwTCvjjYlBJriRE
++XflruibJEQjLOh5UrzD5s7tjuhMjbIYhX+UnDmiybN2CyI1pBaANZGpdS5Y32O3n
++9e7ZFbqfBXwBkRxFlrB+qJfZvxxLh7NiTCNKwlquPF6+2eydzXcbrV0pLw==
  -----END CERTIFICATE REQUEST-----
 Index: node-18.8.0/test/fixtures/keys/agent7-key.pem
 ===================================================================
@@ -1292,31 +1105,31 @@ Index: node-18.8.0/test/fixtures/keys/agent7-key.pem
 -hB2TgQKBgH1WLbZEHvY07coCUdAywMCjcR2zmKrxo2rsmVrfjNNF0X0mh6Tsw8Af
 -BpL/j2bb7bHIIVKEystD2lx+zmOyLZOmT7nvZ7nFKiRKe4HwHiZW5N3JJjpGfBWU
 -vzPAbJHWnyctRihxgXbq6eGJEv5Dwgf6ERP83Cnn3JiDUNPuEIa4
-+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
++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
  -----END RSA PRIVATE KEY-----
 Index: node-18.8.0/test/fixtures/keys/agent8-cert.pem
 ===================================================================
@@ -1329,7 +1142,7 @@ Index: node-18.8.0/test/fixtures/keys/agent8-cert.pem
  BAoMDVN0YXJ0Q29tIEx0ZC4xKzApBgNVBAsMIlNlY3VyZSBEaWdpdGFsIENlcnRp
  ZmljYXRlIFNpZ25pbmcxKTAnBgNVBAMMIFN0YXJ0Q29tIENlcnRpZmljYXRpb24g
 -QXV0aG9yaXR5MCAXDTE2MTAyMDIzNTk1OVoYDzIyOTIwODMwMTg0MjIxWjBdMQsw
-+QXV0aG9yaXR5MCAXDTE2MTAyMDIzNTk1OVoYDzIyOTYwNjE3MTEwOTEzWjBdMQsw
++QXV0aG9yaXR5MCAXDTE2MTAyMDIzNTk1OVoYDzIyOTYwNjE3MTQ0NjUyWjBdMQsw
  CQYDVQQGEwJVUzELMAkGA1UECAwCQ0ExCzAJBgNVBAcMAlNGMQ8wDQYDVQQKDAZO
  T0RFSlMxDzANBgNVBAsMBmFnZW50ODESMBAGA1UEAwwJbG9jYWxob3N0MIIBIjAN
 -BgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvCbXGqz553XQ+W9zsQEaBc1/mhd4
@@ -1344,18 +1157,18 @@ Index: node-18.8.0/test/fixtures/keys/agent8-cert.pem
 -t/0BGsYny9Kt2f2PNN32UEkx/jhcssXwnNGxyxR/04heJUe6LI5ErdQoxxvaZtrd
 -u9ZgjSxix4dFH4nTYEYe3oXM1U7PakbzOzJvRMmDh8vYyK7/ih0w8/DcsK0d1Oej
 -mgtTF/IyJqy8T9goFf9U2uSshia+sKJBfrrzRaUHZMx+ZobA
-+BgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4r+Hwd0sNf4wOlwefgQWG8SyU5hp
-+xX2xwZ+Y6TRCRyTxJajdt1cdq8XZmMFgL7Mc/s44oBRcxkxGSiHz8JRa+xoBHFRo
-+k4Wg+EeWpn8EUk3RX2Qn7rovkPAuTdOcGOSv60RmrB9ZAI0bE0b353s67ptsfb8O
-+XjlManINH8T2AMFXqxqPiYe0Fqfor9NYm8AGdh/G/NPkZJR4IdCW/KVvTEqYeDjK
-+zbnRFGsaGSNZj7xWYK/E7kHxtWd0ipvs/pYuYFsbguUjsghUFh+0ZtjZ7VVB4A2b
-+3m1eZsDlmSc83g9EbYDOldAldH6y3INJ4CUKrhdCAhqAjAAmqcMxMAIWtwIDAQAB
-+MA0GCSqGSIb3DQEBCwUAA4IBAQCTCeP1IkdmBFhokPe79eUbw0MBPm/mGTaZ+C/h
-+gXHAXMJGRytg/ki99UuW1MlqRePvTTSpw0/046cUXkeiTjYRNi7eK98bsXyFUQfc
-+opvQvLHBQmLeeRenZKcV8uiwWGAOk6qf2WevDVJfiIqAfMKzjr7CQHALHgw82WGp
-+jbtQV8IqkKsB15Mu5mFtBjUDi3sbBxOx+MpO9Bknnq46Dabep2lu7EfxkGhwJ26Q
-+9i64SPQr63zqzQ1iVqd2O4Zxr8tFtQXnS4TB0Z7cgxO23MgJAiBnBjko/CUzx0og
-+/1G8wPn0U/Vp7ebdjXu8rBrI61HM627KGD6K3TZwxFpDr3H1
++BgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA8qCR7vlhx6Fr109bIS6dQUU2Iqwn
++4CbYXjxfKMPj4cdCB9l68cRDNystAgNzc7RPUoiz7+gdvY9o8QCL+hiZOArH5xpR
++lBq57hp9uXIMiZLKuZEZODWr2h1eE0rg8x4aqfWR0/JgPup3d9bOvD47pF7wGmFz
++mtWlpptjXA6y7mt0ZamYdNoWkoUabrQIheEV/zspbgTJ1mhFkVeGnch5DE/AfNvs
++M+cml5ZzQnm5FLKtp1CcHPaPDGUd5D3jNmNq55iZTEPQtcYErwHX9aLWQxrl8ZSq
++4Xo67HP6TjL0zTzzcoJz5H68+FDVoa/gVxwpv/Cka0ief0nNgl17V8aWIQIDAQAB
++MA0GCSqGSIb3DQEBCwUAA4IBAQB2z3MF4x/1WXcpzqEcyPyowEzczsCZLkhy0cG4
++eY0mt/+8+JbXdPDgrWNtfqCT2h4KMZu41kquRb63cUYy9DPwFrg8a09picvJWoBp
++PMXv0o/CttFLYkQ+o0kXTy5DvGUPw9FLoPVncTkGhhX/lOvHKReplhS6lot/5r0g
++nXlRaMAbzCDRxW5AAUK2p0WR4Ih84lI++1M2m6ac0q7efz3TGpyz0lukHYxNJak0
++dh7ToIpvQ54MZkxFgG0ej2HGtNBHVnCpMk9bhupDIJ65fybMtIXy8bhUuj4KX/hm
++tALVY3gVezswj90SGBMxeMwcE7z/jDUpkEAIP4FM3Y+yYfmS
  -----END CERTIFICATE-----
 Index: node-18.8.0/test/fixtures/keys/agent8-csr.pem
 ===================================================================
@@ -1378,19 +1191,19 @@ Index: node-18.8.0/test/fixtures/keys/agent8-csr.pem
 -dT5q/sWTOXOsDyu49bObDw0jEFM/HgHzpFyHdrnh3P2vEULx7qdRVUXQ9JIsuPjB
 -bys9FhjDmV9yEabWfHRXqrFY318CPit25Q6Cl9G4EFMCYkUX2nVzjLojExkwJHdf
 -y4wDaEzxtqJgEEaQwMu+j68v3wgYAGk0yKMFNDQ0gaSZkAQ6u8I5unTGYQ==
-+CWxvY2FsaG9zdDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAOK/h8Hd
-+LDX+MDpcHn4EFhvEslOYacV9scGfmOk0Qkck8SWo3bdXHavF2ZjBYC+zHP7OOKAU
-+XMZMRkoh8/CUWvsaARxUaJOFoPhHlqZ/BFJN0V9kJ+66L5DwLk3TnBjkr+tEZqwf
-+WQCNGxNG9+d7Ou6bbH2/Dl45TGpyDR/E9gDBV6saj4mHtBan6K/TWJvABnYfxvzT
-+5GSUeCHQlvylb0xKmHg4ys250RRrGhkjWY+8VmCvxO5B8bVndIqb7P6WLmBbG4Ll
-+I7IIVBYftGbY2e1VQeANm95tXmbA5ZknPN4PRG2AzpXQJXR+styDSeAlCq4XQgIa
-+gIwAJqnDMTACFrcCAwEAAaAlMCMGCSqGSIb3DQEJBzEWDBRBIGNoYWxsZW5nZSBw
-+YXNzd29yZDANBgkqhkiG9w0BAQsFAAOCAQEAHhGZ6bAtjOqtHK6PFa2OA1uG4GFj
-+X20xtUHV8jkMa8i4XLUv5JHM8ly+3kWnpRPIip/QgNhMT9Th9OIu4bMRTvImUuQB
-+GDs3/DqaKciSz4bvJ46J5taP+XKPNhRJU/VYA66i4bbn8IcMZkllUWZKFq/8Et0o
-+VkzncfQl7c6F8GxQ2V06B6I+gh0FtEhdm4Z9noI5TA0NjYNMM9JqIjWLC3YsXFjS
-+0RdmIVugSclOOVq1S5tPhew0Iueskz+tbApT8gubo8B9BVXNrLkFfw7FZWH1Q+Wx
-+R5Dbe6uXc60f64VaVnz1E9i1K+eNosMBwOSMSj7i/jPhRyx1tnKxbd+Yyw==
++CWxvY2FsaG9zdDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAPKgke75
++Yceha9dPWyEunUFFNiKsJ+Am2F48XyjD4+HHQgfZevHEQzcrLQIDc3O0T1KIs+/o
++Hb2PaPEAi/oYmTgKx+caUZQaue4afblyDImSyrmRGTg1q9odXhNK4PMeGqn1kdPy
++YD7qd3fWzrw+O6Re8Bphc5rVpaabY1wOsu5rdGWpmHTaFpKFGm60CIXhFf87KW4E
++ydZoRZFXhp3IeQxPwHzb7DPnJpeWc0J5uRSyradQnBz2jwxlHeQ94zZjaueYmUxD
++0LXGBK8B1/Wi1kMa5fGUquF6Ouxz+k4y9M0883KCc+R+vPhQ1aGv4FccKb/wpGtI
++nn9JzYJde1fGliECAwEAAaAlMCMGCSqGSIb3DQEJBzEWDBRBIGNoYWxsZW5nZSBw
++YXNzd29yZDANBgkqhkiG9w0BAQsFAAOCAQEAwdq9xRCMF926swRafeDU2pUBdQT9
++pjeYawtoFtHQYQoDKN5HnsoNsYouxyAeZKcez8NEIhOUrLo2sNWkhlwJQeI7ITrb
++5UwLd5/jgpBuAERhgAcZIyV1Dj980oaZnO3gncOBwE02JCViX69lF8CySe4z8lZ9
++wNhoJ4CNI+Jtmk7VCk7cUNV3LIiGTpw1d2sk3aSXQkm0pvRb1bxZBFb1ODI+xSXC
++fT9izr9nY88UN/fYs4nwuKjjnp1rWszbJhrurND5qvx46/OWJeiCBZXm22WRP5ib
++er/G0iTaIQ0iFmTM3nEMJyFNz/f4Xisl/AqWpnfKzL7Ogvjk0fvbbtu7JA==
  -----END CERTIFICATE REQUEST-----
 Index: node-18.8.0/test/fixtures/keys/agent8-key.pem
 ===================================================================
@@ -1423,31 +1236,31 @@ Index: node-18.8.0/test/fixtures/keys/agent8-key.pem
 -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
-+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
++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
  -----END RSA PRIVATE KEY-----
 Index: node-18.8.0/test/fixtures/keys/agent9-cert.pem
 ===================================================================
@@ -1474,21 +1287,21 @@ Index: node-18.8.0/test/fixtures/keys/agent9-cert.pem
 -DHcm6UzdA/lkgZtC8wFUSW04WhzSHB78gm8VOl+1JGY0pp/T+ae5swkfj45Q3jOd
 -H6jdZiUrU+LJQwLlXYniF4qzmH0SN8Gd3djVNzWJtNF+LFKXzCOYSK8AFaQ6Ta+s
 -Pd6Rqa8Hl6cMmlsDu1NLumstvGna5wsc7ks1VZwtWt6WfIyIN2k=
-+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
++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
-+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
++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
  -----END CERTIFICATE-----
 Index: node-18.8.0/test/fixtures/keys/agent9-csr.pem
 ===================================================================
@@ -1511,19 +1324,19 @@ Index: node-18.8.0/test/fixtures/keys/agent9-csr.pem
 -1yNqqQXYYIogcHQZVdofeKvGmrQhBfsEt5cdk2riGqfWVBwY6rfXW+MSHIw6cHIn
 -vVFYG32Gk8ZU+MoWPQ/DLAy8B7Azo7ePMnidfaOxPAox6IGzCcZOfnCu2tZ09S5t
 -gqcpdnecBLuQdIybhKhCbM7GOmIricDeIJXkVhmwmjpcu1WdQWUIUsD18A==
-+CWxvY2FsaG9zdDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL/Aw22d
-+1gWIEd3NBeQThic+TlYXxk1V/cQkgfUbTOq2aZ+OQHDb+8GJbbOB2U5rn7KVLz72
-+T7QTJaWc1tlucGfC+787JR8jNOLSWr0WqGLf3y2v98lXobdAnjXNCc4HRPCV+0e3
-+PE5g9/OPinOeWqChjnGUuu5gV3iS+kl/gnZTcPPkLsBwgMcS0d+BfQAthTzJTVyO
-+szairbiWbx4HHEUMDa5p86VUvGB4y4xM6oECNa1cA4wBjA/KTrP2g3Idn4+8JqIr
-+vv2MPVL2SHZRd2Loj0bSkN2K75C046c9ErhUkXoFxzJBSsXdGHpao5EDgAHrOsqh
-+1JCp5xY4W+UlJp0CAwEAAaAlMCMGCSqGSIb3DQEJBzEWDBRBIGNoYWxsZW5nZSBw
-+YXNzd29yZDANBgkqhkiG9w0BAQsFAAOCAQEAQ8Ph5ugfDlKbAhugFjGAfA++wHn3
-+H59haXoyicZeyBrS5GZ7Y4SkNrQSveFnLMpOLvYd5rKPZpKkuc1QAV6M7QbZYdum
-+DWCY+l2OOM3BvMRV8OsCLRJ1iymjuo7r0uWK7zkpB9qiGShdJqWIUgcVVGDmneWa
-+asmf0aIgNwhM+9PcggCBr859UltK/4lB1NxaDHOit1kG15ypJvWdrtoYeHbo4fn4
-+FYP43Yhi6KEBI2m17Yj070NG2KQIT5g+A4n74CV0iEc9jCY9O6N91rXhZSBU2sK0
-+ROBC7HcXgnK4FF8yRSWVXTMurItQcMmVt0NRZG3taHbt6AHMJ4OE/V7X3g==
++CWxvY2FsaG9zdDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANhksmEw
++0NNO8qNWn21Hq0Eu0m2piAtu2STTYk4agX4OK/InP9yp2ozdH5aw5ZnT7uSEcC0M
++udyGfc1qJDnCeyojeJbAFD2Ss3U+MSJkwnDXjPu4D/DlNsWDz3848Hl1B+uCI5as
++wNq7vxb7exwhs4lni8FcowFoR+DwfoIH9Nl1RitOj2Ou//Vbb0vOHLc1rQQsJ0D8
++XM0mK7DttFrW0KKUXlD+DYBdWhc99Pnh7VYqn8/IrZXEQkX8ZD1AKCpvgzW9vwjp
++EDq+0VtoaqUKOckPWyNala9YGPXmXVd1WRQUy5kzr69VF3pu+H55eFw41CQt0XPE
++r1RdkbpxltXTzD0CAwEAAaAlMCMGCSqGSIb3DQEJBzEWDBRBIGNoYWxsZW5nZSBw
++YXNzd29yZDANBgkqhkiG9w0BAQsFAAOCAQEAxgx6nXuNxy7mTbx3IzrUvZMqAkKJ
++RzQMfTq72yMKSQDw+Jfpo0W7oi354HEGf+wq5mBW0GmkOg3vRS7FWhOKy2lY5s1M
++OHCZZG3t/6dFhN+oRRX6hTvJoAmvKX2bcVP26Xcuw5gjipQOP5mm7/tvEeGVHRsI
++yvSvT7g+hPQt0ii2nhPkNqx7JYbqjInQmJqLzEUCIacPhY6/MlgJcEPP4KoVcFPP
++U5rEwL0ahuya0WafpL6FZgdHWu2b09hv/p8w8W4qoko7mE5ByRlEwmbrqJgj5JyZ
++lvu+nZdkhhW1Mtcyy1U/zK8jKKyefI7sPi0gwES4mpuZVSkI6E+oHzqAtw==
  -----END CERTIFICATE REQUEST-----
 Index: node-18.8.0/test/fixtures/keys/agent9-key.pem
 ===================================================================
@@ -1556,29 +1369,1055 @@ Index: node-18.8.0/test/fixtures/keys/agent9-key.pem
 -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
-+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
++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
  -----END RSA PRIVATE KEY-----
+Index: node-18.8.0/test/fixtures/keys/ca1-cert.srl
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/ca1-cert.srl
++++ node-18.8.0/test/fixtures/keys/ca1-cert.srl
+@@ -1 +1 @@
+-ECC9B856270DA9A8
++147D36C1C2F74206DE9FAB5F2226D78ADB00A426
+Index: node-18.8.0/test/fixtures/keys/ca2-cert.srl
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/ca2-cert.srl
++++ node-18.8.0/test/fixtures/keys/ca2-cert.srl
+@@ -1 +1 @@
+-91F006636069F29D
++91F006636069F2A1
+Index: node-18.8.0/test/fixtures/keys/ca2-crl.pem
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/ca2-crl.pem
++++ node-18.8.0/test/fixtures/keys/ca2-crl.pem
+@@ -1,10 +1,10 @@
+ -----BEGIN X509 CRL-----
+-MIIBXTCBxzANBgkqhkiG9w0BAQ0FADB6MQswCQYDVQQGEwJVUzELMAkGA1UECAwC
++MIIBezCB5TANBgkqhkiG9w0BAQ0FADB6MQswCQYDVQQGEwJVUzELMAkGA1UECAwC
+ Q0ExCzAJBgNVBAcMAlNGMQ8wDQYDVQQKDAZKb3llbnQxEDAOBgNVBAsMB05vZGUu
+ anMxDDAKBgNVBAMMA2NhMjEgMB4GCSqGSIb3DQEJARYRcnlAdGlueWNsb3Vkcy5v
+-cmcXDTE4MTExNjE4NDIyMFoXDTQ2MDQwMjE4NDIyMFowHDAaAgkAkfAGY2Bp8poX
+-DTE4MTExNjE4NDIyMFowDQYJKoZIhvcNAQENBQADgYEAiZKSPllC/hi1S9jedRFt
+-eah65RINSkGZt40AuxPIFfyu5qSeKU+9p8zdXELtPqywSr2k6JjBP40yRIc5/odZ
+-CxFM5XR/AIoeNspplxb+Qg1v1KlbGxzfeBHRIn91QpKcvsMCEYF8nu3xKOJmYrTR
+-3Kj0gniNHbiLe/HTpEY7YOA=
++cmcXDTIyMDkwMzE0NDY1MVoYDzIwNTAwMTE4MTQ0NjUxWjA4MBoCCQCR8AZjYGny
++mhcNMTgxMTE2MTg0MjIwWjAaAgkAkfAGY2Bp8p4XDTIyMDkwMzE0NDY1MVowDQYJ
++KoZIhvcNAQENBQADgYEAl59y/rB5YcIT5ySOwTfAzDFX3fZq1YPF8KF7Afqzx/x6
++b+1w511+tkixm0evIHtxlOrlFrAFBSFGMlrfKnmg5EopJ2w5yOR53ZqUwtNryZMC
++WJTEN+DeXU8WdY+iEXXCmpGZhvheRwKyCcY5xHxvwbnb3UdF+IaqA0aIN1Sa3Oc=
+ -----END X509 CRL-----
+Index: node-18.8.0/test/fixtures/keys/ca2-database.txt
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/ca2-database.txt
++++ node-18.8.0/test/fixtures/keys/ca2-database.txt
+@@ -1 +1,2 @@
+ R	22920830184220Z	181116184220Z	91F006636069F29A	unknown	/C=US/ST=CA/L=SF/O=Joyent/OU=Node.js/CN=agent4/emailAddress=ry@tinyclouds.org
++R	22960617144651Z	220903144651Z	91F006636069F29E	unknown	/C=US/ST=CA/L=SF/O=Joyent/OU=Node.js/CN=agent4/emailAddress=ry@tinyclouds.org
+Index: node-18.8.0/test/fixtures/keys/ca2-database.txt.old
+===================================================================
+--- /dev/null
++++ node-18.8.0/test/fixtures/keys/ca2-database.txt.old
+@@ -0,0 +1 @@
++R	22920830184220Z	181116184220Z	91F006636069F29A	unknown	/C=US/ST=CA/L=SF/O=Joyent/OU=Node.js/CN=agent4/emailAddress=ry@tinyclouds.org
+Index: node-18.8.0/test/fixtures/keys/ca3-cert.pem
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/ca3-cert.pem
++++ node-18.8.0/test/fixtures/keys/ca3-cert.pem
+@@ -1,16 +1,22 @@
+ -----BEGIN CERTIFICATE-----
+-MIIChDCCAe2gAwIBAgIJAOzJuFYnDamnMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
+-BAYTAlVTMQswCQYDVQQIDAJDQTELMAkGA1UEBwwCU0YxDzANBgNVBAoMBkpveWVu
+-dDEQMA4GA1UECwwHTm9kZS5qczEMMAoGA1UEAwwDY2ExMSAwHgYJKoZIhvcNAQkB
+-FhFyeUB0aW55Y2xvdWRzLm9yZzAgFw0xODExMTYxODQyMjFaGA8yMjkyMDgzMDE4
+-NDIyMVowejELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQHDAJTRjEP
+-MA0GA1UECgwGSm95ZW50MRAwDgYDVQQLDAdOb2RlLmpzMQwwCgYDVQQDDANjYTMx
+-IDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIGfMA0GCSqGSIb3DQEB
+-AQUAA4GNADCBiQKBgQCZ9fF/1UcYaurFIX0QIyAJdojn9+bfsTcjEIoGbsAnQLz2
+-bsZ4pqRNhZbYJApxqc+oDzZOqJOaxe8mlB5jUZ/sUA9Sp+wfWly95tkEHBMSse4x
+-UNJVM4vFPfOG4fv9fYGH3pcmAU1QnST4Fh+qZRzrh9wa99ltmB/U2mJEF6NriwID
+-AQABoxAwDjAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBCwUAA4GBAM3CFiDdGEcx
+-07J6pm4zGX399VxPr50PID110jmX7BRAfqva+wBRhwweSxZ/QRcKe1v/FK3GE87y
+-RbaXhFfnPRUHoUHQMtGwmZuZcdK65Pim9RPGb7qrEJ2wlPt/C1Q6VjL/fBGqjtJM
+-Bq/2GR2GoBsE85jGM287hcvXV0eG5OwM
++MIIDlDCCAnygAwIBAgIUFH02wcL3Qgben6tfIibXitsApCUwDQYJKoZIhvcNAQEL
++BQAwejELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQHDAJTRjEPMA0G
++A1UECgwGSm95ZW50MRAwDgYDVQQLDAdOb2RlLmpzMQwwCgYDVQQDDANjYTExIDAe
++BgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMCAXDTIyMDkwMzIxNDAzN1oY
++DzIyOTYwNjE3MjE0MDM3WjB6MQswCQYDVQQGEwJVUzELMAkGA1UECAwCQ0ExCzAJ
++BgNVBAcMAlNGMQ8wDQYDVQQKDAZKb3llbnQxEDAOBgNVBAsMB05vZGUuanMxDDAK
++BgNVBAMMA2NhMzEgMB4GCSqGSIb3DQEJARYRcnlAdGlueWNsb3Vkcy5vcmcwggEi
++MA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC76GtbMvRM7E1diL6l/Y4qQuDK
++ubmGWYOpz7kkUcApfJTa8gIhQvfvNdU/itpLIf1Nhmp9cDRk3BV6gU3P4SetVP+V
++x3PSiZ6MJDbQXETn7cLJIewtMexGf8wJldTJ3wcv6/1dZDU3RM3ME7XCgNGBXPOj
++c/TOz2StEGf4iwXKE7MHV0D2/hquOwuctqLjV969w8jea6BNqQjcKbq5Y17V4sxH
++AO+epbpC88byAaMgmRcqlM660zpKdcsfjQZ/4Vzoce9OOSd/+aHdwLZM3BVL6vAI
++09UqkaB+3M4n2pK6dPCQtimbaDyo7QZYgWpmp3/YDN1Hhh6IBoMoQqSu+/DFAgMB
++AAGjEDAOMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAJwGWU3qa5eT
++EEP/IXeZUJuZhqND+kBvBPPUYTeCXSbVRI2c6WaU7NZUqYkDz+lVrAMMG+eGPCW1
++8h8DehudZLNDvrz8uEPsYbgvZD+grFRmWh5kUdc2yz6gVVzTTGwy7ARgSoebUqK0
++O4uI8BW/UlF+OpGSpimMBnHqAq13k1Eb9kjckyZw2qIhW02mCsv9PnVQ8waDUq+C
++3No8ZoNqgQVVOFSuJz9wxGFPdt0KhizYMh0n+BP7U5srTn0LwWBEXoPsHBWhudTC
++NWYtx++OIWK/3QEufal83p2W3ICxAW3yqY7Qy03Z2LW07BDDdAmoFN9NTYuZKGd4
++DQYB7oHNx8E=
+ -----END CERTIFICATE-----
+Index: node-18.8.0/test/fixtures/keys/ca3-cert.srl
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/ca3-cert.srl
++++ node-18.8.0/test/fixtures/keys/ca3-cert.srl
+@@ -1 +1 @@
+-D0082F458B6EFBE8
++5B75D77EDC7FB5B7FA9F1424DA4C64FB815DCBDE
+Index: node-18.8.0/test/fixtures/keys/ca3-csr.pem
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/ca3-csr.pem
++++ node-18.8.0/test/fixtures/keys/ca3-csr.pem
+@@ -1,13 +1,18 @@
+ -----BEGIN CERTIFICATE REQUEST-----
+-MIIB3zCCAUgCAQAwejELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
++MIIC5DCCAcwCAQAwejELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
+ DAJTRjEPMA0GA1UECgwGSm95ZW50MRAwDgYDVQQLDAdOb2RlLmpzMQwwCgYDVQQD
+-DANjYTMxIDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIGfMA0GCSqG
+-SIb3DQEBAQUAA4GNADCBiQKBgQCZ9fF/1UcYaurFIX0QIyAJdojn9+bfsTcjEIoG
+-bsAnQLz2bsZ4pqRNhZbYJApxqc+oDzZOqJOaxe8mlB5jUZ/sUA9Sp+wfWly95tkE
+-HBMSse4xUNJVM4vFPfOG4fv9fYGH3pcmAU1QnST4Fh+qZRzrh9wa99ltmB/U2mJE
+-F6NriwIDAQABoCUwIwYJKoZIhvcNAQkHMRYMFEEgY2hhbGxlbmdlIHBhc3N3b3Jk
+-MA0GCSqGSIb3DQEBCwUAA4GBACeDmANyVHX/zFlz0OhqXzFw2C76/AjoNsR7cY6b
+-Mdl8R27MexPxkhD2IOzESxDkxFTzv+aVAz4gQIxDmdea307/P5LvRQXucAtNkAWi
+-2j6hB0Oq1BNKyBnevRTv28X7rhUp5OGDhRPP5lt1+PPA0zTurw+zJIaInePM//sT
+-7Ckh
++DANjYTMxIDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIIBIjANBgkq
++hkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAu+hrWzL0TOxNXYi+pf2OKkLgyrm5hlmD
++qc+5JFHAKXyU2vICIUL37zXVP4raSyH9TYZqfXA0ZNwVeoFNz+EnrVT/lcdz0ome
++jCQ20FxE5+3CySHsLTHsRn/MCZXUyd8HL+v9XWQ1N0TNzBO1woDRgVzzo3P0zs9k
++rRBn+IsFyhOzB1dA9v4arjsLnLai41fevcPI3mugTakI3Cm6uWNe1eLMRwDvnqW6
++QvPG8gGjIJkXKpTOutM6SnXLH40Gf+Fc6HHvTjknf/mh3cC2TNwVS+rwCNPVKpGg
++ftzOJ9qSunTwkLYpm2g8qO0GWIFqZqd/2AzdR4YeiAaDKEKkrvvwxQIDAQABoCUw
++IwYJKoZIhvcNAQkHMRYMFEEgY2hhbGxlbmdlIHBhc3N3b3JkMA0GCSqGSIb3DQEB
++CwUAA4IBAQBVCPTMqGME8So2Lnu9f+Dcnp0Db84CcA8yqFLlCO7+vDSi6E69Jo5n
++uAqkM94mo7a6yRvu+Si3gfAAGyDi0cjTdbqDDapwkW10j2P80fO1xjX8LQJwOLGi
++1XQtE5R2FTKJx/i0n+7V8no0W+D6WCzUTZCqUcaOfIUUa0j2aANEHAKMT3e+5i+n
++9AMpZ8FDFjxmZaQHuaAJZ1BRh2GbmH8lTjiHZpvsXeaQTVfHQ7kznLqWUSsEXuCp
++k0jWdcZejEfjNxZUYqJ6f7Yn7UAUznjUnz0HUFllA6WeLZ5M7WHRMg53675k9YGn
++LiM8YWp7Mx9lC57d38GhFhQPMr7Bznt0
+ -----END CERTIFICATE REQUEST-----
+Index: node-18.8.0/test/fixtures/keys/ca3-key.pem
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/ca3-key.pem
++++ node-18.8.0/test/fixtures/keys/ca3-key.pem
+@@ -1,15 +1,27 @@
+ -----BEGIN RSA PRIVATE KEY-----
+-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
+ -----END RSA PRIVATE KEY-----
+Index: node-18.8.0/test/fixtures/keys/ca4-cert.pem
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/ca4-cert.pem
++++ node-18.8.0/test/fixtures/keys/ca4-cert.pem
+@@ -1,16 +1,19 @@
+ -----BEGIN CERTIFICATE-----
+-MIICkzCCAfygAwIBAgIJAJHwBmNgafKbMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
++MIIDFzCCAoCgAwIBAgIJAJHwBmNgafKfMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
+ BAYTAlVTMQswCQYDVQQIDAJDQTELMAkGA1UEBwwCU0YxDzANBgNVBAoMBkpveWVu
+ dDEQMA4GA1UECwwHTm9kZS5qczEMMAoGA1UEAwwDY2EyMSAwHgYJKoZIhvcNAQkB
+-FhFyeUB0aW55Y2xvdWRzLm9yZzAgFw0xODExMTYxODQyMjFaGA8yMjkyMDgzMDE4
+-NDIyMVowgYgxCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJDQTELMAkGA1UEBwwCU0Yx
++FhFyeUB0aW55Y2xvdWRzLm9yZzAgFw0yMjA5MDMxNDQ2NTFaGA8yMjk2MDYxNzE0
++NDY1MVowgYgxCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJDQTELMAkGA1UEBwwCU0Yx
+ HzAdBgNVBAoMFlRoZSBOb2RlLmpzIEZvdW5kYXRpb24xEDAOBgNVBAsMB05vZGUu
+ anMxDDAKBgNVBAMMA2NhNDEeMBwGCSqGSIb3DQEJARYPY2E0QGV4YW1wbGUub3Jn
+-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDC1M2aGVYsmrBiut1n0nfTU+9v
+-TNVdAmKQBjnNsv3IIch/PPaEOIEm7dFhgdk86Z+wVCN3sAKu54Bz4JDKdPsFGvDy
+-18JGuGH1vIVW5285IW7fMrzvAdZtETeBAiPM10Q69ddB4M6FbLiF273ZqCJ+vSsw
+-kl5Dkas8YTZ0uwqKjQIDAQABoxAwDjAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEB
+-CwUAA4GBAGDMGSbPg/B4OripSxT2scXFIwoej47PW1byJgWaGoMJ8zgKUoKE7Z7A
+-aWQbD22In05F0kBllqpSJWEZpTuVFsyyLeb3R7cuGQWs/puaaPul7sx+PRGhwxYe
+-nrNIGtsaBf8TO/kb5lMiXWbhM5gZbBtbMMv3xWA4FxqU0AgfO3jM
++MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0HnUahyfA25t8kaziu0i
++vVMkTWntm0pJ8oemeO7yCGaY4QHEwN+QUzrzO7y7ngl2Dt76eEvj0mrgaW8Ao7Ns
++ePfp3663g8RrBsb4cR1da2Tc8kpXCqgwbcTlm8HI/7OAdHGA2YDLNv7iyVk9meHM
++gYfO9dVgrZ7RxfnGwNMJdNjYJrd02xeU6euoKl9j/ZWCG5xHAM2xAXOKHGm8toIm
+++Ss6iZXY8kypy7Fjwyv7jMT8V+pzIWu24xd3Y3s07r59nkFmQ29nHMTaLP7Tf3TY
++MBI5mp8fet732aBoywpQ/w05LR9gdM1jpUvIlmhj4qGskv17AMEmRecwic3opq/b
++yQIDAQABoxAwDjAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBCwUAA4GBADsFOR+N
++Bcm2FyHOutoFpQn70qAFg0xlO3NTH87uubbs6rf3LDrsskhjskfs6wpUk56IJOoU
++H7+F7aDDtSrnxzxxC5eZeGyaN05T5N01OdK3xvqUnr7mg/Ce0jnxrZhxHI8SHOqs
++Kwrg4fRasUHGhH286Y13xOj2pLSrVoSbkXsA
+ -----END CERTIFICATE-----
+Index: node-18.8.0/test/fixtures/keys/ca4-cert.srl
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/ca4-cert.srl
++++ node-18.8.0/test/fixtures/keys/ca4-cert.srl
+@@ -1 +1 @@
+-ECAF33A18C6435BA
++315699D1E5F92A9F0D238BDA285548E7DDB04E
+Index: node-18.8.0/test/fixtures/keys/ca4-csr.pem
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/ca4-csr.pem
++++ node-18.8.0/test/fixtures/keys/ca4-csr.pem
+@@ -1,13 +1,18 @@
+ -----BEGIN CERTIFICATE REQUEST-----
+-MIIB7jCCAVcCAQAwgYgxCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJDQTELMAkGA1UE
++MIIC8zCCAdsCAQAwgYgxCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJDQTELMAkGA1UE
+ BwwCU0YxHzAdBgNVBAoMFlRoZSBOb2RlLmpzIEZvdW5kYXRpb24xEDAOBgNVBAsM
+ B05vZGUuanMxDDAKBgNVBAMMA2NhNDEeMBwGCSqGSIb3DQEJARYPY2E0QGV4YW1w
+-bGUub3JnMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDC1M2aGVYsmrBiut1n
+-0nfTU+9vTNVdAmKQBjnNsv3IIch/PPaEOIEm7dFhgdk86Z+wVCN3sAKu54Bz4JDK
+-dPsFGvDy18JGuGH1vIVW5285IW7fMrzvAdZtETeBAiPM10Q69ddB4M6FbLiF273Z
+-qCJ+vSswkl5Dkas8YTZ0uwqKjQIDAQABoCUwIwYJKoZIhvcNAQkHMRYMFEEgY2hh
+-bGxlbmdlIHBhc3N3b3JkMA0GCSqGSIb3DQEBCwUAA4GBAJoKIMOK0sCoXAa/cCaJ
+-oTYLHee1aJBWmt8XTUqREdFIIAjjrgY0/ZGEeA9OEczbFgSTMPXemir4Ks3ib3kr
+-MeJkOWSUgKL2gdV4jPZIUEdeTYaMQ5utiTvL2oKN4R51mSNg5ZEFIf+vZpK6UTpR
+-LCERUC79Hsj13NrHK2Lf8jhy
++bGUub3JnMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0HnUahyfA25t
++8kaziu0ivVMkTWntm0pJ8oemeO7yCGaY4QHEwN+QUzrzO7y7ngl2Dt76eEvj0mrg
++aW8Ao7NsePfp3663g8RrBsb4cR1da2Tc8kpXCqgwbcTlm8HI/7OAdHGA2YDLNv7i
++yVk9meHMgYfO9dVgrZ7RxfnGwNMJdNjYJrd02xeU6euoKl9j/ZWCG5xHAM2xAXOK
++HGm8toIm+Ss6iZXY8kypy7Fjwyv7jMT8V+pzIWu24xd3Y3s07r59nkFmQ29nHMTa
++LP7Tf3TYMBI5mp8fet732aBoywpQ/w05LR9gdM1jpUvIlmhj4qGskv17AMEmRecw
++ic3opq/byQIDAQABoCUwIwYJKoZIhvcNAQkHMRYMFEEgY2hhbGxlbmdlIHBhc3N3
++b3JkMA0GCSqGSIb3DQEBCwUAA4IBAQDDl1qv7srX1Jagdr2S6Mm9hqcinCRyMvWN
++KOPmgiDo4KeCey7imUaLSygf/PFC4GpYbxbYho+xaQHqnT/FqRUA+CxaVZ+OoZlG
++RT1iSCvVXeKwMmsYxAqjarFhfSYjPLI0UzLqVGTcdihFt3WSQGBsirkhBUm2vNhf
++Deh9bGmyO4yhisPudmTTKtztEiYFjVPFT+JoeZViqiO+9FTUYVcrkcH/E4PsJ9qs
++xkVQ3GzMjsQGWErufQE81OYuHilCUn53GlS1Hv2TAqkongoNfqIlWPh4eS191Hp8
++hFRDSBOOT6OfoTmcFupNZ0YQ5UM8ThmF7i4iwpTYfj1TojjzUf5R
+ -----END CERTIFICATE REQUEST-----
+Index: node-18.8.0/test/fixtures/keys/ca4-key.pem
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/ca4-key.pem
++++ node-18.8.0/test/fixtures/keys/ca4-key.pem
+@@ -1,15 +1,27 @@
+ -----BEGIN RSA PRIVATE KEY-----
+-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
+ -----END RSA PRIVATE KEY-----
+Index: node-18.8.0/test/fixtures/keys/ca6-cert.srl
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/ca6-cert.srl
++++ node-18.8.0/test/fixtures/keys/ca6-cert.srl
+@@ -1 +1 @@
+-A97535039C5E962B
++A97535039C5E962C
+Index: node-18.8.0/test/fixtures/keys/dherror.pem
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/dherror.pem
++++ node-18.8.0/test/fixtures/keys/dherror.pem
+@@ -1,4 +1,5 @@
+ -----BEGIN DH PARAMETERS-----
+ AAAAAAAAAA
+ AAAAAAAAAA
++AAAAAAAAAA
+ -----END DH PARAMETERS-----
+Index: node-18.8.0/test/fixtures/keys/ec-cert.pem
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/ec-cert.pem
++++ node-18.8.0/test/fixtures/keys/ec-cert.pem
+@@ -1,13 +1,13 @@
+ -----BEGIN CERTIFICATE-----
+-MIIB6zCCAZICCQDB6nsD1ZVtUjAKBggqhkjOPQQDAjB9MQswCQYDVQQGEwJVUzEL
+-MAkGA1UECAwCQ0ExCzAJBgNVBAcMAlNGMQ8wDQYDVQQKDAZKb3llbnQxEDAOBgNV
+-BAsMB05vZGUuanMxDzANBgNVBAMMBmFnZW50MjEgMB4GCSqGSIb3DQEJARYRcnlA
+-dGlueWNsb3Vkcy5vcmcwIBcNMTgxMTE2MTg0MzE0WhgPMjI5MjA4MzAxODQzMTRa
+-MH0xCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJDQTELMAkGA1UEBwwCU0YxDzANBgNV
+-BAoMBkpveWVudDEQMA4GA1UECwwHTm9kZS5qczEPMA0GA1UEAwwGYWdlbnQyMSAw
+-HgYJKoZIhvcNAQkBFhFyeUB0aW55Y2xvdWRzLm9yZzBZMBMGByqGSM49AgEGCCqG
+-SM49AwEHA0IABEppwUcxZQc2qbTxko8VEYAtKhMPbzzkhMlC3iqv+DJG9gXRJ3Kt
+-8vz3/HuBV6gGDjuaTObou//p7sBjOdvcTXAwCgYIKoZIzj0EAwIDRwAwRAIgAmC2
+-Xfpv1zjKePs3xAAWGP3Xp9+1lOdHpA3mTjlAFOoCIAJagVrpr8rWOf73fdN31xrs
+-8IdbV8S1DDlqYzANVPnA
++MIIB+DCCAZ0CFDLoGXaB2jMYWGe1KIX2eL/bpRcnMAoGCCqGSM49BAMCMH0xCzAJ
++BgNVBAYTAlVTMQswCQYDVQQIDAJDQTELMAkGA1UEBwwCU0YxDzANBgNVBAoMBkpv
++eWVudDEQMA4GA1UECwwHTm9kZS5qczEPMA0GA1UEAwwGYWdlbnQyMSAwHgYJKoZI
++hvcNAQkBFhFyeUB0aW55Y2xvdWRzLm9yZzAgFw0yMjA5MDMxNDQ2NTRaGA8yMjk2
++MDYxNzE0NDY1NFowfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
++DAJTRjEPMA0GA1UECgwGSm95ZW50MRAwDgYDVQQLDAdOb2RlLmpzMQ8wDQYDVQQD
++DAZhZ2VudDIxIDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMFkwEwYH
++KoZIzj0CAQYIKoZIzj0DAQcDQgAESmnBRzFlBzaptPGSjxURgC0qEw9vPOSEyULe
++Kq/4Mkb2BdEncq3y/Pf8e4FXqAYOO5pM5ui7/+nuwGM529xNcDAKBggqhkjOPQQD
++AgNJADBGAiEAlGAGLnGpFbF1nSwXpO3erf2DUPExz9Ib/k00r7S+rpQCIQDykx2f
++kQ2xLOKI+yq4Ie4MHG0wNPgllVUaKBqpE+XhYQ==
+ -----END CERTIFICATE-----
+Index: node-18.8.0/test/fixtures/keys/ec10-cert.pem
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/ec10-cert.pem
++++ node-18.8.0/test/fixtures/keys/ec10-cert.pem
+@@ -1,15 +1,15 @@
+ -----BEGIN CERTIFICATE-----
+-MIIB9zCCAZ6gAwIBAgIJAKl1NQOcXpYrMAoGCCqGSM49BAMCMIGIMQswCQYDVQQG
++MIIB9zCCAZ6gAwIBAgIJAKl1NQOcXpYsMAoGCCqGSM49BAMCMIGIMQswCQYDVQQG
+ EwJVUzELMAkGA1UECAwCQ0ExCzAJBgNVBAcMAlNGMR8wHQYDVQQKDBZUaGUgTm9k
+ ZS5qcyBGb3VuZGF0aW9uMRAwDgYDVQQLDAdOb2RlLmpzMQwwCgYDVQQDDANjYTYx
+-HjAcBgkqhkiG9w0BCQEWD2NhNkBleGFtcGxlLm9yZzAgFw0xODExMTYxODQyMjFa
+-GA8yMjkyMDgzMDE4NDIyMVoweDELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQsw
++HjAcBgkqhkiG9w0BCQEWD2NhNkBleGFtcGxlLm9yZzAgFw0yMjA5MDMxNDQ2NTNa
++GA8yMjk2MDYxNzE0NDY1M1oweDELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQsw
+ CQYDVQQHDAJTRjEfMB0GA1UECgwWVGhlIE5vZGUuanMgRm91bmRhdGlvbjEQMA4G
+ A1UECwwHTm9kZS5qczEcMBoGA1UEAwwTYWdlbnQxMC5leGFtcGxlLmNvbTBZMBMG
+ ByqGSM49AgEGCCqGSM49AwEHA0IABDuWsQNVJ8wPZjqFqkkVeuYfYrfgstcPO7Ai
+ cGrgfQKeFvz+oLd6+U+OGFMFh0+LkI6oTADserWMFyuaiqDIFzAwCgYIKoZIzj0E
+-AwIDRwAwRAIgM0oqALjQXRlxmJlje71j0AX22Dq732dH0/oBEHiTDBcCIBbOfILG
+-vtveS9DMkz5VVlqQJ2TsDcSerhXHcLowXt5i
++AwIDRwAwRAIgC5cVYfGWZfctWKisX43SQacVCcmi9n8MgnVqDu6vfN8CIBW19lxJ
++mWBWBlQwMlkTHs1xO/XPVai0fUz9pqdwL2Mn
+ -----END CERTIFICATE-----
+ -----BEGIN CERTIFICATE-----
+ MIICGzCCAcGgAwIBAgIJAMTCBUQ4OI4+MAoGCCqGSM49BAMCMIGIMQswCQYDVQQG
+Index: node-18.8.0/test/fixtures/keys/fake-cnnic-root-cert.srl
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/fake-cnnic-root-cert.srl
++++ node-18.8.0/test/fixtures/keys/fake-cnnic-root-cert.srl
+@@ -1 +1 @@
+-9E13B420E1F5C718
++9E13B420E1F5C719
+Index: node-18.8.0/test/fixtures/keys/fake-startcom-root-database.txt
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/fake-startcom-root-database.txt
++++ node-18.8.0/test/fixtures/keys/fake-startcom-root-database.txt
+@@ -1,2 +1,4 @@
+ V	22920830184221Z		01	unknown	/C=US/ST=CA/L=SF/O=NODEJS/OU=agent8/CN=localhost
+ V	22920830184221Z		02	unknown	/C=US/ST=CA/L=SF/O=NODEJS/OU=agent9/CN=localhost
++V	22960617144652Z		03	unknown	/C=US/ST=CA/L=SF/O=NODEJS/OU=agent8/CN=localhost
++V	22960617144653Z		04	unknown	/C=US/ST=CA/L=SF/O=NODEJS/OU=agent9/CN=localhost
+Index: node-18.8.0/test/fixtures/keys/fake-startcom-root-database.txt.old
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/fake-startcom-root-database.txt.old
++++ node-18.8.0/test/fixtures/keys/fake-startcom-root-database.txt.old
+@@ -1 +1,3 @@
+ V	22920830184221Z		01	unknown	/C=US/ST=CA/L=SF/O=NODEJS/OU=agent8/CN=localhost
++V	22920830184221Z		02	unknown	/C=US/ST=CA/L=SF/O=NODEJS/OU=agent9/CN=localhost
++V	22960617144652Z		03	unknown	/C=US/ST=CA/L=SF/O=NODEJS/OU=agent8/CN=localhost
+Index: node-18.8.0/test/fixtures/keys/fake-startcom-root-issued-certs/03.pem
+===================================================================
+--- /dev/null
++++ node-18.8.0/test/fixtures/keys/fake-startcom-root-issued-certs/03.pem
+@@ -0,0 +1,20 @@
++-----BEGIN CERTIFICATE-----
++MIIDUDCCAjgCAQMwDQYJKoZIhvcNAQELBQAwfTELMAkGA1UEBhMCSUwxFjAUBgNV
++BAoMDVN0YXJ0Q29tIEx0ZC4xKzApBgNVBAsMIlNlY3VyZSBEaWdpdGFsIENlcnRp
++ZmljYXRlIFNpZ25pbmcxKTAnBgNVBAMMIFN0YXJ0Q29tIENlcnRpZmljYXRpb24g
++QXV0aG9yaXR5MCAXDTE2MTAyMDIzNTk1OVoYDzIyOTYwNjE3MTQ0NjUyWjBdMQsw
++CQYDVQQGEwJVUzELMAkGA1UECAwCQ0ExCzAJBgNVBAcMAlNGMQ8wDQYDVQQKDAZO
++T0RFSlMxDzANBgNVBAsMBmFnZW50ODESMBAGA1UEAwwJbG9jYWxob3N0MIIBIjAN
++BgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA8qCR7vlhx6Fr109bIS6dQUU2Iqwn
++4CbYXjxfKMPj4cdCB9l68cRDNystAgNzc7RPUoiz7+gdvY9o8QCL+hiZOArH5xpR
++lBq57hp9uXIMiZLKuZEZODWr2h1eE0rg8x4aqfWR0/JgPup3d9bOvD47pF7wGmFz
++mtWlpptjXA6y7mt0ZamYdNoWkoUabrQIheEV/zspbgTJ1mhFkVeGnch5DE/AfNvs
++M+cml5ZzQnm5FLKtp1CcHPaPDGUd5D3jNmNq55iZTEPQtcYErwHX9aLWQxrl8ZSq
++4Xo67HP6TjL0zTzzcoJz5H68+FDVoa/gVxwpv/Cka0ief0nNgl17V8aWIQIDAQAB
++MA0GCSqGSIb3DQEBCwUAA4IBAQB2z3MF4x/1WXcpzqEcyPyowEzczsCZLkhy0cG4
++eY0mt/+8+JbXdPDgrWNtfqCT2h4KMZu41kquRb63cUYy9DPwFrg8a09picvJWoBp
++PMXv0o/CttFLYkQ+o0kXTy5DvGUPw9FLoPVncTkGhhX/lOvHKReplhS6lot/5r0g
++nXlRaMAbzCDRxW5AAUK2p0WR4Ih84lI++1M2m6ac0q7efz3TGpyz0lukHYxNJak0
++dh7ToIpvQ54MZkxFgG0ej2HGtNBHVnCpMk9bhupDIJ65fybMtIXy8bhUuj4KX/hm
++tALVY3gVezswj90SGBMxeMwcE7z/jDUpkEAIP4FM3Y+yYfmS
++-----END CERTIFICATE-----
+Index: node-18.8.0/test/fixtures/keys/fake-startcom-root-issued-certs/04.pem
+===================================================================
+--- /dev/null
++++ node-18.8.0/test/fixtures/keys/fake-startcom-root-issued-certs/04.pem
+@@ -0,0 +1,20 @@
++-----BEGIN CERTIFICATE-----
++MIIDUDCCAjgCAQQwDQYJKoZIhvcNAQELBQAwfTELMAkGA1UEBhMCSUwxFjAUBgNV
++BAoMDVN0YXJ0Q29tIEx0ZC4xKzApBgNVBAsMIlNlY3VyZSBEaWdpdGFsIENlcnRp
++ZmljYXRlIFNpZ25pbmcxKTAnBgNVBAMMIFN0YXJ0Q29tIENlcnRpZmljYXRpb24g
++QXV0aG9yaXR5MCAXDTE2MTAyMTAwMDAwMVoYDzIyOTYwNjE3MTQ0NjUzWjBdMQsw
++CQYDVQQGEwJVUzELMAkGA1UECAwCQ0ExCzAJBgNVBAcMAlNGMQ8wDQYDVQQKDAZO
++T0RFSlMxDzANBgNVBAsMBmFnZW50OTESMBAGA1UEAwwJbG9jYWxob3N0MIIBIjAN
++BgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2GSyYTDQ007yo1afbUerQS7SbamI
++C27ZJNNiThqBfg4r8ic/3KnajN0flrDlmdPu5IRwLQy53IZ9zWokOcJ7KiN4lsAU
++PZKzdT4xImTCcNeM+7gP8OU2xYPPfzjweXUH64IjlqzA2ru/Fvt7HCGziWeLwVyj
++AWhH4PB+ggf02XVGK06PY67/9VtvS84ctzWtBCwnQPxczSYrsO20WtbQopReUP4N
++gF1aFz30+eHtViqfz8itlcRCRfxkPUAoKm+DNb2/COkQOr7RW2hqpQo5yQ9bI1qV
++r1gY9eZdV3VZFBTLmTOvr1UXem74fnl4XDjUJC3Rc8SvVF2RunGW1dPMPQIDAQAB
++MA0GCSqGSIb3DQEBCwUAA4IBAQCurBCHjw6uFpINxp+3su5wSfL2Qfvq8ASJywoD
++odgGb3NFghJTlQIxA7y+ZIwNBXwmVmcf1+iC3xfvdFKQFQAAIcGAX2crhs5E3TsB
++41oStrzisxI48M2SirgmhYOkFVo5b4lYpgYfXReh7NlX6yz3q83gH04P72BF4Pre
++mJ3R31arSpOkVheK5O+o3ZPPiko7xJpkKm/orkV9mlZqR4aIyqWvrXUXnfBtSPk7
++Vjtm+p0Jqt1y1emPw0gQcaP1dCMoJm4LsYoAZNFQmKiMYIeXO1sxvYSaH/OO1lWJ
++96nbaSD+b0GOyVHZyea6dibVbfoeagpLyBWgO98CnzvzD3A/
++-----END CERTIFICATE-----
+Index: node-18.8.0/test/fixtures/keys/fake-startcom-root-serial
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/fake-startcom-root-serial
++++ node-18.8.0/test/fixtures/keys/fake-startcom-root-serial
+@@ -1 +1 @@
+-03
++05
+Index: node-18.8.0/test/fixtures/keys/fake-startcom-root-serial.old
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/fake-startcom-root-serial.old
++++ node-18.8.0/test/fixtures/keys/fake-startcom-root-serial.old
+@@ -1 +1 @@
+-02
++04
+Index: node-18.8.0/test/fixtures/keys/incorrect_san_correct_subject-cert.pem
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/incorrect_san_correct_subject-cert.pem
++++ node-18.8.0/test/fixtures/keys/incorrect_san_correct_subject-cert.pem
+@@ -1,11 +1,11 @@
+ -----BEGIN CERTIFICATE-----
+-MIIBqDCCAU6gAwIBAgIUE3Kx4WUjkwuKy/fBOM+UJkb9aSAwCgYIKoZIzj0EAwIw
+-GzEZMBcGA1UEAwwQZ29vZC5leGFtcGxlLmNvbTAeFw0yMTEyMTExNjUxNDVaFw0z
+-MTEyMDkxNjUxNDVaMBsxGTAXBgNVBAMMEGdvb2QuZXhhbXBsZS5jb20wWTATBgcq
++MIIBqDCCAU6gAwIBAgIUTW0AGj1MKk0Vny7OOGAqDRgTCF4wCgYIKoZIzj0EAwIw
++GzEZMBcGA1UEAwwQZ29vZC5leGFtcGxlLmNvbTAeFw0yMjA5MDMxNDQ2NTRaFw0z
++MjA4MzExNDQ2NTRaMBsxGTAXBgNVBAMMEGdvb2QuZXhhbXBsZS5jb20wWTATBgcq
+ hkjOPQIBBggqhkjOPQMBBwNCAASQ/CKa5uMZuLYssnNOm7DPdw3I5Doa0Qpyf3cS
+ 7aGatfK3tuY8qG7nJ5OGtl1WOL/gN0vRRN0/KA/iRJyjafzzo3AwbjAdBgNVHQ4E
+ FgQUFkpgPzE1ePjK5UsPcR0gk5uLsTUwHwYDVR0jBBgwFoAUFkpgPzE1ePjK5UsP
+ cR0gk5uLsTUwDwYDVR0TAQH/BAUwAwEB/zAbBgNVHREEFDASghBldmlsLmV4YW1w
+-bGUuY29tMAoGCCqGSM49BAMCA0gAMEUCIQCMZAinQXkOEhfp+moxVnLbcUPAAqsl
+-1KCq3NRG91TGCgIgC4grmOhCRqJMF1RPNWobGogX/yNrYNjiGzNVyJzMR0s=
++bGUuY29tMAoGCCqGSM49BAMCA0gAMEUCIBxZKMQBIL5n9IqVdhWtmssx/oALgPC/
++addiSbW3I5soAiEA9hC5jNkY28VNx9EFiT3GWe9FyPM9AYWuM4BZVlzLJfA=
+ -----END CERTIFICATE-----
+Index: node-18.8.0/test/fixtures/keys/rsa_ca.crt
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/rsa_ca.crt
++++ node-18.8.0/test/fixtures/keys/rsa_ca.crt
+@@ -1,10 +1,10 @@
+ -----BEGIN CERTIFICATE-----
+-MIIEAjCCAuqgAwIBAgIUf4Z4DKj5kJW60NE+9PaucYFlft8wDQYJKoZIhvcNAQEL
++MIIEAjCCAuqgAwIBAgIUVaZoDmyyS79pzShST5zhsKbvWR0wDQYJKoZIhvcNAQEL
+ BQAwgbAxCzAJBgNVBAYTAlVLMRQwEgYDVQQIDAtBY2tuYWNrIEx0ZDETMBEGA1UE
+ BwwKUmh5cyBKb25lczEQMA4GA1UECgwHbm9kZS5qczEdMBsGA1UECwwUVGVzdCBU
+ TFMgQ2VydGlmaWNhdGUxFDASBgNVBAsMC0VuZ2luZWVyaW5nMRIwEAYDVQQDDAls
+-b2NhbGhvc3QxGzAZBgkqhkiG9w0BCQEWDGFsZXhAYXViLmRldjAgFw0xOTA2Mjgy
+-MTM2NDhaGA8yMjkzMDQxMTIxMzY0OFowgbAxCzAJBgNVBAYTAlVLMRQwEgYDVQQI
++b2NhbGhvc3QxGzAZBgkqhkiG9w0BCQEWDGFsZXhAYXViLmRldjAgFw0yMjA5MDMx
++NDQ2NTRaGA8yMjk2MDYxNzE0NDY1NFowgbAxCzAJBgNVBAYTAlVLMRQwEgYDVQQI
+ DAtBY2tuYWNrIEx0ZDETMBEGA1UEBwwKUmh5cyBKb25lczEQMA4GA1UECgwHbm9k
+ ZS5qczEdMBsGA1UECwwUVGVzdCBUTFMgQ2VydGlmaWNhdGUxFDASBgNVBAsMC0Vu
+ Z2luZWVyaW5nMRIwEAYDVQQDDAlsb2NhbGhvc3QxGzAZBgkqhkiG9w0BCQEWDGFs
+@@ -15,10 +15,10 @@ Vv8Cb6eRI1kwBmGxbMJTZng+OHnRBjPd/Qei6vv/
+ 2QaD3MyBLunrf5DdlZ520VLZGExfe4IHL+YfoQ6VEI0FtGYDjHE3PJ/kZBqSLdP4
+ jP204yN08/4LBXYuoR3KWYG6KTy+t9NveogcsooEAjyVc3brBa0DeQ3gvs0/5xsq
+ UJGWpy2+GbKUsfUCAwEAAaMQMA4wDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQsF
+-AAOCAQEAD2FBwUO9iV4VBrpTdUEd0Y39ajJsdbbnNkJ/N1ZbJgdymCLfVpzCqB+s
+-qRjpq9JqGtcxwzPG7GGu+OIXCGMfeMzFkk2cjLeZic5uKcynFgru4bzrhGdb26Wq
+-s8rQeXFOO6aRdpTVvIO+Vq5goRTXJhbtEzA9efmYWIOXcL5WDYhwApOc8rwfz9fm
+-q8VZCW+KK23EU3gfyOcO14E0Al/K6lewX15K1Hh4P8cSnFtjtCqRRWmQi9JfdasS
+-A0YJd8rN47dplRylTtXu5VFKL+XXa/jmlzsgtxBHX14onpVKqfGCvCLqj+AeZA3Y
+-iX4iQjxnLr5DRtykOz+bKEYgX8AV8g==
++AAOCAQEALcyUnR9nUaKtYwomY5nf7GzaVLGiprbN2irZgfrbdBRIbNGTaOOzzoDW
++31pmrppYT5P8e1ORN+eHaD7h1mVhT6b2tix3xPxKasuu6iYYGRRu4SiKEfHKwYtU
++g/Q/eFI1MquhitOYEZA7C/6TK6Stx4ot5sNPAmgbYRLz6ljUCMeGHM/JHIMlrAbt
++2R3Wyo0UWQINqAT11miJcL0a9UCGScCZxmz90Hs+uk6MtiY8kNSXHL5So4tg7qFz
++nFWSMhIu+1f4hbxD9inOTJczzw1iCXuWRe3+rvqPDxJyHGMiriiXrdBY6CXa20jx
++P1lIqHSThAkWfOgOhmQ0OdvSWlKvNA==
+ -----END CERTIFICATE-----
+Index: node-18.8.0/test/fixtures/keys/rsa_cert.crt
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/rsa_cert.crt
++++ node-18.8.0/test/fixtures/keys/rsa_cert.crt
+@@ -1,10 +1,10 @@
+ -----BEGIN CERTIFICATE-----
+-MIIEAjCCAuqgAwIBAgIUf4Z4DKj5kJW60NE+9PaucYFlft8wDQYJKoZIhvcNAQEL
++MIIEAjCCAuqgAwIBAgIUVaZoDmyyS79pzShST5zhsKbvWR0wDQYJKoZIhvcNAQEL
+ BQAwgbAxCzAJBgNVBAYTAlVLMRQwEgYDVQQIDAtBY2tuYWNrIEx0ZDETMBEGA1UE
+ BwwKUmh5cyBKb25lczEQMA4GA1UECgwHbm9kZS5qczEdMBsGA1UECwwUVGVzdCBU
+ TFMgQ2VydGlmaWNhdGUxFDASBgNVBAsMC0VuZ2luZWVyaW5nMRIwEAYDVQQDDAls
+-b2NhbGhvc3QxGzAZBgkqhkiG9w0BCQEWDGFsZXhAYXViLmRldjAgFw0xOTA2Mjgy
+-MTM2NDhaGA8yMjkzMDQxMTIxMzY0OFowgbAxCzAJBgNVBAYTAlVLMRQwEgYDVQQI
++b2NhbGhvc3QxGzAZBgkqhkiG9w0BCQEWDGFsZXhAYXViLmRldjAgFw0yMjA5MDMx
++NDQ2NTRaGA8yMjk2MDYxNzE0NDY1NFowgbAxCzAJBgNVBAYTAlVLMRQwEgYDVQQI
+ DAtBY2tuYWNrIEx0ZDETMBEGA1UEBwwKUmh5cyBKb25lczEQMA4GA1UECgwHbm9k
+ ZS5qczEdMBsGA1UECwwUVGVzdCBUTFMgQ2VydGlmaWNhdGUxFDASBgNVBAsMC0Vu
+ Z2luZWVyaW5nMRIwEAYDVQQDDAlsb2NhbGhvc3QxGzAZBgkqhkiG9w0BCQEWDGFs
+@@ -15,10 +15,10 @@ Vv8Cb6eRI1kwBmGxbMJTZng+OHnRBjPd/Qei6vv/
+ 2QaD3MyBLunrf5DdlZ520VLZGExfe4IHL+YfoQ6VEI0FtGYDjHE3PJ/kZBqSLdP4
+ jP204yN08/4LBXYuoR3KWYG6KTy+t9NveogcsooEAjyVc3brBa0DeQ3gvs0/5xsq
+ UJGWpy2+GbKUsfUCAwEAAaMQMA4wDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQsF
+-AAOCAQEAD2FBwUO9iV4VBrpTdUEd0Y39ajJsdbbnNkJ/N1ZbJgdymCLfVpzCqB+s
+-qRjpq9JqGtcxwzPG7GGu+OIXCGMfeMzFkk2cjLeZic5uKcynFgru4bzrhGdb26Wq
+-s8rQeXFOO6aRdpTVvIO+Vq5goRTXJhbtEzA9efmYWIOXcL5WDYhwApOc8rwfz9fm
+-q8VZCW+KK23EU3gfyOcO14E0Al/K6lewX15K1Hh4P8cSnFtjtCqRRWmQi9JfdasS
+-A0YJd8rN47dplRylTtXu5VFKL+XXa/jmlzsgtxBHX14onpVKqfGCvCLqj+AeZA3Y
+-iX4iQjxnLr5DRtykOz+bKEYgX8AV8g==
++AAOCAQEALcyUnR9nUaKtYwomY5nf7GzaVLGiprbN2irZgfrbdBRIbNGTaOOzzoDW
++31pmrppYT5P8e1ORN+eHaD7h1mVhT6b2tix3xPxKasuu6iYYGRRu4SiKEfHKwYtU
++g/Q/eFI1MquhitOYEZA7C/6TK6Stx4ot5sNPAmgbYRLz6ljUCMeGHM/JHIMlrAbt
++2R3Wyo0UWQINqAT11miJcL0a9UCGScCZxmz90Hs+uk6MtiY8kNSXHL5So4tg7qFz
++nFWSMhIu+1f4hbxD9inOTJczzw1iCXuWRe3+rvqPDxJyHGMiriiXrdBY6CXa20jx
++P1lIqHSThAkWfOgOhmQ0OdvSWlKvNA==
+ -----END CERTIFICATE-----
+Index: node-18.8.0/test/fixtures/keys/rsa_private_1024.pem
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/rsa_private_1024.pem
++++ /dev/null
+@@ -1,15 +0,0 @@
+------BEGIN RSA PRIVATE KEY-----
+-MIICXQIBAAKBgQDRMGk0Tp+sGoU4FbTF76l7g3uOdSpqLBnP4UDKSdhv3p+lfr6F
+-piJh8KnXIPKMq5b4EX+X4Ghz7PKDMEs24ihiqwUMl89exvFtW2bXwqq0XpMqdF6R
+-CxbbBYy3DFPTCTvoHaoAfmwHzwBfelHt2PaYl4ZNxhpD4UcP3/lrUB5KhwIDAQAB
+-AoGAYK4gIUWpNDB5m4ckqkpuqSAGbbum47UIJPR1Lkjc2C8q16DxSvGSeHNy+3NF
+-xk/TkUj9EGNtww4isxER4ga6JLH5WNkF3k92ET2wSn6G9/CtPZRe6wRP593ZO5vd
+-KXLCXRNprlRVHQbE6VysIQToZKVH2sqoFhIH62RDdhXvQNECQQDq8PQsLd1szeKf
+-iaJSlPxfuPG9yEZO7YY3QygpTmzRjLfN5560SejEvctMiO4hlwnWNbQzGbgQfhfA
+-JbgK6Z0fAkEA4/CKKcR8JJe/8vukfTLDlgnp3DPMa1HOVFnKWF6QeCPk5aOehDcf
+-CFm4E+A6NAbtG0oor6e4Bsr4ASOpLxE9mQJBAK4oAYiCU0JleFm1CAvZfx9iFGkP
+-ffbiIfzzHmFITmgjvNi4mq+gnhjBbGOGmadytAsDclny9bvcDLUWANCuDhcCQCNE
+-aFwmBn8y64QQ41ZrsE9aoVBsw0gnlCEA84nQt9Ge3B+bvT7/uFF2cEDDBL5gA/eg
+-9cKX1KVYah7jAZ5CsKECQQCJFqYwEewb3G7aKjtAzVCsNfQSC64xT2EnMg47va9t
+-GK5DXshigVNpMHJ52N4QxWIRtUs5LOCeGaZP/vTkTQ+z
+------END RSA PRIVATE KEY-----
+Index: node-18.8.0/test/fixtures/keys/rsa_public_1024.pem
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/rsa_public_1024.pem
++++ /dev/null
+@@ -1,6 +0,0 @@
+------BEGIN PUBLIC KEY-----
+-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDRMGk0Tp+sGoU4FbTF76l7g3uO
+-dSpqLBnP4UDKSdhv3p+lfr6FpiJh8KnXIPKMq5b4EX+X4Ghz7PKDMEs24ihiqwUM
+-l89exvFtW2bXwqq0XpMqdF6RCxbbBYy3DFPTCTvoHaoAfmwHzwBfelHt2PaYl4ZN
+-xhpD4UcP3/lrUB5KhwIDAQAB
+------END PUBLIC KEY-----
+Index: node-18.8.0/test/parallel/test-crypto-x509.js
+===================================================================
+--- node-18.8.0.orig/test/parallel/test-crypto-x509.js
++++ node-18.8.0/test/parallel/test-crypto-x509.js
+@@ -52,36 +52,35 @@ if (!common.hasOpenSSL3)
+   infoAccessCheck += '\n';
+ 
+ const der = Buffer.from(
+-  '308202d830820241a003020102020900ecc9b856270da9a830' +
+-  '0d06092a864886f70d01010b0500307a310b30090603550406' +
+-  '13025553310b300906035504080c024341310b300906035504' +
+-  '070c025346310f300d060355040a0c064a6f79656e74311030' +
+-  '0e060355040b0c074e6f64652e6a73310c300a06035504030c' +
+-  '036361313120301e06092a864886f70d010901161172794074' +
+-  '696e79636c6f7564732e6f72673020170d3138313131363138' +
+-  '343232315a180f32323932303833303138343232315a307d31' +
+-  '0b3009060355040613025553310b300906035504080c024341' +
+-  '310b300906035504070c025346310f300d060355040a0c064a' +
+-  '6f79656e743110300e060355040b0c074e6f64652e6a73310f' +
+-  '300d06035504030c066167656e74313120301e06092a864886' +
+-  'f70d010901161172794074696e79636c6f7564732e6f726730' +
+-  '819f300d06092a864886f70d010101050003818d0030818902' +
+-  '818100ef5440701637e28abb038e5641f828d834c342a9d25e' +
+-  'dbb86a2bf6fbd809cb8e037a98b71708e001242e4deb54c616' +
+-  '4885f599dd87a23215745955be20417e33c4d0d1b80c9da3de' +
+-  '419a2607195d2fb75657b0bbfb5eb7d0bba5122d1b6964c7b5' +
+-  '70d50b8ec001eeb68dfb584437508f3129928d673b30a3e0bf' +
+-  '4f50609e63710203010001a361305f305d06082b0601050507' +
+-  '01010451304f302306082b060105050730018617687474703a' +
+-  '2f2f6f6373702e6e6f64656a732e6f72672f302806082b0601' +
+-  '0505073002861c687474703a2f2f63612e6e6f64656a732e6f' +
+-  '72672f63612e63657274300d06092a864886f70d01010b0500' +
+-  '038181007acabf1d99e1fb05edbdd54608886dd6c509fc5820' +
+-  '2be8274f8139b60f8ea219666f7eff9737e92a732b318ef423' +
+-  '7da94123dcac4f9a28e76fe663b26d42482ac6d66d380bbdfe' +
+-  '0230083e743e7966671752b82f692e1034e9bfc9d0cd829888' +
+-  '6c6c996e7c3d231e02ad5399a170b525b74f11d7ed13a7a815' +
+-  'f4b974253a8d66', 'hex');
++  '308203e8308202d0a0030201020214147d36c1c2f74206de9fab5f2226d78adb00a42630' +
++  '0d06092a864886f70d01010b0500307a310b3009060355040613025553310b3009060355' +
++  '04080c024341310b300906035504070c025346310f300d060355040a0c064a6f79656e74' +
++  '3110300e060355040b0c074e6f64652e6a73310c300a06035504030c036361313120301e' +
++  '06092a864886f70d010901161172794074696e79636c6f7564732e6f72673020170d3232' +
++  '303930333231343033375a180f32323936303631373231343033375a307d310b30090603' +
++  '55040613025553310b300906035504080c024341310b300906035504070c025346310f30' +
++  '0d060355040a0c064a6f79656e743110300e060355040b0c074e6f64652e6a73310f300d' +
++  '06035504030c066167656e74313120301e06092a864886f70d010901161172794074696e' +
++  '79636c6f7564732e6f726730820122300d06092a864886f70d01010105000382010f0030' +
++  '82010a0282010100d456320afb20d3827093dc2c4284ed04dfbabd56e1ddae529e28b790' +
++  'cd4256db273349f3735ffd337c7a6363ecca5a27b7f73dc7089a96c6d886db0c62388f1c' +
++  'dd6a963afcd599d5800e587a11f908960f84ed50ba25a28303ecda6e684fbe7baedc9ce8' +
++  '801327b1697af25097cee3f175e400984c0db6a8eb87be03b4cf94774ba56fffc8c63c68' +
++  'd6adeb60abbe69a7b14ab6a6b9e7baa89b5adab8eb07897c07f6d4fa3d660dff574107d2' +
++  '8e8f63467a788624c574197693e959cea1362ffae1bba10c8c0d88840abfef103631b2e8' +
++  'f5c39b5548a7ea57e8a39f89291813f45a76c448033a2b7ed8403f4baa147cf35e2d2554' +
++  'aa65ce49695797095bf4dc6b0203010001a361305f305d06082b06010505070101045130' +
++  '4f302306082b060105050730018617687474703a2f2f6f6373702e6e6f64656a732e6f72' +
++  '672f302806082b06010505073002861c687474703a2f2f63612e6e6f64656a732e6f7267' +
++  '2f63612e63657274300d06092a864886f70d01010b05000382010100c3349810632ccb7d' +
++  'a585de3ed51e34ed154f0f7215608cf2701c00eda444dc2427072c8aca4da6472c1d9e68' +
++  'f177f99a90a8b5dbf3884586d61cb1c14ea7016c8d38b70d1b46b42947db30edc1e9961e' +
++  'd46c0f0e35da427bfbe52900771817e733b371adf19e12137235141a34347db0dfc05579' +
++  '8b1f269f3bdf5e30ce35d1339d56bb3c570de9096215433047f87ca42447b44e7e6b5d0e' +
++  '48f7894ab186f85b6b1a74561b520952fea888617f32f582afce1111581cd63efcc68986' +
++  '00d248bb684dedb9c3d6710c38de9e9bc21f9c3394b729d5f707d64ea890603e5989f8fa' +
++  '59c19ad1a00732e7adc851b89487cc00799dde068aa64b3b8fd976e8bc113ef2',
++  'hex');
+ 
+ {
+   const x509 = new X509Certificate(cert);
+@@ -93,24 +92,24 @@ const der = Buffer.from(
+   assert.strictEqual(x509.subjectAltName, undefined);
+   assert.strictEqual(x509.issuer, issuerCheck);
+   assert.strictEqual(x509.infoAccess, infoAccessCheck);
+-  assert.strictEqual(x509.validFrom, 'Nov 16 18:42:21 2018 GMT');
+-  assert.strictEqual(x509.validTo, 'Aug 30 18:42:21 2292 GMT');
++  assert.strictEqual(x509.validFrom, 'Sep  3 21:40:37 2022 GMT');
++  assert.strictEqual(x509.validTo, 'Jun 17 21:40:37 2296 GMT');
+   assert.strictEqual(
+     x509.fingerprint,
+-    'D7:FD:F6:42:92:A8:83:51:8E:80:48:62:66:DA:85:C2:EE:A6:A1:CD');
++    '8B:89:16:C4:99:87:D2:13:1A:64:94:36:38:A5:32:01:F0:95:3B:53');
+   assert.strictEqual(
+     x509.fingerprint256,
+-    'B0:BE:46:49:B8:29:63:E0:6F:63:C8:8A:57:9C:3F:9B:72:C6:F5:89:E3:0D:' +
+-    '84:AC:5B:08:9A:20:89:B6:8F:D6'
++    '2C:62:59:16:91:89:AB:90:6A:3E:98:88:A6:D3:C5:58:58:6C:AE:FF:9C:33:' +
++    '22:7C:B6:77:D3:34:E7:53:4B:05'
+   );
+   assert.strictEqual(
+     x509.fingerprint512,
+-    'D0:05:01:82:2C:D8:09:BE:27:94:E7:83:F1:88:BC:7A:8B:D0:39:97:54:B6:' +
+-    'D0:B4:46:5B:DE:13:5B:68:86:B6:F2:A8:95:22:D5:6E:8B:35:DA:89:29:CA:' +
+-    'A3:06:C5:CE:43:C1:7F:2D:7E:5F:44:A5:EE:A3:CB:97:05:A3:E3:68'
++    '0B:6F:D0:4D:6B:22:53:99:66:62:51:2D:2C:96:F2:58:3F:95:1C:CC:4C:44:' +
++    '9D:B5:59:AA:AD:A8:F6:2A:24:8A:BB:06:A5:26:42:52:30:A3:37:61:30:A9:' +
++    '5A:42:63:E0:21:2F:D6:70:63:07:96:6F:27:A7:78:12:08:02:7A:8B'
+   );
+   assert.strictEqual(x509.keyUsage, undefined);
+-  assert.strictEqual(x509.serialNumber, 'ECC9B856270DA9A8');
++  assert.strictEqual(x509.serialNumber, '147D36C1C2F74206DE9FAB5F2226D78ADB00A426');
+ 
+   assert.deepStrictEqual(x509.raw, der);
+ 
+@@ -220,25 +219,28 @@ const der = Buffer.from(
+       'OCSP - URI': ['http://ocsp.nodejs.org/'],
+       'CA Issuers - URI': ['http://ca.nodejs.org/ca.cert']
+     }),
+-    modulus: 'EF5440701637E28ABB038E5641F828D834C342A9D25EDBB86A2BF' +
+-             '6FBD809CB8E037A98B71708E001242E4DEB54C6164885F599DD87' +
+-             'A23215745955BE20417E33C4D0D1B80C9DA3DE419A2607195D2FB' +
+-             '75657B0BBFB5EB7D0BBA5122D1B6964C7B570D50B8EC001EEB68D' +
+-             'FB584437508F3129928D673B30A3E0BF4F50609E6371',
+-    bits: 1024,
++    modulus:  'D456320AFB20D3827093DC2C4284ED04DFBABD56E1DDAE529E28B790CD42' +
++              '56DB273349F3735FFD337C7A6363ECCA5A27B7F73DC7089A96C6D886DB0C' +
++              '62388F1CDD6A963AFCD599D5800E587A11F908960F84ED50BA25A28303EC' +
++              'DA6E684FBE7BAEDC9CE8801327B1697AF25097CEE3F175E400984C0DB6A8' +
++              'EB87BE03B4CF94774BA56FFFC8C63C68D6ADEB60ABBE69A7B14AB6A6B9E7' +
++              'BAA89B5ADAB8EB07897C07F6D4FA3D660DFF574107D28E8F63467A788624' +
++              'C574197693E959CEA1362FFAE1BBA10C8C0D88840ABFEF103631B2E8F5C3' +
++              '9B5548A7EA57E8A39F89291813F45A76C448033A2B7ED8403F4BAA147CF3' +
++              '5E2D2554AA65CE49695797095BF4DC6B',
++    bits: 2048,
+     exponent: '0x10001',
+-    valid_from: 'Nov 16 18:42:21 2018 GMT',
+-    valid_to: 'Aug 30 18:42:21 2292 GMT',
+-    fingerprint: 'D7:FD:F6:42:92:A8:83:51:8E:80:48:62:66:DA:85:C2:EE:A6:A1:CD',
++    valid_from: 'Sep  3 21:40:37 2022 GMT',
++    valid_to: 'Jun 17 21:40:37 2296 GMT',
++    fingerprint: '8B:89:16:C4:99:87:D2:13:1A:64:94:36:38:A5:32:01:F0:95:3B:53',
+     fingerprint256:
+-      'B0:BE:46:49:B8:29:63:E0:6F:63:C8:8A:57:9C:3F:9B:72:' +
+-      'C6:F5:89:E3:0D:84:AC:5B:08:9A:20:89:B6:8F:D6',
++      '2C:62:59:16:91:89:AB:90:6A:3E:98:88:A6:D3:C5:58:58:6C:AE:FF:9C:33:' +
++      '22:7C:B6:77:D3:34:E7:53:4B:05',
+     fingerprint512:
+-      'D0:05:01:82:2C:D8:09:BE:27:94:E7:83:F1:88:BC:7A:8B:' +
+-      'D0:39:97:54:B6:D0:B4:46:5B:DE:13:5B:68:86:B6:F2:A8:' +
+-      '95:22:D5:6E:8B:35:DA:89:29:CA:A3:06:C5:CE:43:C1:7F:' +
+-      '2D:7E:5F:44:A5:EE:A3:CB:97:05:A3:E3:68',
+-    serialNumber: 'ECC9B856270DA9A8'
++      '51:62:18:39:E2:E2:77:F5:86:11:E8:C0:CA:54:43:7C:76:83:19:05:D0:03:' +
++      '24:21:B8:EB:14:61:FB:24:16:EB:BD:51:1A:17:91:04:30:03:EB:68:5F:DC:' +
++      '86:E1:D1:7C:FB:AF:78:ED:63:5F:29:9C:32:AF:A1:8E:22:96:D1:02',
++    serialNumber: '147D36C1C2F74206DE9FAB5F2226D78ADB00A426'
+   };
+ 
+   const legacyObject = x509.toLegacyObject();
+Index: node-18.8.0/test/parallel/test-tls-cert-chains-concat.js
+===================================================================
+--- node-18.8.0.orig/test/parallel/test-tls-cert-chains-concat.js
++++ node-18.8.0/test/parallel/test-tls-cert-chains-concat.js
+@@ -25,7 +25,7 @@ connect({
+   assert.strictEqual(peer.subject.emailAddress, 'adam.lippai@tresorit.com');
+   assert.strictEqual(peer.subject.CN, 'Ádám Lippai');
+   assert.strictEqual(peer.issuer.CN, 'ca3');
+-  assert.strictEqual(peer.serialNumber, 'D0082F458B6EFBE8');
++  assert.strictEqual(peer.serialNumber, '5B75D77EDC7FB5B7FA9F1424DA4C64FB815DCBDE');
+ 
+   const next = pair.client.conn.getPeerCertificate(true).issuerCertificate;
+   const root = next.issuerCertificate;
+@@ -33,12 +33,12 @@ connect({
+   debug('next:\n', next);
+   assert.strictEqual(next.subject.CN, 'ca3');
+   assert.strictEqual(next.issuer.CN, 'ca1');
+-  assert.strictEqual(next.serialNumber, 'ECC9B856270DA9A7');
++  assert.strictEqual(next.serialNumber, '147D36C1C2F74206DE9FAB5F2226D78ADB00A425');
+ 
+   debug('root:\n', root);
+   assert.strictEqual(root.subject.CN, 'ca1');
+   assert.strictEqual(root.issuer.CN, 'ca1');
+-  assert.strictEqual(root.serialNumber, 'CB153AE212609FC6');
++  assert.strictEqual(root.serialNumber, '4AB16C8DFD6A7D0D2DFCABDF9C4B0E92C6AD0229');
+ 
+   // No client cert, so empty object returned.
+   assert.deepStrictEqual(pair.server.conn.getPeerCertificate(), {});
+Index: node-18.8.0/test/parallel/test-tls-cert-chains-in-ca.js
+===================================================================
+--- node-18.8.0.orig/test/parallel/test-tls-cert-chains-in-ca.js
++++ node-18.8.0/test/parallel/test-tls-cert-chains-in-ca.js
+@@ -30,16 +30,16 @@ connect({
+ 
+   const peer = pair.client.conn.getPeerCertificate();
+   debug('peer:\n', peer);
+-  assert.strictEqual(peer.serialNumber, 'D0082F458B6EFBE8');
++  assert.strictEqual(peer.serialNumber, '5B75D77EDC7FB5B7FA9F1424DA4C64FB815DCBDE');
+ 
+   const next = pair.client.conn.getPeerCertificate(true).issuerCertificate;
+   const root = next.issuerCertificate;
+   delete next.issuerCertificate;
+   debug('next:\n', next);
+-  assert.strictEqual(next.serialNumber, 'ECC9B856270DA9A7');
++  assert.strictEqual(next.serialNumber, '147D36C1C2F74206DE9FAB5F2226D78ADB00A425');
+ 
+   debug('root:\n', root);
+-  assert.strictEqual(root.serialNumber, 'CB153AE212609FC6');
++  assert.strictEqual(root.serialNumber, '4AB16C8DFD6A7D0D2DFCABDF9C4B0E92C6AD0229');
+ 
+   return cleanup();
+ });
+Index: node-18.8.0/test/parallel/test-tls-getcertificate-x509.js
+===================================================================
+--- node-18.8.0.orig/test/parallel/test-tls-getcertificate-x509.js
++++ node-18.8.0/test/parallel/test-tls-getcertificate-x509.js
+@@ -22,7 +22,7 @@ server.once('secureConnection', common.m
+   assert(cert instanceof X509Certificate);
+   assert.strictEqual(
+     cert.serialNumber,
+-    'D0082F458B6EFBE8');
++    '5B75D77EDC7FB5B7FA9F1424DA4C64FB815DCBDE');
+ }));
+ 
+ server.listen(0, common.mustCall(function() {
+@@ -35,7 +35,7 @@ server.listen(0, common.mustCall(functio
+     assert.strictEqual(peerCert.issuerCertificate.issuerCertificate, undefined);
+     assert.strictEqual(
+       peerCert.issuerCertificate.serialNumber,
+-      'ECC9B856270DA9A7'
++      '147D36C1C2F74206DE9FAB5F2226D78ADB00A425'
+     );
+     server.close();
+   }));
+Index: node-18.8.0/test/parallel/test-tls-peer-certificate.js
+===================================================================
+--- node-18.8.0.orig/test/parallel/test-tls-peer-certificate.js
++++ node-18.8.0/test/parallel/test-tls-peer-certificate.js
+@@ -53,39 +53,39 @@ connect({
+ 
+   assert.ok(peerCert.issuerCertificate);
+   assert.strictEqual(peerCert.subject.emailAddress, 'ry@tinyclouds.org');
+-  assert.strictEqual(peerCert.serialNumber, 'ECC9B856270DA9A8');
++  assert.strictEqual(peerCert.serialNumber, '147D36C1C2F74206DE9FAB5F2226D78ADB00A426');
+   assert.strictEqual(peerCert.exponent, '0x10001');
+-  assert.strictEqual(peerCert.bits, 1024);
++  assert.strictEqual(peerCert.bits, 2048);
+   // The conversion to bits is odd because modulus isn't a buffer, its a hex
+   // string. There are two hex chars for every byte of modulus, and 8 bits per
+   // byte.
+   assert.strictEqual(peerCert.modulus.length / 2 * 8, peerCert.bits);
+   assert.strictEqual(
+     peerCert.fingerprint,
+-    'D7:FD:F6:42:92:A8:83:51:8E:80:48:62:66:DA:85:C2:EE:A6:A1:CD'
++    '8B:89:16:C4:99:87:D2:13:1A:64:94:36:38:A5:32:01:F0:95:3B:53'
+   );
+   assert.strictEqual(
+     peerCert.fingerprint256,
+-    'B0:BE:46:49:B8:29:63:E0:6F:63:C8:8A:57:9C:3F:9B:72:C6:F5:89:E3:0D:84:AC:' +
+-    '5B:08:9A:20:89:B6:8F:D6'
+-  );
++    '2C:62:59:16:91:89:AB:90:6A:3E:98:88:A6:D3:C5:58:58:6C:AE:FF:9C:33:' +
++    '22:7C:B6:77:D3:34:E7:53:4B:05',
++   );
+   assert.strictEqual(
+     peerCert.fingerprint512,
+-    'D0:05:01:82:2C:D8:09:BE:27:94:E7:83:F1:88:BC:7A:8B:D0:39:97:54:B6:' +
+-    'D0:B4:46:5B:DE:13:5B:68:86:B6:F2:A8:95:22:D5:6E:8B:35:DA:89:29:CA:' +
+-    'A3:06:C5:CE:43:C1:7F:2D:7E:5F:44:A5:EE:A3:CB:97:05:A3:E3:68'
++    '0B:6F:D0:4D:6B:22:53:99:66:62:51:2D:2C:96:F2:58:3F:95:1C:CC:4C:44:' +
++    '9D:B5:59:AA:AD:A8:F6:2A:24:8A:BB:06:A5:26:42:52:30:A3:37:61:30:A9:' +
++    '5A:42:63:E0:21:2F:D6:70:63:07:96:6F:27:A7:78:12:08:02:7A:8B'
+   );
+ 
+   // SHA256 fingerprint of the public key
+   assert.strictEqual(
+     sha256(peerCert.pubkey).digest('hex'),
+-    '221fcc8593146e9eee65b2f7f9c1504993ece8de014657a4a1cde55c5e35d06e'
++    '490f8da0889339df5164d500b406de0af3249c174c2b60152528940fa116e9cc'
+   );
+ 
+   // HPKP / RFC7469 "pin-sha256" of the public key
+   assert.strictEqual(
+     sha256(peerCert.pubkey).digest('base64'),
+-    'Ih/MhZMUbp7uZbL3+cFQSZPs6N4BRlekoc3lXF410G4='
++    'SQ+NoIiTOd9RZNUAtAbeCvMknBdMK2AVJSiUD6EW6cw='
+   );
+ 
+   assert.deepStrictEqual(peerCert.infoAccess['OCSP - URI'],
+@@ -93,7 +93,7 @@ connect({
+ 
+   const issuer = peerCert.issuerCertificate;
+   assert.strictEqual(issuer.issuerCertificate, issuer);
+-  assert.strictEqual(issuer.serialNumber, 'CB153AE212609FC6');
++  assert.strictEqual(issuer.serialNumber, '4AB16C8DFD6A7D0D2DFCABDF9C4B0E92C6AD0229');
+ 
+   return cleanup();
+ });
+@@ -112,24 +112,24 @@ connect({
+ 
+   assert.ok(peerCert.issuerCertificate);
+   assert.strictEqual(peerCert.subject.emailAddress, 'ry@tinyclouds.org');
+-  assert.strictEqual(peerCert.serialNumber, 'C1EA7B03D5956D52');
++  assert.strictEqual(peerCert.serialNumber, '32E8197681DA33185867B52885F678BFDBA51727');
+   assert.strictEqual(peerCert.exponent, undefined);
+   assert.strictEqual(peerCert.pubKey, undefined);
+   assert.strictEqual(peerCert.modulus, undefined);
+   assert.strictEqual(
+     peerCert.fingerprint,
+-    'DF:F0:D3:6B:C3:E7:74:7C:C7:F3:FB:1E:33:12:AE:6C:8D:53:5F:74'
++    '31:EB:2C:7B:AA:39:E8:E8:F5:43:62:05:CD:64:B3:66:1E:EA:44:A3'
+   );
+   assert.strictEqual(
+     peerCert.fingerprint256,
+-    'AB:08:3C:40:C7:07:D7:D1:79:32:92:3B:96:52:D0:38:4C:22:ED:CD:23:51:D0:A1:' +
+-    '67:AA:33:A0:D5:26:5C:41'
++    'B9:27:E4:8F:C0:F5:E3:FD:A6:E5:96:11:DB:69:B8:80:94:8B:0F:6A:4C:D6:80:4F:' +
++    '87:31:3C:A3:77:6C:4C:0A'
+   );
+   assert.strictEqual(
+     peerCert.fingerprint512,
+-    '52:F4:86:64:69:0F:94:6F:78:DE:17:7A:5C:92:CA:0F:05:2E:6A:EE:4A:FF:8B:39:' +
+-    'D6:5E:7A:B8:08:77:B3:80:FC:40:A1:F4:58:CC:7A:DF:BB:3D:38:F9:02:77:50:2B:' +
+-    '9A:0B:FB:79:B4:BD:E9:F5:9C:44:C8:5D:D5:F0:E2:BC'
++    '45:E3:ED:6E:22:1C:3C:DD:D7:E1:65:A9:30:6E:79:0C:9F:98:B8:BC:24:BB:BA:32:' +
++    '54:4D:70:4E:78:4F:1B:97:3C:A7:F5:DB:06:F1:36:E9:53:4C:0A:D2:86:83:79:8A:' +
++    '72:2B:81:55:5D:6F:BC:A6:5B:61:85:26:6B:9D:3E:E8'
+   );
+ 
+   assert.strictEqual(
+@@ -144,7 +144,7 @@ connect({
+ 
+   const issuer = peerCert.issuerCertificate;
+   assert.strictEqual(issuer.issuerCertificate, issuer);
+-  assert.strictEqual(issuer.serialNumber, 'C1EA7B03D5956D52');
++  assert.strictEqual(issuer.serialNumber, '32E8197681DA33185867B52885F678BFDBA51727');
+ 
+   return cleanup();
+ });
+Index: node-18.8.0/test/parallel/test-tls-pfx-authorizationerror.js
+===================================================================
+--- node-18.8.0.orig/test/parallel/test-tls-pfx-authorizationerror.js
++++ node-18.8.0/test/parallel/test-tls-pfx-authorizationerror.js
+@@ -23,7 +23,7 @@ const server = tls
+     },
+     common.mustCall(function(c) {
+       assert.strictEqual(c.getPeerCertificate().serialNumber,
+-                         'ECC9B856270DA9A8');
++                         '147D36C1C2F74206DE9FAB5F2226D78ADB00A426');
+       assert.strictEqual(c.authorizationError, null);
+       c.end();
+     })
+@@ -42,7 +42,7 @@ const server = tls
+           // that .getCertificate() does not accidentally decrease the
+           // reference count of the X509* certificate on the native side.
+           assert.strictEqual(client.getCertificate().serialNumber,
+-                             'ECC9B856270DA9A8');
++                             '147D36C1C2F74206DE9FAB5F2226D78ADB00A426');
+         }
+         client.end();
+         server.close();
+Index: node-18.8.0/test/fixtures/keys/ca1-cert.pem
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/ca1-cert.pem
++++ node-18.8.0/test/fixtures/keys/ca1-cert.pem
+@@ -1,16 +1,22 @@
+ -----BEGIN CERTIFICATE-----
+-MIIChDCCAe2gAwIBAgIJAMsVOuISYJ/GMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
+-BAYTAlVTMQswCQYDVQQIDAJDQTELMAkGA1UEBwwCU0YxDzANBgNVBAoMBkpveWVu
+-dDEQMA4GA1UECwwHTm9kZS5qczEMMAoGA1UEAwwDY2ExMSAwHgYJKoZIhvcNAQkB
+-FhFyeUB0aW55Y2xvdWRzLm9yZzAgFw0xODExMTYxODQyMjBaGA8yMjkyMDgzMDE4
+-NDIyMFowejELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQHDAJTRjEP
+-MA0GA1UECgwGSm95ZW50MRAwDgYDVQQLDAdOb2RlLmpzMQwwCgYDVQQDDANjYTEx
+-IDAeBgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMIGfMA0GCSqGSIb3DQEB
+-AQUAA4GNADCBiQKBgQDrNdKjVKhbxKbrDRLdy45u9vsU3IH8C3qFcLF5wqf+g7OC
+-vMOOrFDM6mL5iYwuYaLRvAtsC0mtGPzBGyFflxGhiBYaOhi7nCKEsUkFuNYlCzX+
+-FflT04JYT3qWPLL7rT32GXpABND/8DEnj5D5liYYNR05PjV1fUnGg1gPqXVxbwID
+-AQABoxAwDjAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBCwUAA4GBAHhsWFy6m6VO
+-AjK14n0XCSM66ltk9qMKpOryXneLhmmkOQbJd7oavueUWzMdszWLMKhrBoXjmvuW
+-QceutP9IUq1Kzw7a/B+lLPD90xfLMr7tNLAxZoJmq/NAUI63M3nJGpX0HkjnYwoU
+-ekzNkKt5TggwcqqzK+cCSG1wDvJ+wjiD
++MIIDlDCCAnygAwIBAgIUSrFsjf1qfQ0t/KvfnEsOksatAikwDQYJKoZIhvcNAQEL
++BQAwejELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQHDAJTRjEPMA0G
++A1UECgwGSm95ZW50MRAwDgYDVQQLDAdOb2RlLmpzMQwwCgYDVQQDDANjYTExIDAe
++BgkqhkiG9w0BCQEWEXJ5QHRpbnljbG91ZHMub3JnMCAXDTIyMDkwMzIxNDAzN1oY
++DzIyOTYwNjE3MjE0MDM3WjB6MQswCQYDVQQGEwJVUzELMAkGA1UECAwCQ0ExCzAJ
++BgNVBAcMAlNGMQ8wDQYDVQQKDAZKb3llbnQxEDAOBgNVBAsMB05vZGUuanMxDDAK
++BgNVBAMMA2NhMTEgMB4GCSqGSIb3DQEJARYRcnlAdGlueWNsb3Vkcy5vcmcwggEi
++MA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDNvf4OGGep+ak+4DNjbuNgy0S/
++AZPxahEFp4gpbcvsi9YLOPZ31qpilQeQf7d27scIZ02Qx1YBAzljxELB8H/ZxuYS
++cQK0s+DNP22xhmgwMWznO7TezkHP5ujN2UkbfbUpfUxGFgncXeZf9wR7yFWppeHi
++RWNBOgsvY7sTrS12kXjWGjqntF7xcEDHc7h+KyF6ZjVJZJCnP6pJEQ+rUjd51eCZ
++Xt4WjowLnQiCS1VKzXiP83a++Ma1BKKkUitTR112/Uwd5eGoiByhmLzb/BhxnHJN
++07GXjhlMItZRm/jfbZsx1mwnNOO3tx4r08l+DaqkinIadvazs+1ugCaKQn8xAgMB
++AAGjEDAOMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAFqG0RXURDam
++56x5accdg9sY5zEGP5VQhkK3ZDc2NyNNa25rwvrjCpO+e0OSwKAmm4aX6iIf2woY
++wF2f9swWYzxn9CG4fDlUA8itwlnHxupeL4fGMTYb72vf31plUXyBySRsTwHwBloc
++F7KvAZpYYKN9EMH1S/267By6H2I33BT/Ethv//n8dSfmuCurR1kYRaiOC4PVeyFk
++B3sj8TtolrN0y/nToWUhmKiaVFnDx3odQ00yhmxR3t21iB7yDkko6D8Vf2dVC4j/
++YYBVprXGlTP/hiYRLDoP20xKOYznx5cvHPJ9p+lVcOZUJsJj/Iy750+2n5UiBmXt
++lz88C25ucKA=
+ -----END CERTIFICATE-----
+Index: node-18.8.0/test/fixtures/keys/ca1-key.pem
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/ca1-key.pem
++++ node-18.8.0/test/fixtures/keys/ca1-key.pem
+@@ -1,18 +1,30 @@
+ -----BEGIN ENCRYPTED PRIVATE KEY-----
+-MIIC1DBOBgkqhkiG9w0BBQ0wQTApBgkqhkiG9w0BBQwwHAQIO9cMY0yHJGgCAggA
+-MAwGCCqGSIb3DQIJBQAwFAYIKoZIhvcNAwcECAKYHSZXK7beBIICgHkIYlgRIfZt
+-QZxMoahaz4Bu6t5F24ud9rdrpT8qKCnffj71z5mtwucE7sXMslcejgo4QEP5V3lS
+-zFWQDY5B0p9al+M9DIsseSz8L9StqgQo3FfYLGVs8njO4PFyaWSdbPWWpaXRUmdm
+-32CbOKwdvOMFhcR8G+jlezkm4uyQ9yCC5bERdrpsaaPJTlt8aMdrvxMytHw60OZo
+-VVF88fRm9x4kUT+sKyiwG0JWTRDueeFoJR4oa5xlw1AVmEYBBQee9Tc73wqtOr2r
+-4dnL/zwc6c9ZoTTDOGZNgBvxswVzg04K/qp9LIt3uOeHXqfnmzfmJ4eT5fG71pir
+-pSfZPIYXJwgC1NjWvsWudI/kE1Wj0JnGYuPY/Vea9RSSrRqq9nL9kqTSa1jgo8l1
+-zTR/uZHZH2wCMlH09tiz7uOiPihsO8qeYWIe+vkgC2xCm6O/B1vMuqQY36LOxeVt
+-igi9hDLjWxNth9lEcC/0wsrft8Y1/CF5h3/j86h1IcgQKFrePu40kols/yBxp7/n
+-MIzm4oUoClGe3q+a3aajEYL5Cos+7tu2jSM3MKVMiNZ5aTICQ9Sr/OOz+tYZOdJd
+-hCDF/oncBALJ7nhe77mf1j+Qy/vZzCvDIl/ki3zK/S83U9InZW3oKFv4u3brh+77
+-2zruIZ6l/zId8fFARdh6PvXz5avz2eC//EM1zNJiV6IC9DvB3xibvA05rmoK4g9V
+-DIIIWJsTJUPPvEXszMAtb1zR+MhDs71RF6KvM67KCasI0k07hGY0rgDjlzeoWe/3
+-SLgXPda5/WCkRcpgznzRu53HJwq27tUsh74hXPbqaQREDrX0bBBokAMCGBxCFrJi
+-Btmo/ouOp4w=
++MIIFHDBOBgkqhkiG9w0BBQ0wQTApBgkqhkiG9w0BBQwwHAQIHHM/o+humHkCAggA
++MAwGCCqGSIb3DQIJBQAwFAYIKoZIhvcNAwcECHdf1+eoLrBlBIIEyLuXuqVgoNwA
++gC8WqA/n9rnMQ4eZHdm8OB+Vodx3wSQVnT2nWiGa6Jo65iwtu9EDvTPuO9lY/7tY
++becY5qh/6uxUvS8KrsctiSenIgAgk7strdwbl7347o6bjMtAB9Fy0gQHFZUm/lpu
++94pcYnYs7DkimgDQrm//YCFkQDF5yTbXMr6+F5O8x/mxlOtzWxa+whDVjTs1lyYD
++Q8Ng8VeGJYMNnFMF30KuhzseRIGlDdUcteFfQvP8WF3X5Hf9Agzqt35U4/ZScLCX
++eEql8r4e5aULmR0dUs3ixs5Ima4XWcxyzCz2oApU6BZMaL0bYfVJlaI7pIwDF3Yk
++2gOh+ZoJvH23hI6s5WwZOqKHS78M64zjRxv1QYjb3edINADKxm0MxUCxxfBEsp6Q
++2JdJLIx7379sLVtMDidd3ptGGYDiNguU2WOmwLgWBK23cpB330uxJoImPyBQXidi
++8qltsekvYI/l4GEHYs26ggUAyArA7aap5nOOnVgERJLG989IaArnDgZ+2JJairaw
++1sXCXc5fzVDer6D8m/Rr3Z6p8WCL584ovfIdECvCc4Msgb4dPJwBHQzX10B0OEyo
++wDsSaOPOgZ/sGs/Q+4DlQ9iDOgUF6a9UyhqzgHiNrsWiAbCtJBkwY9RZvUTjZZOH
++ozXoXZf4G18eAmNCBYzWeK1YHgcuwsruhSZuhojnMF5CgAY+0xnv9f+gn/B2Pwby
++lDwF2FCsS7oaRYADHZ0pZOTISGG+aXndDLYPMZp9ftuiKxdkeSHgbzXMEeHkdi9M
++qP19IHA3Z/aLWXdbB7G0UA3QK6BY4+kw0WorDrVXGrDVcgSFCE5d5fOTcw0cAdxO
++lB45kijFYG3hlsD08o3+fPj3NdNoiXkTBP92pdkmXuBS4N3Ml/oYe6BfZYSurl6B
++USbNmCROMkJohcdKt/VRwx7PYN1s02RWqaQvqIZSihwjVqhvCHTG2vVhbryHZV6J
++V/fMrrtU0QpZ9plq10qHNlCVEQXCp9IomSurM+TJIGkDQmHftn/Bg97xinLNQBUa
++rTIETziccK0Gl/wtpwE0cypzPC9rId19Uu2aEyubD+GI0io1PCSwi7lilN26M225
++r6iQz7xuVLqcPEAjQqTP70nuE3C/7PRvVN/V3e3EvgHLMZeEy/mu5fS9NSkS6557
++ocbEqufbLsRQLxoiun+ClXG45yqxj1PaAFfReRhHwNwXvHZBfHnAp1Qsif+JCJGl
++WQCC4BDfUK+xLC1RNdSkY+EoQcQoJrMgDjGzjj/1qxmOCe6KBhITZNlJL0epSFee
++VfPv+sFugu3wjEYbpKH21JgXUWTJk6VZIwfGufAlcL0H1dQf7IdXOoU+/QrkWufU
++xgT02hJ9sS7c5evXMVFtYl/s97M6qjrOzYJiZNVZmjFQk4AaSYBn2eX2k1tyfgGt
++91tQKgpWAIH/Ydu7miEEjQIpmaO1K+OrwS1gjzBwPVC/EsYMFSOY7I6WK/U//eIE
++T3U/p2f73BXaQ0+a0QFw7ec9/Wh2nd1QiufkiaGfwBhWQAxI5lHYW6uE3EnxwskC
++PUWKX6RhujOvr4eexqsXLrxgSFO/TzPMUyuZ/jt7qZZhXYYHnTNxwgPRgLtw2SRY
++K4dtEBJknyy2ObZJwKxl5Q==
+ -----END ENCRYPTED PRIVATE KEY-----
+Index: node-18.8.0/test/fixtures/keys/ca1.cnf
+===================================================================
+--- node-18.8.0.orig/test/fixtures/keys/ca1.cnf
++++ node-18.8.0/test/fixtures/keys/ca1.cnf
+@@ -1,5 +1,5 @@
+ [ req ]
+-default_bits           = 1024
++default_bits           = 2048
+ days                   = 9999
+ distinguished_name     = req_distinguished_name
+ attributes             = req_attributes
