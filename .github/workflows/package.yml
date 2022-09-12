@@ -66,6 +66,8 @@ jobs:
           tar  -zxvf node-${{matrix.branch}}.x/dist/node_${NODE_VERSION}.orig.tar.gz
           wget https://launchpad.net/~mmomtchev/+archive/ubuntu/libnode/+sourcefiles/node/${NODE_VERSION}-1~${{matrix.release}}/node_${NODE_VERSION}.orig-examples.tar.gz \
               -P node-${{matrix.branch}}.x/dist \
+          || wget https://launchpad.net/~mmomtchev/+archive/ubuntu/libnode/+sourcefiles/node/${NODE_VERSION}-2~${{matrix.release}}/node_${NODE_VERSION}.orig-examples.tar.gz \
+              -P node-${{matrix.branch}}.x/dist \
             || tar -C examples -zcvf node-${{matrix.branch}}.x/dist/node_${NODE_VERSION}.orig-examples.tar.gz \
               --exclude-from examples/.gitignore .
           cd node-${NODE_VERSION}
