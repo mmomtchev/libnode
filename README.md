@@ -1,4 +1,4 @@
-# Current libnode packages with Node-API / node-addon-api interface for Ubuntu and Debian
+# Current libnode packages with support for N-API / node-addon-api embedding for Ubuntu
 
 [![](https://developers.google.com/open-source/gsoc/resources/downloads/GSoC-Horizontal.png)](https://summerofcode.withgoogle.com/programs/2022/projects/ZsLHGYTg)
 
