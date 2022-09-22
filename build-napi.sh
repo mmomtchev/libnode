@@ -33,6 +33,8 @@ for RELEASE in ${RELEASES}; do
         debuild -sa -S
 
         cd ..
-        dput --force ppa:mmomtchev/libnode node-addon-api_${PACKAGE_VERSION}~${RELEASE}_source.changes
+        if [ -n "${PUBLISH}" ]; then
+            dput --force ppa:mmomtchev/libnode node-addon-api_${PACKAGE_VERSION}~${RELEASE}_source.changes
+        fi
     )
 done

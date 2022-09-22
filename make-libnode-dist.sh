@@ -13,9 +13,9 @@ mkdir -p node-${BRANCH}.x/dist/
 if [ ! -r node-${BRANCH}.x/dist/node_${NODE_VERSION}.orig.tar.gz ]; then
     wget https://github.com/nodejs/node/archive/refs/tags/v${NODE_VERSION}.tar.gz \
         -O node-${BRANCH}.x/dist/node_${NODE_VERSION}.orig.tar.gz
-    tar -C node-${BRANCH}.x -zxvf node-${BRANCH}.x/dist/node_${NODE_VERSION}.orig.tar.gz
+    tar -C node-${BRANCH}.x/dist -zxvf node-${BRANCH}.x/dist/node_${NODE_VERSION}.orig.tar.gz
     (
-        cd node-${BRANCH}.x/node-${NODE_VERSION}
+        cd node-${BRANCH}.x/dist/node-${NODE_VERSION}
         for SUB in doc clang-format lint-md; do
             ( cd tools/${SUB} && npm ci )
             mv tools/${SUB}/node_modules tools-${SUB}-node-modules
