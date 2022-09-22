@@ -3,4 +3,3 @@ pkgconfig.diff
 no-inet.diff
 flaky-repl-test.diff
 no-npm.diff
-napi-embedding-macro.diff
