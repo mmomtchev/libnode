@@ -1,7 +1,7 @@
-Index: node-18.9.0/test/fixtures/keys/Makefile
+Index: node-18.10.0/test/fixtures/keys/Makefile
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/Makefile
-+++ node-18.9.0/test/fixtures/keys/Makefile
+--- node-18.10.0.orig/test/fixtures/keys/Makefile
++++ node-18.10.0/test/fixtures/keys/Makefile
 @@ -55,10 +55,8 @@ all: \
    rsa_cert_foafssl_b.exponent \
    rsa_spkac.spkac \
@@ -124,10 +124,10 @@ Index: node-18.9.0/test/fixtures/keys/Makefile
  rsa_public_2048.pem: rsa_private_2048.pem
  	openssl rsa -in rsa_private_2048.pem -pubout -out rsa_public_2048.pem
  
-Index: node-18.9.0/test/fixtures/keys/agent1-cert.pem
+Index: node-18.10.0/test/fixtures/keys/agent1-cert.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent1-cert.pem
-+++ node-18.9.0/test/fixtures/keys/agent1-cert.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent1-cert.pem
++++ node-18.10.0/test/fixtures/keys/agent1-cert.pem
 @@ -1,18 +1,23 @@
  -----BEGIN CERTIFICATE-----
 -MIIC2DCCAkGgAwIBAgIJAOzJuFYnDamoMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
@@ -168,10 +168,10 @@ Index: node-18.9.0/test/fixtures/keys/agent1-cert.pem
 +G1IJUv6oiGF/MvWCr84REVgc1j78xomGANJIu2hN7bnD1nEMON6em8IfnDOUtynV
 +9wfWTqiQYD5Zifj6WcGa0aAHMuetyFG4lIfMAHmd3gaKpks7j9l26LwRPvI=
  -----END CERTIFICATE-----
-Index: node-18.9.0/test/fixtures/keys/agent1-csr.pem
+Index: node-18.10.0/test/fixtures/keys/agent1-csr.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent1-csr.pem
-+++ node-18.9.0/test/fixtures/keys/agent1-csr.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent1-csr.pem
++++ node-18.10.0/test/fixtures/keys/agent1-csr.pem
 @@ -1,13 +1,18 @@
  -----BEGIN CERTIFICATE REQUEST-----
 -MIIB4jCCAUsCAQAwfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
@@ -201,10 +201,10 @@ Index: node-18.9.0/test/fixtures/keys/agent1-csr.pem
 +gbkYQ4s2UceymctE97MNeqzCYW2QDJdzVkvpg0pNWqdR1hLdVtaT21mvChyvjEWC
 +uSNiGBIjS1zN22sHibty/se0URjJXk5UMroc
  -----END CERTIFICATE REQUEST-----
-Index: node-18.9.0/test/fixtures/keys/agent1-key.pem
+Index: node-18.10.0/test/fixtures/keys/agent1-key.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent1-key.pem
-+++ node-18.9.0/test/fixtures/keys/agent1-key.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent1-key.pem
++++ node-18.10.0/test/fixtures/keys/agent1-key.pem
 @@ -1,15 +1,27 @@
  -----BEGIN RSA PRIVATE KEY-----
 -MIICXQIBAAKBgQDvVEBwFjfiirsDjlZB+CjYNMNCqdJe27hqK/b72AnLjgN6mLcX
@@ -246,10 +246,10 @@ Index: node-18.9.0/test/fixtures/keys/agent1-key.pem
 +x0NDR2yLG6MXyqApJpG6rh3QIDElQoQCNlI3/KJ6JfEfmqrLLN2OigTvA5sE4fGU
 +Dp/ha8OQAx95EwXuaG7LgARduvOIK3x8qi8KsZoUGJcg2ywurUbkWA==
  -----END RSA PRIVATE KEY-----
-Index: node-18.9.0/test/fixtures/keys/agent10-cert.pem
+Index: node-18.10.0/test/fixtures/keys/agent10-cert.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent10-cert.pem
-+++ node-18.9.0/test/fixtures/keys/agent10-cert.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent10-cert.pem
++++ node-18.10.0/test/fixtures/keys/agent10-cert.pem
 @@ -1,32 +1,41 @@
  -----BEGIN CERTIFICATE-----
 -MIICfzCCAeigAwIBAgIJAOyvM6GMZDW6MA0GCSqGSIb3DQEBCwUAMIGIMQswCQYD
@@ -316,10 +316,10 @@ Index: node-18.9.0/test/fixtures/keys/agent10-cert.pem
 +H7+F7aDDtSrnxzxxC5eZeGyaN05T5N01OdK3xvqUnr7mg/Ce0jnxrZhxHI8SHOqs
 +Kwrg4fRasUHGhH286Y13xOj2pLSrVoSbkXsA
  -----END CERTIFICATE-----
-Index: node-18.9.0/test/fixtures/keys/agent10-csr.pem
+Index: node-18.10.0/test/fixtures/keys/agent10-csr.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent10-csr.pem
-+++ node-18.9.0/test/fixtures/keys/agent10-csr.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent10-csr.pem
++++ node-18.10.0/test/fixtures/keys/agent10-csr.pem
 @@ -1,13 +1,18 @@
  -----BEGIN CERTIFICATE REQUEST-----
 -MIIB3TCCAUYCAQAweDELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
@@ -349,10 +349,10 @@ Index: node-18.9.0/test/fixtures/keys/agent10-csr.pem
 +YNb3qvGkovA5xcnIYX86B7mdSPR1G00QZ5K2nHilXNvkbEbHEo49XtnxOEWZEz3G
 +WTK6u7EmXDXjCV9t58PrEcEkJmICBg==
  -----END CERTIFICATE REQUEST-----
-Index: node-18.9.0/test/fixtures/keys/agent10-key.pem
+Index: node-18.10.0/test/fixtures/keys/agent10-key.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent10-key.pem
-+++ node-18.9.0/test/fixtures/keys/agent10-key.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent10-key.pem
++++ node-18.10.0/test/fixtures/keys/agent10-key.pem
 @@ -1,15 +1,27 @@
  -----BEGIN RSA PRIVATE KEY-----
 -MIICXAIBAAKBgQCtXZ2JW6asoNLmTzUytx0QKdhhVnl95D8VkOrAQcz/OVe+zq+m
@@ -394,10 +394,10 @@ Index: node-18.9.0/test/fixtures/keys/agent10-key.pem
 +/dByelz4KUdGu1ZUZYzaFKs87Si4IB+NThX27BOcpXjd1IjJk3cHnkx6t+FrFFsH
 +7SSOwAuzpxVSGn0yij06OiYy6Qyay3tSLYPLFcXWB6oK7GWjFYc=
  -----END RSA PRIVATE KEY-----
-Index: node-18.9.0/test/fixtures/keys/agent2-cert.pem
+Index: node-18.10.0/test/fixtures/keys/agent2-cert.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent2-cert.pem
-+++ node-18.9.0/test/fixtures/keys/agent2-cert.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent2-cert.pem
++++ node-18.10.0/test/fixtures/keys/agent2-cert.pem
 @@ -1,16 +1,21 @@
  -----BEGIN CERTIFICATE-----
 -MIICczCCAdwCCQCtrfdcbYDS0jANBgkqhkiG9w0BAQsFADB9MQswCQYDVQQGEwJV
@@ -434,10 +434,10 @@ Index: node-18.9.0/test/fixtures/keys/agent2-cert.pem
 +DCW0Lr2Ix/GY7nf/R9zDFnEZTW6IIkRp9UsUdOrgqgfSxp/C48foFv7gqMO/9PD8
 +E8uE8986AFd5cK67imYPspHXv5UycySifwsSixi0hI9lDZqUIoWH
  -----END CERTIFICATE-----
-Index: node-18.9.0/test/fixtures/keys/agent2-csr.pem
+Index: node-18.10.0/test/fixtures/keys/agent2-csr.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent2-csr.pem
-+++ node-18.9.0/test/fixtures/keys/agent2-csr.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent2-csr.pem
++++ node-18.10.0/test/fixtures/keys/agent2-csr.pem
 @@ -1,13 +1,18 @@
  -----BEGIN CERTIFICATE REQUEST-----
 -MIIB4jCCAUsCAQAwfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
@@ -467,10 +467,10 @@ Index: node-18.9.0/test/fixtures/keys/agent2-csr.pem
 +7YS5MDaupRgZ3x6ojh/cHhrMvDPe8rQEXWWXkUuTQmmy3dpu7RTi9hqRGjU6MOlU
 +L74fsBv88h6Kmg3R1ueIGB4t3iBUCZT53nAC
  -----END CERTIFICATE REQUEST-----
-Index: node-18.9.0/test/fixtures/keys/agent2-key.pem
+Index: node-18.10.0/test/fixtures/keys/agent2-key.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent2-key.pem
-+++ node-18.9.0/test/fixtures/keys/agent2-key.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent2-key.pem
++++ node-18.10.0/test/fixtures/keys/agent2-key.pem
 @@ -1,15 +1,27 @@
  -----BEGIN RSA PRIVATE KEY-----
 -MIICXAIBAAKBgQCrYG2i9zCUhQ1UCLe6RvJC95k2DdWSTEHoiH4IvvRURffSOLkS
@@ -512,10 +512,10 @@ Index: node-18.9.0/test/fixtures/keys/agent2-key.pem
 +tIZ+PEMp9CRaS2eTGtsWwQvuORlWlgYuYvJfxwvvnbLjln66SuE7pZHG2UILw4vZ
 +5xkxTmL93VXFWRaH418mifGDiLIYr14+yzbW366r9L72BuN1dZJNzg==
  -----END RSA PRIVATE KEY-----
-Index: node-18.9.0/test/fixtures/keys/agent3-cert.pem
+Index: node-18.10.0/test/fixtures/keys/agent3-cert.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent3-cert.pem
-+++ node-18.9.0/test/fixtures/keys/agent3-cert.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent3-cert.pem
++++ node-18.10.0/test/fixtures/keys/agent3-cert.pem
 @@ -1,16 +1,18 @@
  -----BEGIN CERTIFICATE-----
 -MIICcDCCAdkCCQCR8AZjYGnynDANBgkqhkiG9w0BAQsFADB6MQswCQYDVQQGEwJV
@@ -545,10 +545,10 @@ Index: node-18.9.0/test/fixtures/keys/agent3-cert.pem
 +ErG6aklZw2ZnYRSebotC+eVh1ZSuOdpFnLw36dt6XGe+ulp3jgc9nggTZGagCFB1
 +yhgZ4y+7zx4u1t2oVqCbYn6mtw+AuwoszkdzHQqZIA42USnxUCLJPQ==
  -----END CERTIFICATE-----
-Index: node-18.9.0/test/fixtures/keys/agent3-csr.pem
+Index: node-18.10.0/test/fixtures/keys/agent3-csr.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent3-csr.pem
-+++ node-18.9.0/test/fixtures/keys/agent3-csr.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent3-csr.pem
++++ node-18.10.0/test/fixtures/keys/agent3-csr.pem
 @@ -1,13 +1,18 @@
  -----BEGIN CERTIFICATE REQUEST-----
 -MIIB4jCCAUsCAQAwfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
@@ -578,10 +578,10 @@ Index: node-18.9.0/test/fixtures/keys/agent3-csr.pem
 +QVnSSu2Hw6qCsUrLFwVkohgaP8c160NhZ0djqDw2wSQcFdx+ypt1ZwHG2T4zMBYF
 +0zr/VjWtevRXULFRF7BPE+nSY1Fz6S9LMTS3
  -----END CERTIFICATE REQUEST-----
-Index: node-18.9.0/test/fixtures/keys/agent3-key.pem
+Index: node-18.10.0/test/fixtures/keys/agent3-key.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent3-key.pem
-+++ node-18.9.0/test/fixtures/keys/agent3-key.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent3-key.pem
++++ node-18.10.0/test/fixtures/keys/agent3-key.pem
 @@ -1,15 +1,27 @@
  -----BEGIN RSA PRIVATE KEY-----
 -MIICXAIBAAKBgQC/6HB9JW4l8cNA5eYXYP8ewjYlmSyl+s9AT9kvW0gjZxdGe6wi
@@ -623,10 +623,10 @@ Index: node-18.9.0/test/fixtures/keys/agent3-key.pem
 +mIpv4h5EJ7D4zWFrDqu/1tR0v6jridSRgLkD4yqVsGeODG5ARdwMlLeYgO/eyDMW
 +TrqYyBhz+eiC8oB27m9VnSimyWjpK+qfC6OaoODussiSyVXeyHs=
  -----END RSA PRIVATE KEY-----
-Index: node-18.9.0/test/fixtures/keys/agent4-cert.pem
+Index: node-18.10.0/test/fixtures/keys/agent4-cert.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent4-cert.pem
-+++ node-18.9.0/test/fixtures/keys/agent4-cert.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent4-cert.pem
++++ node-18.10.0/test/fixtures/keys/agent4-cert.pem
 @@ -1,16 +1,19 @@
  -----BEGIN CERTIFICATE-----
 -MIICjjCCAfegAwIBAgIJAJHwBmNgafKaMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
@@ -658,10 +658,10 @@ Index: node-18.9.0/test/fixtures/keys/agent4-cert.pem
 +xMHrIRlRxb+/rJ2K6ayvwI2EPgduSjMfaor72CNRJ+/lsiRffo6weoBju1szAFgI
 +cSeYOOo8obGa7if3LvdzolXPue3dkg==
  -----END CERTIFICATE-----
-Index: node-18.9.0/test/fixtures/keys/agent4-csr.pem
+Index: node-18.10.0/test/fixtures/keys/agent4-csr.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent4-csr.pem
-+++ node-18.9.0/test/fixtures/keys/agent4-csr.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent4-csr.pem
++++ node-18.10.0/test/fixtures/keys/agent4-csr.pem
 @@ -1,13 +1,18 @@
  -----BEGIN CERTIFICATE REQUEST-----
 -MIIB4jCCAUsCAQAwfTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
@@ -691,10 +691,10 @@ Index: node-18.9.0/test/fixtures/keys/agent4-csr.pem
 +wS4y0YsKeC3gG6Gr6GAbVG3+byIvv0t6OIFJtAqKD+L7pPYZ5cFJvJ8uq4cg7N4C
 +m01T5ZP+HXr2KpI+6SZWEfBvJMAjWOHm3JR/
  -----END CERTIFICATE REQUEST-----
-Index: node-18.9.0/test/fixtures/keys/agent4-key.pem
+Index: node-18.10.0/test/fixtures/keys/agent4-key.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent4-key.pem
-+++ node-18.9.0/test/fixtures/keys/agent4-key.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent4-key.pem
++++ node-18.10.0/test/fixtures/keys/agent4-key.pem
 @@ -1,15 +1,27 @@
  -----BEGIN RSA PRIVATE KEY-----
 -MIICXQIBAAKBgQCvcVH69FzdPGCUXgwowuBz4lLAV+COzishbuyNGF5lJ6mw6eY8
@@ -736,10 +736,10 @@ Index: node-18.9.0/test/fixtures/keys/agent4-key.pem
 +CWSiL8QWWr8QjcsHKpAUHmBKVwvwOHr81nxl7q2PdPLI+7VQwgVXNosu6cM52Op5
 +LkvUDKaKPP55ek6vMNxepY5TggKmOI2mfqPvGgXqzZFctamS9gJPIw==
  -----END RSA PRIVATE KEY-----
-Index: node-18.9.0/test/fixtures/keys/agent5-cert.pem
+Index: node-18.10.0/test/fixtures/keys/agent5-cert.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent5-cert.pem
-+++ node-18.9.0/test/fixtures/keys/agent5-cert.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent5-cert.pem
++++ node-18.10.0/test/fixtures/keys/agent5-cert.pem
 @@ -1,16 +1,19 @@
  -----BEGIN CERTIFICATE-----
 -MIIChTCCAe6gAwIBAgIJAJHwBmNgafKdMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
@@ -771,10 +771,10 @@ Index: node-18.9.0/test/fixtures/keys/agent5-cert.pem
 +zDn27MRwGEUx0ZZR4Z2g8bf10XAZSUmS7SpzSCovsCeQ9g6oH3PIMvzRCeSUwzfD
 +c6KyjtZ++jH3gz6FlA==
  -----END CERTIFICATE-----
-Index: node-18.9.0/test/fixtures/keys/agent5-csr.pem
+Index: node-18.10.0/test/fixtures/keys/agent5-csr.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent5-csr.pem
-+++ node-18.9.0/test/fixtures/keys/agent5-csr.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent5-csr.pem
++++ node-18.10.0/test/fixtures/keys/agent5-csr.pem
 @@ -1,12 +1,18 @@
  -----BEGIN CERTIFICATE REQUEST-----
 -MIIB2TCCAUICAQAwdDELMAkGA1UEBhMCSFUxETAPBgNVBAcMCEJ1ZGFwZXN0MREw
@@ -803,10 +803,10 @@ Index: node-18.9.0/test/fixtures/keys/agent5-csr.pem
 +icCFACkfEuFU/FZmRR3wjL+4So0yM9SgqOikCTrMplkcuVepXXj/kpVlv/MTHUP9
 +6VyWJMRwMaPezZu6uoo5W1N+
  -----END CERTIFICATE REQUEST-----
-Index: node-18.9.0/test/fixtures/keys/agent5-key.pem
+Index: node-18.10.0/test/fixtures/keys/agent5-key.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent5-key.pem
-+++ node-18.9.0/test/fixtures/keys/agent5-key.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent5-key.pem
++++ node-18.10.0/test/fixtures/keys/agent5-key.pem
 @@ -1,15 +1,27 @@
  -----BEGIN RSA PRIVATE KEY-----
 -MIICXAIBAAKBgQCksphKSkbE4aCa68r2o7j2xWbxbWP+bjAGwWWYQwnacQ6p5tlh
@@ -848,10 +848,10 @@ Index: node-18.9.0/test/fixtures/keys/agent5-key.pem
 +QEzChQllUYdhvOAJybNjF82SGxZOyJUNf8+1MYBl2hZmDj+5lPJnC5tO2VaOA/9k
 +B4BNUcA/Nr2Vx552ZOIj1sV4KvfuRwxtgypjXxZrP2Qtn2Nimvs5/Ck=
  -----END RSA PRIVATE KEY-----
-Index: node-18.9.0/test/fixtures/keys/agent6-cert.pem
+Index: node-18.10.0/test/fixtures/keys/agent6-cert.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent6-cert.pem
-+++ node-18.9.0/test/fixtures/keys/agent6-cert.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent6-cert.pem
++++ node-18.10.0/test/fixtures/keys/agent6-cert.pem
 @@ -1,31 +1,43 @@
  -----BEGIN CERTIFICATE-----
 -MIICbDCCAdWgAwIBAgIJANAIL0WLbvvoMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
@@ -923,10 +923,10 @@ Index: node-18.9.0/test/fixtures/keys/agent6-cert.pem
 +NWYtx++OIWK/3QEufal83p2W3ICxAW3yqY7Qy03Z2LW07BDDdAmoFN9NTYuZKGd4
 +DQYB7oHNx8E=
  -----END CERTIFICATE-----
-Index: node-18.9.0/test/fixtures/keys/agent6-csr.pem
+Index: node-18.10.0/test/fixtures/keys/agent6-csr.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent6-csr.pem
-+++ node-18.9.0/test/fixtures/keys/agent6-csr.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent6-csr.pem
++++ node-18.10.0/test/fixtures/keys/agent6-csr.pem
 @@ -1,12 +1,18 @@
  -----BEGIN CERTIFICATE REQUEST-----
 -MIIB2TCCAUICAQAwdDELMAkGA1UEBhMCSFUxETAPBgNVBAcMCEJ1ZGFwZXN0MREw
@@ -955,10 +955,10 @@ Index: node-18.9.0/test/fixtures/keys/agent6-csr.pem
 +MC+PCw+uLFISxJij1T5bepqgwUMa5MCk6JbwC3uWGb3arBoIJuGx+itRyeVofcTn
 +MyGKULYmRlkITGBKrDFZVZ3j
  -----END CERTIFICATE REQUEST-----
-Index: node-18.9.0/test/fixtures/keys/agent6-key.pem
+Index: node-18.10.0/test/fixtures/keys/agent6-key.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent6-key.pem
-+++ node-18.9.0/test/fixtures/keys/agent6-key.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent6-key.pem
++++ node-18.10.0/test/fixtures/keys/agent6-key.pem
 @@ -1,15 +1,27 @@
  -----BEGIN RSA PRIVATE KEY-----
 -MIICXAIBAAKBgQDBIF2kWViZb+GpjUKfQ2Jevk68mLWXib66z6vCi+mjpcvZeq6A
@@ -1000,10 +1000,10 @@ Index: node-18.9.0/test/fixtures/keys/agent6-key.pem
 +T6PlSLvvq1VpEJJXTlEv8jc64OVsNps7jkYkgR9xG47Njytj2RVQtlZNSs+kEVmt
 +XfzU4J43WrX517ymzar520WksPrx4eYQO1TZICVywsAgs4vJ2ZqXVA==
  -----END RSA PRIVATE KEY-----
-Index: node-18.9.0/test/fixtures/keys/agent7-cert.pem
+Index: node-18.10.0/test/fixtures/keys/agent7-cert.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent7-cert.pem
-+++ node-18.9.0/test/fixtures/keys/agent7-cert.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent7-cert.pem
++++ node-18.10.0/test/fixtures/keys/agent7-cert.pem
 @@ -1,19 +1,19 @@
  -----BEGIN CERTIFICATE-----
 -MIIDEjCCAfqgAwIBAgIJAJ4TtCDh9ccYMA0GCSqGSIb3DQEBCwUAMDIxCzAJBgNV
@@ -1039,10 +1039,10 @@ Index: node-18.9.0/test/fixtures/keys/agent7-cert.pem
 +S2RXIzULCt511hd4yn9EcALxJi2SwFaEUxIi7pxxU2PFnsW/+QVAZCzNl9OFzhoC
 ++VaeJLcP8IwRpNHk+du/+mt8wpxFUw==
  -----END CERTIFICATE-----
-Index: node-18.9.0/test/fixtures/keys/agent7-csr.pem
+Index: node-18.10.0/test/fixtures/keys/agent7-csr.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent7-csr.pem
-+++ node-18.9.0/test/fixtures/keys/agent7-csr.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent7-csr.pem
++++ node-18.10.0/test/fixtures/keys/agent7-csr.pem
 @@ -1,17 +1,17 @@
  -----BEGIN CERTIFICATE REQUEST-----
  MIICxzCCAa8CAQAwXTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
@@ -1074,10 +1074,10 @@ Index: node-18.9.0/test/fixtures/keys/agent7-csr.pem
 +XflruibJEQjLOh5UrzD5s7tjuhMjbIYhX+UnDmiybN2CyI1pBaANZGpdS5Y32O3n
 +9e7ZFbqfBXwBkRxFlrB+qJfZvxxLh7NiTCNKwlquPF6+2eydzXcbrV0pLw==
  -----END CERTIFICATE REQUEST-----
-Index: node-18.9.0/test/fixtures/keys/agent7-key.pem
+Index: node-18.10.0/test/fixtures/keys/agent7-key.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent7-key.pem
-+++ node-18.9.0/test/fixtures/keys/agent7-key.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent7-key.pem
++++ node-18.10.0/test/fixtures/keys/agent7-key.pem
 @@ -1,27 +1,27 @@
  -----BEGIN RSA PRIVATE KEY-----
 -MIIEowIBAAKCAQEAzb4ORHE95EYjgkrRim5qoImQ2zAxgzJkzhVBjKf31IvvFLyU
@@ -1131,10 +1131,10 @@ Index: node-18.9.0/test/fixtures/keys/agent7-key.pem
 +gtZtZI5KtWZ4A590ksEChVj8pgwv4zg6OMJci4XtbCfS7rsJTBwR1jEqN+c9jbQJ
 +GLy+EDqMm6cGCzQt4Kl1hSDuc1ppsivw/BbwG3/wCzpZPIcy05AL
  -----END RSA PRIVATE KEY-----
-Index: node-18.9.0/test/fixtures/keys/agent8-cert.pem
+Index: node-18.10.0/test/fixtures/keys/agent8-cert.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent8-cert.pem
-+++ node-18.9.0/test/fixtures/keys/agent8-cert.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent8-cert.pem
++++ node-18.10.0/test/fixtures/keys/agent8-cert.pem
 @@ -1,20 +1,20 @@
  -----BEGIN CERTIFICATE-----
 -MIIDUDCCAjgCAQEwDQYJKoZIhvcNAQELBQAwfTELMAkGA1UEBhMCSUwxFjAUBgNV
@@ -1170,10 +1170,10 @@ Index: node-18.9.0/test/fixtures/keys/agent8-cert.pem
 +dh7ToIpvQ54MZkxFgG0ej2HGtNBHVnCpMk9bhupDIJ65fybMtIXy8bhUuj4KX/hm
 +tALVY3gVezswj90SGBMxeMwcE7z/jDUpkEAIP4FM3Y+yYfmS
  -----END CERTIFICATE-----
-Index: node-18.9.0/test/fixtures/keys/agent8-csr.pem
+Index: node-18.10.0/test/fixtures/keys/agent8-csr.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent8-csr.pem
-+++ node-18.9.0/test/fixtures/keys/agent8-csr.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent8-csr.pem
++++ node-18.10.0/test/fixtures/keys/agent8-csr.pem
 @@ -1,17 +1,17 @@
  -----BEGIN CERTIFICATE REQUEST-----
  MIICxzCCAa8CAQAwXTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
@@ -1205,10 +1205,10 @@ Index: node-18.9.0/test/fixtures/keys/agent8-csr.pem
 +fT9izr9nY88UN/fYs4nwuKjjnp1rWszbJhrurND5qvx46/OWJeiCBZXm22WRP5ib
 +er/G0iTaIQ0iFmTM3nEMJyFNz/f4Xisl/AqWpnfKzL7Ogvjk0fvbbtu7JA==
  -----END CERTIFICATE REQUEST-----
-Index: node-18.9.0/test/fixtures/keys/agent8-key.pem
+Index: node-18.10.0/test/fixtures/keys/agent8-key.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent8-key.pem
-+++ node-18.9.0/test/fixtures/keys/agent8-key.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent8-key.pem
++++ node-18.10.0/test/fixtures/keys/agent8-key.pem
 @@ -1,27 +1,27 @@
  -----BEGIN RSA PRIVATE KEY-----
 -MIIEpAIBAAKCAQEAvCbXGqz553XQ+W9zsQEaBc1/mhd4TFjivwbK1hSdTuB8vWyO
@@ -1262,10 +1262,10 @@ Index: node-18.9.0/test/fixtures/keys/agent8-key.pem
 +Au7bMl6AxMfNDnSeh/UGhPNqBzoHvt9l3WgC/0T+tO00AhlhXxpQBw1OG6R9XhzQ
 +iObkAkHkfUnpkP91/U9d42SvZisnhqZk5K5BIxOmlY5HsejOChu0DT8/
  -----END RSA PRIVATE KEY-----
-Index: node-18.9.0/test/fixtures/keys/agent9-cert.pem
+Index: node-18.10.0/test/fixtures/keys/agent9-cert.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent9-cert.pem
-+++ node-18.9.0/test/fixtures/keys/agent9-cert.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent9-cert.pem
++++ node-18.10.0/test/fixtures/keys/agent9-cert.pem
 @@ -1,20 +1,20 @@
  -----BEGIN CERTIFICATE-----
 -MIIDUjCCAjoCAQIwDQYJKoZIhvcNAQELBQAwfTELMAkGA1UEBhMCSUwxFjAUBgNV
@@ -1303,10 +1303,10 @@ Index: node-18.9.0/test/fixtures/keys/agent9-cert.pem
 +Vjtm+p0Jqt1y1emPw0gQcaP1dCMoJm4LsYoAZNFQmKiMYIeXO1sxvYSaH/OO1lWJ
 +96nbaSD+b0GOyVHZyea6dibVbfoeagpLyBWgO98CnzvzD3A/
  -----END CERTIFICATE-----
-Index: node-18.9.0/test/fixtures/keys/agent9-csr.pem
+Index: node-18.10.0/test/fixtures/keys/agent9-csr.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent9-csr.pem
-+++ node-18.9.0/test/fixtures/keys/agent9-csr.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent9-csr.pem
++++ node-18.10.0/test/fixtures/keys/agent9-csr.pem
 @@ -1,17 +1,17 @@
  -----BEGIN CERTIFICATE REQUEST-----
  MIICxzCCAa8CAQAwXTELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
@@ -1338,10 +1338,10 @@ Index: node-18.9.0/test/fixtures/keys/agent9-csr.pem
 +U5rEwL0ahuya0WafpL6FZgdHWu2b09hv/p8w8W4qoko7mE5ByRlEwmbrqJgj5JyZ
 +lvu+nZdkhhW1Mtcyy1U/zK8jKKyefI7sPi0gwES4mpuZVSkI6E+oHzqAtw==
  -----END CERTIFICATE REQUEST-----
-Index: node-18.9.0/test/fixtures/keys/agent9-key.pem
+Index: node-18.10.0/test/fixtures/keys/agent9-key.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/agent9-key.pem
-+++ node-18.9.0/test/fixtures/keys/agent9-key.pem
+--- node-18.10.0.orig/test/fixtures/keys/agent9-key.pem
++++ node-18.10.0/test/fixtures/keys/agent9-key.pem
 @@ -1,27 +1,27 @@
  -----BEGIN RSA PRIVATE KEY-----
 -MIIEpQIBAAKCAQEAtqBDJNhCsCGa8eCDzXBox8OQzrvAPMia3FhuKU4VGna78DCO
@@ -1395,24 +1395,24 @@ Index: node-18.9.0/test/fixtures/keys/agent9-key.pem
 +8jpc757m0BQOEsCn3pPNglMKzHj01e/xnH2GcyionwDahiQK+0PydZHjczDxqj7e
 +xAYFOF5nCmYGrB9rRQL76cRO4f2q+XgxWE7m7XFLlhq/Hvb6wOxYNA==
  -----END RSA PRIVATE KEY-----
-Index: node-18.9.0/test/fixtures/keys/ca1-cert.srl
+Index: node-18.10.0/test/fixtures/keys/ca1-cert.srl
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/ca1-cert.srl
-+++ node-18.9.0/test/fixtures/keys/ca1-cert.srl
+--- node-18.10.0.orig/test/fixtures/keys/ca1-cert.srl
++++ node-18.10.0/test/fixtures/keys/ca1-cert.srl
 @@ -1 +1 @@
 -ECC9B856270DA9A8
 +147D36C1C2F74206DE9FAB5F2226D78ADB00A426
-Index: node-18.9.0/test/fixtures/keys/ca2-cert.srl
+Index: node-18.10.0/test/fixtures/keys/ca2-cert.srl
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/ca2-cert.srl
-+++ node-18.9.0/test/fixtures/keys/ca2-cert.srl
+--- node-18.10.0.orig/test/fixtures/keys/ca2-cert.srl
++++ node-18.10.0/test/fixtures/keys/ca2-cert.srl
 @@ -1 +1 @@
 -91F006636069F29D
 +91F006636069F2A1
-Index: node-18.9.0/test/fixtures/keys/ca2-crl.pem
+Index: node-18.10.0/test/fixtures/keys/ca2-crl.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/ca2-crl.pem
-+++ node-18.9.0/test/fixtures/keys/ca2-crl.pem
+--- node-18.10.0.orig/test/fixtures/keys/ca2-crl.pem
++++ node-18.10.0/test/fixtures/keys/ca2-crl.pem
 @@ -1,10 +1,10 @@
  -----BEGIN X509 CRL-----
 -MIIBXTCBxzANBgkqhkiG9w0BAQ0FADB6MQswCQYDVQQGEwJVUzELMAkGA1UECAwC
@@ -1430,23 +1430,23 @@ Index: node-18.9.0/test/fixtures/keys/ca2-crl.pem
 +b+1w511+tkixm0evIHtxlOrlFrAFBSFGMlrfKnmg5EopJ2w5yOR53ZqUwtNryZMC
 +WJTEN+DeXU8WdY+iEXXCmpGZhvheRwKyCcY5xHxvwbnb3UdF+IaqA0aIN1Sa3Oc=
  -----END X509 CRL-----
-Index: node-18.9.0/test/fixtures/keys/ca2-database.txt
+Index: node-18.10.0/test/fixtures/keys/ca2-database.txt
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/ca2-database.txt
-+++ node-18.9.0/test/fixtures/keys/ca2-database.txt
+--- node-18.10.0.orig/test/fixtures/keys/ca2-database.txt
++++ node-18.10.0/test/fixtures/keys/ca2-database.txt
 @@ -1 +1,2 @@
  R	22920830184220Z	181116184220Z	91F006636069F29A	unknown	/C=US/ST=CA/L=SF/O=Joyent/OU=Node.js/CN=agent4/emailAddress=ry@tinyclouds.org
 +R	22960617144651Z	220903144651Z	91F006636069F29E	unknown	/C=US/ST=CA/L=SF/O=Joyent/OU=Node.js/CN=agent4/emailAddress=ry@tinyclouds.org
-Index: node-18.9.0/test/fixtures/keys/ca2-database.txt.old
+Index: node-18.10.0/test/fixtures/keys/ca2-database.txt.old
 ===================================================================
 --- /dev/null
-+++ node-18.9.0/test/fixtures/keys/ca2-database.txt.old
++++ node-18.10.0/test/fixtures/keys/ca2-database.txt.old
 @@ -0,0 +1 @@
 +R	22920830184220Z	181116184220Z	91F006636069F29A	unknown	/C=US/ST=CA/L=SF/O=Joyent/OU=Node.js/CN=agent4/emailAddress=ry@tinyclouds.org
-Index: node-18.9.0/test/fixtures/keys/ca3-cert.pem
+Index: node-18.10.0/test/fixtures/keys/ca3-cert.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/ca3-cert.pem
-+++ node-18.9.0/test/fixtures/keys/ca3-cert.pem
+--- node-18.10.0.orig/test/fixtures/keys/ca3-cert.pem
++++ node-18.10.0/test/fixtures/keys/ca3-cert.pem
 @@ -1,16 +1,22 @@
  -----BEGIN CERTIFICATE-----
 -MIIChDCCAe2gAwIBAgIJAOzJuFYnDamnMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
@@ -1484,17 +1484,17 @@ Index: node-18.9.0/test/fixtures/keys/ca3-cert.pem
 +NWYtx++OIWK/3QEufal83p2W3ICxAW3yqY7Qy03Z2LW07BDDdAmoFN9NTYuZKGd4
 +DQYB7oHNx8E=
  -----END CERTIFICATE-----
-Index: node-18.9.0/test/fixtures/keys/ca3-cert.srl
+Index: node-18.10.0/test/fixtures/keys/ca3-cert.srl
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/ca3-cert.srl
-+++ node-18.9.0/test/fixtures/keys/ca3-cert.srl
+--- node-18.10.0.orig/test/fixtures/keys/ca3-cert.srl
++++ node-18.10.0/test/fixtures/keys/ca3-cert.srl
 @@ -1 +1 @@
 -D0082F458B6EFBE8
 +5B75D77EDC7FB5B7FA9F1424DA4C64FB815DCBDE
-Index: node-18.9.0/test/fixtures/keys/ca3-csr.pem
+Index: node-18.10.0/test/fixtures/keys/ca3-csr.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/ca3-csr.pem
-+++ node-18.9.0/test/fixtures/keys/ca3-csr.pem
+--- node-18.10.0.orig/test/fixtures/keys/ca3-csr.pem
++++ node-18.10.0/test/fixtures/keys/ca3-csr.pem
 @@ -1,13 +1,18 @@
  -----BEGIN CERTIFICATE REQUEST-----
 -MIIB3zCCAUgCAQAwejELMAkGA1UEBhMCVVMxCzAJBgNVBAgMAkNBMQswCQYDVQQH
@@ -1524,10 +1524,10 @@ Index: node-18.9.0/test/fixtures/keys/ca3-csr.pem
 +k0jWdcZejEfjNxZUYqJ6f7Yn7UAUznjUnz0HUFllA6WeLZ5M7WHRMg53675k9YGn
 +LiM8YWp7Mx9lC57d38GhFhQPMr7Bznt0
  -----END CERTIFICATE REQUEST-----
-Index: node-18.9.0/test/fixtures/keys/ca3-key.pem
+Index: node-18.10.0/test/fixtures/keys/ca3-key.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/ca3-key.pem
-+++ node-18.9.0/test/fixtures/keys/ca3-key.pem
+--- node-18.10.0.orig/test/fixtures/keys/ca3-key.pem
++++ node-18.10.0/test/fixtures/keys/ca3-key.pem
 @@ -1,15 +1,27 @@
  -----BEGIN RSA PRIVATE KEY-----
 -MIICXAIBAAKBgQCZ9fF/1UcYaurFIX0QIyAJdojn9+bfsTcjEIoGbsAnQLz2bsZ4
@@ -1569,10 +1569,10 @@ Index: node-18.9.0/test/fixtures/keys/ca3-key.pem
 +TL/RB13T24Zm1lkILCGUX3l8kjYBTKjXFR04rP7i0ly9G5ADqZNsGxqM039ag2b1
 +iBgNpSvFxxYsdIVsjhEDfCWovrrWfb7Q68YRFpo30wVuMWZmL+5d
  -----END RSA PRIVATE KEY-----
-Index: node-18.9.0/test/fixtures/keys/ca4-cert.pem
+Index: node-18.10.0/test/fixtures/keys/ca4-cert.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/ca4-cert.pem
-+++ node-18.9.0/test/fixtures/keys/ca4-cert.pem
+--- node-18.10.0.orig/test/fixtures/keys/ca4-cert.pem
++++ node-18.10.0/test/fixtures/keys/ca4-cert.pem
 @@ -1,16 +1,19 @@
  -----BEGIN CERTIFICATE-----
 -MIICkzCCAfygAwIBAgIJAJHwBmNgafKbMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
@@ -1603,17 +1603,17 @@ Index: node-18.9.0/test/fixtures/keys/ca4-cert.pem
 +H7+F7aDDtSrnxzxxC5eZeGyaN05T5N01OdK3xvqUnr7mg/Ce0jnxrZhxHI8SHOqs
 +Kwrg4fRasUHGhH286Y13xOj2pLSrVoSbkXsA
  -----END CERTIFICATE-----
-Index: node-18.9.0/test/fixtures/keys/ca4-cert.srl
+Index: node-18.10.0/test/fixtures/keys/ca4-cert.srl
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/ca4-cert.srl
-+++ node-18.9.0/test/fixtures/keys/ca4-cert.srl
+--- node-18.10.0.orig/test/fixtures/keys/ca4-cert.srl
++++ node-18.10.0/test/fixtures/keys/ca4-cert.srl
 @@ -1 +1 @@
 -ECAF33A18C6435BA
 +315699D1E5F92A9F0D238BDA285548E7DDB04E
-Index: node-18.9.0/test/fixtures/keys/ca4-csr.pem
+Index: node-18.10.0/test/fixtures/keys/ca4-csr.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/ca4-csr.pem
-+++ node-18.9.0/test/fixtures/keys/ca4-csr.pem
+--- node-18.10.0.orig/test/fixtures/keys/ca4-csr.pem
++++ node-18.10.0/test/fixtures/keys/ca4-csr.pem
 @@ -1,13 +1,18 @@
  -----BEGIN CERTIFICATE REQUEST-----
 -MIIB7jCCAVcCAQAwgYgxCzAJBgNVBAYTAlVTMQswCQYDVQQIDAJDQTELMAkGA1UE
@@ -1642,10 +1642,10 @@ Index: node-18.9.0/test/fixtures/keys/ca4-csr.pem
 +xkVQ3GzMjsQGWErufQE81OYuHilCUn53GlS1Hv2TAqkongoNfqIlWPh4eS191Hp8
 +hFRDSBOOT6OfoTmcFupNZ0YQ5UM8ThmF7i4iwpTYfj1TojjzUf5R
  -----END CERTIFICATE REQUEST-----
-Index: node-18.9.0/test/fixtures/keys/ca4-key.pem
+Index: node-18.10.0/test/fixtures/keys/ca4-key.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/ca4-key.pem
-+++ node-18.9.0/test/fixtures/keys/ca4-key.pem
+--- node-18.10.0.orig/test/fixtures/keys/ca4-key.pem
++++ node-18.10.0/test/fixtures/keys/ca4-key.pem
 @@ -1,15 +1,27 @@
  -----BEGIN RSA PRIVATE KEY-----
 -MIICXAIBAAKBgQDC1M2aGVYsmrBiut1n0nfTU+9vTNVdAmKQBjnNsv3IIch/PPaE
@@ -1687,27 +1687,27 @@ Index: node-18.9.0/test/fixtures/keys/ca4-key.pem
 +foZjYJlj5RmiLN9SW6X+9sJwqzAST6l0qnq9IWm/BwvE1LW5xa5svPSBcYQyZSvn
 +7iVdMQnm2yR2PEc6NgeK1lwf+0YG3LuK9DKM6waxPJDAL/QGySPg
  -----END RSA PRIVATE KEY-----
-Index: node-18.9.0/test/fixtures/keys/ca6-cert.srl
+Index: node-18.10.0/test/fixtures/keys/ca6-cert.srl
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/ca6-cert.srl
-+++ node-18.9.0/test/fixtures/keys/ca6-cert.srl
+--- node-18.10.0.orig/test/fixtures/keys/ca6-cert.srl
++++ node-18.10.0/test/fixtures/keys/ca6-cert.srl
 @@ -1 +1 @@
 -A97535039C5E962B
 +A97535039C5E962C
-Index: node-18.9.0/test/fixtures/keys/dherror.pem
+Index: node-18.10.0/test/fixtures/keys/dherror.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/dherror.pem
-+++ node-18.9.0/test/fixtures/keys/dherror.pem
+--- node-18.10.0.orig/test/fixtures/keys/dherror.pem
++++ node-18.10.0/test/fixtures/keys/dherror.pem
 @@ -1,4 +1,5 @@
  -----BEGIN DH PARAMETERS-----
  AAAAAAAAAA
  AAAAAAAAAA
 +AAAAAAAAAA
  -----END DH PARAMETERS-----
-Index: node-18.9.0/test/fixtures/keys/ec-cert.pem
+Index: node-18.10.0/test/fixtures/keys/ec-cert.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/ec-cert.pem
-+++ node-18.9.0/test/fixtures/keys/ec-cert.pem
+--- node-18.10.0.orig/test/fixtures/keys/ec-cert.pem
++++ node-18.10.0/test/fixtures/keys/ec-cert.pem
 @@ -1,13 +1,13 @@
  -----BEGIN CERTIFICATE-----
 -MIIB6zCCAZICCQDB6nsD1ZVtUjAKBggqhkjOPQQDAjB9MQswCQYDVQQGEwJVUzEL
@@ -1733,10 +1733,10 @@ Index: node-18.9.0/test/fixtures/keys/ec-cert.pem
 +AgNJADBGAiEAlGAGLnGpFbF1nSwXpO3erf2DUPExz9Ib/k00r7S+rpQCIQDykx2f
 +kQ2xLOKI+yq4Ie4MHG0wNPgllVUaKBqpE+XhYQ==
  -----END CERTIFICATE-----
-Index: node-18.9.0/test/fixtures/keys/ec10-cert.pem
+Index: node-18.10.0/test/fixtures/keys/ec10-cert.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/ec10-cert.pem
-+++ node-18.9.0/test/fixtures/keys/ec10-cert.pem
+--- node-18.10.0.orig/test/fixtures/keys/ec10-cert.pem
++++ node-18.10.0/test/fixtures/keys/ec10-cert.pem
 @@ -1,15 +1,15 @@
  -----BEGIN CERTIFICATE-----
 -MIIB9zCCAZ6gAwIBAgIJAKl1NQOcXpYrMAoGCCqGSM49BAMCMIGIMQswCQYDVQQG
@@ -1758,34 +1758,34 @@ Index: node-18.9.0/test/fixtures/keys/ec10-cert.pem
  -----END CERTIFICATE-----
  -----BEGIN CERTIFICATE-----
  MIICGzCCAcGgAwIBAgIJAMTCBUQ4OI4+MAoGCCqGSM49BAMCMIGIMQswCQYDVQQG
-Index: node-18.9.0/test/fixtures/keys/fake-cnnic-root-cert.srl
+Index: node-18.10.0/test/fixtures/keys/fake-cnnic-root-cert.srl
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/fake-cnnic-root-cert.srl
-+++ node-18.9.0/test/fixtures/keys/fake-cnnic-root-cert.srl
+--- node-18.10.0.orig/test/fixtures/keys/fake-cnnic-root-cert.srl
++++ node-18.10.0/test/fixtures/keys/fake-cnnic-root-cert.srl
 @@ -1 +1 @@
 -9E13B420E1F5C718
 +9E13B420E1F5C719
-Index: node-18.9.0/test/fixtures/keys/fake-startcom-root-database.txt
+Index: node-18.10.0/test/fixtures/keys/fake-startcom-root-database.txt
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/fake-startcom-root-database.txt
-+++ node-18.9.0/test/fixtures/keys/fake-startcom-root-database.txt
+--- node-18.10.0.orig/test/fixtures/keys/fake-startcom-root-database.txt
++++ node-18.10.0/test/fixtures/keys/fake-startcom-root-database.txt
 @@ -1,2 +1,4 @@
  V	22920830184221Z		01	unknown	/C=US/ST=CA/L=SF/O=NODEJS/OU=agent8/CN=localhost
  V	22920830184221Z		02	unknown	/C=US/ST=CA/L=SF/O=NODEJS/OU=agent9/CN=localhost
 +V	22960617144652Z		03	unknown	/C=US/ST=CA/L=SF/O=NODEJS/OU=agent8/CN=localhost
 +V	22960617144653Z		04	unknown	/C=US/ST=CA/L=SF/O=NODEJS/OU=agent9/CN=localhost
-Index: node-18.9.0/test/fixtures/keys/fake-startcom-root-database.txt.old
+Index: node-18.10.0/test/fixtures/keys/fake-startcom-root-database.txt.old
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/fake-startcom-root-database.txt.old
-+++ node-18.9.0/test/fixtures/keys/fake-startcom-root-database.txt.old
+--- node-18.10.0.orig/test/fixtures/keys/fake-startcom-root-database.txt.old
++++ node-18.10.0/test/fixtures/keys/fake-startcom-root-database.txt.old
 @@ -1 +1,3 @@
  V	22920830184221Z		01	unknown	/C=US/ST=CA/L=SF/O=NODEJS/OU=agent8/CN=localhost
 +V	22920830184221Z		02	unknown	/C=US/ST=CA/L=SF/O=NODEJS/OU=agent9/CN=localhost
 +V	22960617144652Z		03	unknown	/C=US/ST=CA/L=SF/O=NODEJS/OU=agent8/CN=localhost
-Index: node-18.9.0/test/fixtures/keys/fake-startcom-root-issued-certs/03.pem
+Index: node-18.10.0/test/fixtures/keys/fake-startcom-root-issued-certs/03.pem
 ===================================================================
 --- /dev/null
-+++ node-18.9.0/test/fixtures/keys/fake-startcom-root-issued-certs/03.pem
++++ node-18.10.0/test/fixtures/keys/fake-startcom-root-issued-certs/03.pem
 @@ -0,0 +1,20 @@
 +-----BEGIN CERTIFICATE-----
 +MIIDUDCCAjgCAQMwDQYJKoZIhvcNAQELBQAwfTELMAkGA1UEBhMCSUwxFjAUBgNV
@@ -1807,10 +1807,10 @@ Index: node-18.9.0/test/fixtures/keys/fake-startcom-root-issued-certs/03.pem
 +dh7ToIpvQ54MZkxFgG0ej2HGtNBHVnCpMk9bhupDIJ65fybMtIXy8bhUuj4KX/hm
 +tALVY3gVezswj90SGBMxeMwcE7z/jDUpkEAIP4FM3Y+yYfmS
 +-----END CERTIFICATE-----
-Index: node-18.9.0/test/fixtures/keys/fake-startcom-root-issued-certs/04.pem
+Index: node-18.10.0/test/fixtures/keys/fake-startcom-root-issued-certs/04.pem
 ===================================================================
 --- /dev/null
-+++ node-18.9.0/test/fixtures/keys/fake-startcom-root-issued-certs/04.pem
++++ node-18.10.0/test/fixtures/keys/fake-startcom-root-issued-certs/04.pem
 @@ -0,0 +1,20 @@
 +-----BEGIN CERTIFICATE-----
 +MIIDUDCCAjgCAQQwDQYJKoZIhvcNAQELBQAwfTELMAkGA1UEBhMCSUwxFjAUBgNV
@@ -1832,24 +1832,24 @@ Index: node-18.9.0/test/fixtures/keys/fake-startcom-root-issued-certs/04.pem
 +Vjtm+p0Jqt1y1emPw0gQcaP1dCMoJm4LsYoAZNFQmKiMYIeXO1sxvYSaH/OO1lWJ
 +96nbaSD+b0GOyVHZyea6dibVbfoeagpLyBWgO98CnzvzD3A/
 +-----END CERTIFICATE-----
-Index: node-18.9.0/test/fixtures/keys/fake-startcom-root-serial
+Index: node-18.10.0/test/fixtures/keys/fake-startcom-root-serial
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/fake-startcom-root-serial
-+++ node-18.9.0/test/fixtures/keys/fake-startcom-root-serial
+--- node-18.10.0.orig/test/fixtures/keys/fake-startcom-root-serial
++++ node-18.10.0/test/fixtures/keys/fake-startcom-root-serial
 @@ -1 +1 @@
 -03
 +05
-Index: node-18.9.0/test/fixtures/keys/fake-startcom-root-serial.old
+Index: node-18.10.0/test/fixtures/keys/fake-startcom-root-serial.old
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/fake-startcom-root-serial.old
-+++ node-18.9.0/test/fixtures/keys/fake-startcom-root-serial.old
+--- node-18.10.0.orig/test/fixtures/keys/fake-startcom-root-serial.old
++++ node-18.10.0/test/fixtures/keys/fake-startcom-root-serial.old
 @@ -1 +1 @@
 -02
 +04
-Index: node-18.9.0/test/fixtures/keys/incorrect_san_correct_subject-cert.pem
+Index: node-18.10.0/test/fixtures/keys/incorrect_san_correct_subject-cert.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/incorrect_san_correct_subject-cert.pem
-+++ node-18.9.0/test/fixtures/keys/incorrect_san_correct_subject-cert.pem
+--- node-18.10.0.orig/test/fixtures/keys/incorrect_san_correct_subject-cert.pem
++++ node-18.10.0/test/fixtures/keys/incorrect_san_correct_subject-cert.pem
 @@ -1,11 +1,11 @@
  -----BEGIN CERTIFICATE-----
 -MIIBqDCCAU6gAwIBAgIUE3Kx4WUjkwuKy/fBOM+UJkb9aSAwCgYIKoZIzj0EAwIw
@@ -1867,10 +1867,10 @@ Index: node-18.9.0/test/fixtures/keys/incorrect_san_correct_subject-cert.pem
 +bGUuY29tMAoGCCqGSM49BAMCA0gAMEUCIBxZKMQBIL5n9IqVdhWtmssx/oALgPC/
 +addiSbW3I5soAiEA9hC5jNkY28VNx9EFiT3GWe9FyPM9AYWuM4BZVlzLJfA=
  -----END CERTIFICATE-----
-Index: node-18.9.0/test/fixtures/keys/rsa_ca.crt
+Index: node-18.10.0/test/fixtures/keys/rsa_ca.crt
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/rsa_ca.crt
-+++ node-18.9.0/test/fixtures/keys/rsa_ca.crt
+--- node-18.10.0.orig/test/fixtures/keys/rsa_ca.crt
++++ node-18.10.0/test/fixtures/keys/rsa_ca.crt
 @@ -1,10 +1,10 @@
  -----BEGIN CERTIFICATE-----
 -MIIEAjCCAuqgAwIBAgIUf4Z4DKj5kJW60NE+9PaucYFlft8wDQYJKoZIhvcNAQEL
@@ -1902,10 +1902,10 @@ Index: node-18.9.0/test/fixtures/keys/rsa_ca.crt
 +nFWSMhIu+1f4hbxD9inOTJczzw1iCXuWRe3+rvqPDxJyHGMiriiXrdBY6CXa20jx
 +P1lIqHSThAkWfOgOhmQ0OdvSWlKvNA==
  -----END CERTIFICATE-----
-Index: node-18.9.0/test/fixtures/keys/rsa_cert.crt
+Index: node-18.10.0/test/fixtures/keys/rsa_cert.crt
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/rsa_cert.crt
-+++ node-18.9.0/test/fixtures/keys/rsa_cert.crt
+--- node-18.10.0.orig/test/fixtures/keys/rsa_cert.crt
++++ node-18.10.0/test/fixtures/keys/rsa_cert.crt
 @@ -1,10 +1,10 @@
  -----BEGIN CERTIFICATE-----
 -MIIEAjCCAuqgAwIBAgIUf4Z4DKj5kJW60NE+9PaucYFlft8wDQYJKoZIhvcNAQEL
@@ -1937,9 +1937,9 @@ Index: node-18.9.0/test/fixtures/keys/rsa_cert.crt
 +nFWSMhIu+1f4hbxD9inOTJczzw1iCXuWRe3+rvqPDxJyHGMiriiXrdBY6CXa20jx
 +P1lIqHSThAkWfOgOhmQ0OdvSWlKvNA==
  -----END CERTIFICATE-----
-Index: node-18.9.0/test/fixtures/keys/rsa_private_1024.pem
+Index: node-18.10.0/test/fixtures/keys/rsa_private_1024.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/rsa_private_1024.pem
+--- node-18.10.0.orig/test/fixtures/keys/rsa_private_1024.pem
 +++ /dev/null
 @@ -1,15 +0,0 @@
 ------BEGIN RSA PRIVATE KEY-----
@@ -1957,9 +1957,9 @@ Index: node-18.9.0/test/fixtures/keys/rsa_private_1024.pem
 -9cKX1KVYah7jAZ5CsKECQQCJFqYwEewb3G7aKjtAzVCsNfQSC64xT2EnMg47va9t
 -GK5DXshigVNpMHJ52N4QxWIRtUs5LOCeGaZP/vTkTQ+z
 ------END RSA PRIVATE KEY-----
-Index: node-18.9.0/test/fixtures/keys/rsa_public_1024.pem
+Index: node-18.10.0/test/fixtures/keys/rsa_public_1024.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/rsa_public_1024.pem
+--- node-18.10.0.orig/test/fixtures/keys/rsa_public_1024.pem
 +++ /dev/null
 @@ -1,6 +0,0 @@
 ------BEGIN PUBLIC KEY-----
@@ -1968,10 +1968,10 @@ Index: node-18.9.0/test/fixtures/keys/rsa_public_1024.pem
 -l89exvFtW2bXwqq0XpMqdF6RCxbbBYy3DFPTCTvoHaoAfmwHzwBfelHt2PaYl4ZN
 -xhpD4UcP3/lrUB5KhwIDAQAB
 ------END PUBLIC KEY-----
-Index: node-18.9.0/test/parallel/test-crypto-x509.js
+Index: node-18.10.0/test/parallel/test-crypto-x509.js
 ===================================================================
---- node-18.9.0.orig/test/parallel/test-crypto-x509.js
-+++ node-18.9.0/test/parallel/test-crypto-x509.js
+--- node-18.10.0.orig/test/parallel/test-crypto-x509.js
++++ node-18.10.0/test/parallel/test-crypto-x509.js
 @@ -52,36 +52,35 @@ if (!common.hasOpenSSL3)
    infoAccessCheck += '\n';
  
@@ -2117,10 +2117,10 @@ Index: node-18.9.0/test/parallel/test-crypto-x509.js
    };
  
    const legacyObject = x509.toLegacyObject();
-Index: node-18.9.0/test/parallel/test-tls-cert-chains-concat.js
+Index: node-18.10.0/test/parallel/test-tls-cert-chains-concat.js
 ===================================================================
---- node-18.9.0.orig/test/parallel/test-tls-cert-chains-concat.js
-+++ node-18.9.0/test/parallel/test-tls-cert-chains-concat.js
+--- node-18.10.0.orig/test/parallel/test-tls-cert-chains-concat.js
++++ node-18.10.0/test/parallel/test-tls-cert-chains-concat.js
 @@ -25,7 +25,7 @@ connect({
    assert.strictEqual(peer.subject.emailAddress, 'adam.lippai@tresorit.com');
    assert.strictEqual(peer.subject.CN, 'Ádám Lippai');
@@ -2145,10 +2145,10 @@ Index: node-18.9.0/test/parallel/test-tls-cert-chains-concat.js
  
    // No client cert, so empty object returned.
    assert.deepStrictEqual(pair.server.conn.getPeerCertificate(), {});
-Index: node-18.9.0/test/parallel/test-tls-cert-chains-in-ca.js
+Index: node-18.10.0/test/parallel/test-tls-cert-chains-in-ca.js
 ===================================================================
---- node-18.9.0.orig/test/parallel/test-tls-cert-chains-in-ca.js
-+++ node-18.9.0/test/parallel/test-tls-cert-chains-in-ca.js
+--- node-18.10.0.orig/test/parallel/test-tls-cert-chains-in-ca.js
++++ node-18.10.0/test/parallel/test-tls-cert-chains-in-ca.js
 @@ -30,16 +30,16 @@ connect({
  
    const peer = pair.client.conn.getPeerCertificate();
@@ -2169,10 +2169,10 @@ Index: node-18.9.0/test/parallel/test-tls-cert-chains-in-ca.js
  
    return cleanup();
  });
-Index: node-18.9.0/test/parallel/test-tls-getcertificate-x509.js
+Index: node-18.10.0/test/parallel/test-tls-getcertificate-x509.js
 ===================================================================
---- node-18.9.0.orig/test/parallel/test-tls-getcertificate-x509.js
-+++ node-18.9.0/test/parallel/test-tls-getcertificate-x509.js
+--- node-18.10.0.orig/test/parallel/test-tls-getcertificate-x509.js
++++ node-18.10.0/test/parallel/test-tls-getcertificate-x509.js
 @@ -22,7 +22,7 @@ server.once('secureConnection', common.m
    assert(cert instanceof X509Certificate);
    assert.strictEqual(
@@ -2191,10 +2191,10 @@ Index: node-18.9.0/test/parallel/test-tls-getcertificate-x509.js
      );
      server.close();
    }));
-Index: node-18.9.0/test/parallel/test-tls-peer-certificate.js
+Index: node-18.10.0/test/parallel/test-tls-peer-certificate.js
 ===================================================================
---- node-18.9.0.orig/test/parallel/test-tls-peer-certificate.js
-+++ node-18.9.0/test/parallel/test-tls-peer-certificate.js
+--- node-18.10.0.orig/test/parallel/test-tls-peer-certificate.js
++++ node-18.10.0/test/parallel/test-tls-peer-certificate.js
 @@ -53,39 +53,39 @@ connect({
  
    assert.ok(peerCert.issuerCertificate);
@@ -2296,10 +2296,10 @@ Index: node-18.9.0/test/parallel/test-tls-peer-certificate.js
  
    return cleanup();
  });
-Index: node-18.9.0/test/parallel/test-tls-pfx-authorizationerror.js
+Index: node-18.10.0/test/parallel/test-tls-pfx-authorizationerror.js
 ===================================================================
---- node-18.9.0.orig/test/parallel/test-tls-pfx-authorizationerror.js
-+++ node-18.9.0/test/parallel/test-tls-pfx-authorizationerror.js
+--- node-18.10.0.orig/test/parallel/test-tls-pfx-authorizationerror.js
++++ node-18.10.0/test/parallel/test-tls-pfx-authorizationerror.js
 @@ -23,7 +23,7 @@ const server = tls
      },
      common.mustCall(function(c) {
@@ -2318,10 +2318,10 @@ Index: node-18.9.0/test/parallel/test-tls-pfx-authorizationerror.js
          }
          client.end();
          server.close();
-Index: node-18.9.0/test/fixtures/keys/ca1-cert.pem
+Index: node-18.10.0/test/fixtures/keys/ca1-cert.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/ca1-cert.pem
-+++ node-18.9.0/test/fixtures/keys/ca1-cert.pem
+--- node-18.10.0.orig/test/fixtures/keys/ca1-cert.pem
++++ node-18.10.0/test/fixtures/keys/ca1-cert.pem
 @@ -1,16 +1,22 @@
  -----BEGIN CERTIFICATE-----
 -MIIChDCCAe2gAwIBAgIJAMsVOuISYJ/GMA0GCSqGSIb3DQEBCwUAMHoxCzAJBgNV
@@ -2359,10 +2359,10 @@ Index: node-18.9.0/test/fixtures/keys/ca1-cert.pem
 +YYBVprXGlTP/hiYRLDoP20xKOYznx5cvHPJ9p+lVcOZUJsJj/Iy750+2n5UiBmXt
 +lz88C25ucKA=
  -----END CERTIFICATE-----
-Index: node-18.9.0/test/fixtures/keys/ca1-key.pem
+Index: node-18.10.0/test/fixtures/keys/ca1-key.pem
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/ca1-key.pem
-+++ node-18.9.0/test/fixtures/keys/ca1-key.pem
+--- node-18.10.0.orig/test/fixtures/keys/ca1-key.pem
++++ node-18.10.0/test/fixtures/keys/ca1-key.pem
 @@ -1,18 +1,30 @@
  -----BEGIN ENCRYPTED PRIVATE KEY-----
 -MIIC1DBOBgkqhkiG9w0BBQ0wQTApBgkqhkiG9w0BBQwwHAQIO9cMY0yHJGgCAggA
@@ -2410,10 +2410,10 @@ Index: node-18.9.0/test/fixtures/keys/ca1-key.pem
 +PUWKX6RhujOvr4eexqsXLrxgSFO/TzPMUyuZ/jt7qZZhXYYHnTNxwgPRgLtw2SRY
 +K4dtEBJknyy2ObZJwKxl5Q==
  -----END ENCRYPTED PRIVATE KEY-----
-Index: node-18.9.0/test/fixtures/keys/ca1.cnf
+Index: node-18.10.0/test/fixtures/keys/ca1.cnf
 ===================================================================
---- node-18.9.0.orig/test/fixtures/keys/ca1.cnf
-+++ node-18.9.0/test/fixtures/keys/ca1.cnf
+--- node-18.10.0.orig/test/fixtures/keys/ca1.cnf
++++ node-18.10.0/test/fixtures/keys/ca1.cnf
 @@ -1,5 +1,5 @@
  [ req ]
 -default_bits           = 1024

@@ -20,10 +20,11 @@ if [ ! -r node-${BRANCH}.x/dist/node_${NODE_VERSION}.orig.tar.gz ]; then
             ( cd tools/${SUB} && npm ci )
             mv tools/${SUB}/node_modules tools-${SUB}-node-modules
             tar -C tools-${SUB}-node-modules \
-                -Jcvf ../dist/node_${NODE_VERSION}.orig-tools-${SUB}-node-modules.tar.xz .
+                -Jcvf ../node_${NODE_VERSION}.orig-tools-${SUB}-node-modules.tar.xz .
         done
     )
     tar -C examples \
         -zcvf node-${BRANCH}.x/dist/node_${NODE_VERSION}.orig-examples.tar.gz \
         --exclude-from examples/.gitignore .
+    rm -rf node-${BRANCH}.x/dist/node-${NODE_VERSION}
 fi
