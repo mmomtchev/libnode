@@ -1,7 +1,7 @@
-Index: node-16.17.0/Makefile
+Index: node-16.17.1/Makefile
 ===================================================================
---- node-16.17.0.orig/Makefile
-+++ node-16.17.0/Makefile
+--- node-16.17.1.orig/Makefile
++++ node-16.17.1/Makefile
 @@ -264,6 +264,8 @@ coverage-report-js:
  cctest: all
  	@out/$(BUILDTYPE)/$@ --gtest_filter=$(GTEST_FILTER)
@@ -20,10 +20,10 @@ Index: node-16.17.0/Makefile
  	$(info Clean up any leftover processes, error if found.)
  	ps awwx | grep Release/node | grep -v grep | cat
  	@PS_OUT=`ps awwx | grep Release/node | grep -v grep | awk '{print $$1}'`; \
-Index: node-16.17.0/doc/api/embedding.md
+Index: node-16.17.1/doc/api/embedding.md
 ===================================================================
---- node-16.17.0.orig/doc/api/embedding.md
-+++ node-16.17.0/doc/api/embedding.md
+--- node-16.17.1.orig/doc/api/embedding.md
++++ node-16.17.1/doc/api/embedding.md
 @@ -160,8 +160,47 @@ int RunNodeInstance(MultiIsolatePlatform
  }
  ```
@@ -72,10 +72,10 @@ Index: node-16.17.0/doc/api/embedding.md
 +[napi_embedding.c]: https://github.com/nodejs/node/blob/HEAD/test/embedding/napi_embedding.c
 +[node-addon-api]: https://github.com/nodejs/node-addon-api
  [src/node.h]: https://github.com/nodejs/node/blob/HEAD/src/node.h
-Index: node-16.17.0/doc/api/n-api.md
+Index: node-16.17.1/doc/api/n-api.md
 ===================================================================
---- node-16.17.0.orig/doc/api/n-api.md
-+++ node-16.17.0/doc/api/n-api.md
+--- node-16.17.1.orig/doc/api/n-api.md
++++ node-16.17.1/doc/api/n-api.md
 @@ -6261,6 +6261,136 @@ idempotent.
  
  This API may only be called from the main thread.
@@ -213,11 +213,11 @@ Index: node-16.17.0/doc/api/n-api.md
  ## Miscellaneous utilities
  
  ### `node_api_get_module_file_name`
-Index: node-16.17.0/node.gyp
+Index: node-16.17.1/node.gyp
 ===================================================================
---- node-16.17.0.orig/node.gyp
-+++ node-16.17.0/node.gyp
-@@ -1282,6 +1282,118 @@
+--- node-16.17.1.orig/node.gyp
++++ node-16.17.1/node.gyp
+@@ -1284,6 +1284,118 @@
      }, # embedtest
  
      {
@@ -336,10 +336,10 @@ Index: node-16.17.0/node.gyp
        'target_name': 'overlapped-checker',
        'type': 'executable',
  
-Index: node-16.17.0/src/api/embed_helpers.cc
+Index: node-16.17.1/src/api/embed_helpers.cc
 ===================================================================
---- node-16.17.0.orig/src/api/embed_helpers.cc
-+++ node-16.17.0/src/api/embed_helpers.cc
+--- node-16.17.1.orig/src/api/embed_helpers.cc
++++ node-16.17.1/src/api/embed_helpers.cc
 @@ -1,6 +1,6 @@
 -#include "node.h"
 -#include "env-inl.h"
@@ -484,15 +484,14 @@ Index: node-16.17.0/src/api/embed_helpers.cc
  uv_loop_t* CommonEnvironmentSetup::event_loop() const {
    return &impl_->loop;
  }
-Index: node-16.17.0/src/js_native_api.h
+Index: node-16.17.1/src/js_native_api.h
 ===================================================================
---- node-16.17.0.orig/src/js_native_api.h
-+++ node-16.17.0/src/js_native_api.h
-@@ -102,6 +102,32 @@ node_api_symbol_for(napi_env env,
+--- node-16.17.1.orig/src/js_native_api.h
++++ node-16.17.1/src/js_native_api.h
+@@ -101,6 +101,30 @@ node_api_symbol_for(napi_env env,
+                     const char* utf8description,
                      size_t length,
                      napi_value* result);
- #endif  // NAPI_EXPERIMENTAL
-+#ifdef NAPI_EMBEDDING
 +NAPI_EXTERN napi_status NAPI_CDECL napi_create_platform(int argc,
 +                                                        char** argv,
 +                                                        int exec_argc,
@@ -517,14 +516,13 @@ Index: node-16.17.0/src/js_native_api.h
 +NAPI_EXTERN napi_status NAPI_CDECL napi_await_promise(napi_env env,
 +                                                     napi_value promise,
 +                                                     napi_value* result);
-+#endif  // NAPI_EMBEDDING
+ #endif  // NAPI_EXPERIMENTAL
  NAPI_EXTERN napi_status NAPI_CDECL napi_create_function(napi_env env,
                                                          const char* utf8name,
-                                                         size_t length,
-Index: node-16.17.0/src/js_native_api_types.h
+Index: node-16.17.1/src/js_native_api_types.h
 ===================================================================
---- node-16.17.0.orig/src/js_native_api_types.h
-+++ node-16.17.0/src/js_native_api_types.h
+--- node-16.17.1.orig/src/js_native_api_types.h
++++ node-16.17.1/src/js_native_api_types.h
 @@ -28,6 +28,7 @@ typedef struct napi_handle_scope__* napi
  typedef struct napi_escapable_handle_scope__* napi_escapable_handle_scope;
  typedef struct napi_callback_info__* napi_callback_info;
@@ -533,15 +531,11 @@ Index: node-16.17.0/src/js_native_api_types.h
  
  typedef enum {
    napi_default = 0,
-Index: node-16.17.0/src/js_native_api_v8.cc
+Index: node-16.17.1/src/js_native_api_v8.cc
 ===================================================================
---- node-16.17.0.orig/src/js_native_api_v8.cc
-+++ node-16.17.0/src/js_native_api_v8.cc
-@@ -2,9 +2,11 @@
- #include <climits>  // INT_MAX
- #include <cmath>
- #define NAPI_EXPERIMENTAL
-+#define NAPI_EMBEDDING
+--- node-16.17.1.orig/src/js_native_api_v8.cc
++++ node-16.17.1/src/js_native_api_v8.cc
+@@ -5,6 +5,7 @@
  #include "env-inl.h"
  #include "js_native_api.h"
  #include "js_native_api_v8.h"
@@ -549,7 +543,7 @@ Index: node-16.17.0/src/js_native_api_v8.cc
  #include "util-inl.h"
  
  #define CHECK_MAYBE_NOTHING(env, maybe, status)                                \
-@@ -110,12 +112,52 @@ inline static v8impl::Persistent<v8::Val
+@@ -110,12 +111,52 @@ inline static v8impl::Persistent<v8::Val
    return reinterpret_cast<v8impl::Persistent<v8::Value>*>(local);
  }
  
@@ -604,7 +598,7 @@ Index: node-16.17.0/src/js_native_api_v8.cc
  };
  
  // In node v0.10 version of v8, there is no EscapableHandleScope and the
-@@ -775,6 +817,183 @@ napi_status NAPI_CDECL napi_get_last_err
+@@ -775,6 +816,183 @@ napi_status NAPI_CDECL napi_get_last_err
    return napi_ok;
  }
  
@@ -788,10 +782,10 @@ Index: node-16.17.0/src/js_native_api_v8.cc
  napi_status NAPI_CDECL napi_create_function(napi_env env,
                                              const char* utf8name,
                                              size_t length,
-Index: node-16.17.0/src/node.h
+Index: node-16.17.1/src/node.h
 ===================================================================
---- node-16.17.0.orig/src/node.h
-+++ node-16.17.0/src/node.h
+--- node-16.17.1.orig/src/node.h
++++ node-16.17.1/src/node.h
 @@ -570,14 +570,26 @@ NODE_EXTERN struct uv_loop_s* GetCurrent
  
  // Runs the main loop for a given Environment. This roughly performs the
@@ -824,24 +818,24 @@ Index: node-16.17.0/src/node.h
  // This function only works if `env` has an associated `MultiIsolatePlatform`.
  NODE_EXTERN v8::Maybe<int> SpinEventLoop(Environment* env);
  
-Index: node-16.17.0/test/embedding/cjs.cjs
+Index: node-16.17.1/test/embedding/cjs.cjs
 ===================================================================
 --- /dev/null
-+++ node-16.17.0/test/embedding/cjs.cjs
++++ node-16.17.1/test/embedding/cjs.cjs
 @@ -0,0 +1,3 @@
 +module.exports = {
 +    value: "original"
 +};
-Index: node-16.17.0/test/embedding/es6.mjs
+Index: node-16.17.1/test/embedding/es6.mjs
 ===================================================================
 --- /dev/null
-+++ node-16.17.0/test/embedding/es6.mjs
++++ node-16.17.1/test/embedding/es6.mjs
 @@ -0,0 +1 @@
 +export const value = 'genuine';
-Index: node-16.17.0/test/embedding/napi_embedding.c
+Index: node-16.17.1/test/embedding/napi_embedding.c
 ===================================================================
 --- /dev/null
-+++ node-16.17.0/test/embedding/napi_embedding.c
++++ node-16.17.1/test/embedding/napi_embedding.c
 @@ -0,0 +1,259 @@
 +#define NAPI_EXPERIMENTAL
 +#include <assert.h>
@@ -1102,10 +1096,10 @@ Index: node-16.17.0/test/embedding/napi_embedding.c
 +fail:
 +  return -1;
 +}
-Index: node-16.17.0/test/embedding/test-napi-embedding.js
+Index: node-16.17.1/test/embedding/test-napi-embedding.js
 ===================================================================
 --- /dev/null
-+++ node-16.17.0/test/embedding/test-napi-embedding.js
++++ node-16.17.1/test/embedding/test-napi-embedding.js
 @@ -0,0 +1,75 @@
 +'use strict';
 +const common = require('../common');
@@ -1182,18 +1176,18 @@ Index: node-16.17.0/test/embedding/test-napi-embedding.js
 +                          ['0syntax_error'])
 +    .stderr.toString().trim(),
 +  /SyntaxError: Invalid or unexpected token/);
-Index: node-16.17.0/test/embedding/.eslintrc.yaml
+Index: node-16.17.1/test/embedding/.eslintrc.yaml
 ===================================================================
 --- /dev/null
-+++ node-16.17.0/test/embedding/.eslintrc.yaml
++++ node-16.17.1/test/embedding/.eslintrc.yaml
 @@ -0,0 +1,3 @@
 +rules:
 +  node-core/required-modules: off
 +  node-core/require-common-first: off
-Index: node-16.17.0/test/embedding/napi_modules.c
+Index: node-16.17.1/test/embedding/napi_modules.c
 ===================================================================
 --- /dev/null
-+++ node-16.17.0/test/embedding/napi_modules.c
++++ node-16.17.1/test/embedding/napi_modules.c
 @@ -0,0 +1,80 @@
 +#include <stdio.h>
 +#include <string.h>
@@ -1275,10 +1269,10 @@ Index: node-16.17.0/test/embedding/napi_modules.c
 +  CHECK(napi_destroy_platform(platform), "Failed destroying the platform");
 +  return 0;
 +}
-Index: node-16.17.0/deps/uv/src/unix/core.c
+Index: node-16.17.1/deps/uv/src/unix/core.c
 ===================================================================
---- node-16.17.0.orig/deps/uv/src/unix/core.c
-+++ node-16.17.0/deps/uv/src/unix/core.c
+--- node-16.17.1.orig/deps/uv/src/unix/core.c
++++ node-16.17.1/deps/uv/src/unix/core.c
 @@ -398,19 +398,6 @@ int uv_run(uv_loop_t* loop, uv_run_mode
      uv__run_check(loop);
      uv__run_closing_handles(loop);
@@ -1299,10 +1293,10 @@ Index: node-16.17.0/deps/uv/src/unix/core.c
      r = uv__loop_alive(loop);
      if (mode == UV_RUN_ONCE || mode == UV_RUN_NOWAIT)
        break;
-Index: node-16.17.0/test/sequential/test-timers-block-eventloop.js
+Index: node-16.17.1/test/sequential/test-timers-block-eventloop.js
 ===================================================================
---- node-16.17.0.orig/test/sequential/test-timers-block-eventloop.js
-+++ node-16.17.0/test/sequential/test-timers-block-eventloop.js
+--- node-16.17.1.orig/test/sequential/test-timers-block-eventloop.js
++++ node-16.17.1/test/sequential/test-timers-block-eventloop.js
 @@ -7,6 +7,8 @@ const { sleep } = require('internal/util
  
  let called = false;
@@ -1312,10 +1306,10 @@ Index: node-16.17.0/test/sequential/test-timers-block-eventloop.js
    assert(!called);
    called = true;
    setImmediate(common.mustCall(() => {
-Index: node-16.17.0/lib/internal/bootstrap/switches/is_embedded_env.js
+Index: node-16.17.1/lib/internal/bootstrap/switches/is_embedded_env.js
 ===================================================================
 --- /dev/null
-+++ node-16.17.0/lib/internal/bootstrap/switches/is_embedded_env.js
++++ node-16.17.1/lib/internal/bootstrap/switches/is_embedded_env.js
 @@ -0,0 +1,16 @@
 +// This is the bootstrapping code used when creating a new environment
 +// through N-API
@@ -1333,10 +1327,10 @@ Index: node-16.17.0/lib/internal/bootstrap/switches/is_embedded_env.js
 +const parent_path = require('url').pathToFileURL(path);
 +global.import = (mod) => internalLoader.import(mod, parent_path, Object.create(null));
 +global.import.meta = { url: parent_path };
-Index: node-16.17.0/src/env-inl.h
+Index: node-16.17.1/src/env-inl.h
 ===================================================================
---- node-16.17.0.orig/src/env-inl.h
-+++ node-16.17.0/src/env-inl.h
+--- node-16.17.1.orig/src/env-inl.h
++++ node-16.17.1/src/env-inl.h
 @@ -638,6 +638,10 @@ inline bool Environment::is_main_thread(
    return worker_context() == nullptr;
  }
@@ -1362,10 +1356,10 @@ Index: node-16.17.0/src/env-inl.h
  #define VP(PropertyName, StringValue) V(v8::Private, PropertyName)
  #define VY(PropertyName, StringValue) V(v8::Symbol, PropertyName)
  #define VS(PropertyName, StringValue) V(v8::String, PropertyName)
-Index: node-16.17.0/src/env.cc
+Index: node-16.17.1/src/env.cc
 ===================================================================
---- node-16.17.0.orig/src/env.cc
-+++ node-16.17.0/src/env.cc
+--- node-16.17.1.orig/src/env.cc
++++ node-16.17.1/src/env.cc
 @@ -747,7 +747,8 @@ Environment::Environment(IsolateData* is
        flags_(flags),
        thread_id_(thread_id.id == static_cast<uint64_t>(-1)
@@ -1376,10 +1370,10 @@ Index: node-16.17.0/src/env.cc
    // We'll be creating new objects so make sure we've entered the context.
    HandleScope handle_scope(isolate);
  
-Index: node-16.17.0/src/env.h
+Index: node-16.17.1/src/env.h
 ===================================================================
---- node-16.17.0.orig/src/env.h
-+++ node-16.17.0/src/env.h
+--- node-16.17.1.orig/src/env.h
++++ node-16.17.1/src/env.h
 @@ -967,6 +967,8 @@ struct SnapshotData {
    EnvSerializeInfo env_info;
  };
