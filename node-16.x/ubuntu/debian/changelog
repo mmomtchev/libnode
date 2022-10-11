@@ -1,4 +1,10 @@
-node (16.17.0-3~UNIVERSAL) UNIVERSAL; urgency=medium
+node (16.17.1-1~UNIVERSAL) UNIVERSAL; urgency=medium
+
+  * Upgrade Node.js to 16.17.1
+
+ -- Momtchil Momtchev <momtchil@momtchev.com>  Tue, 11 Oct 2022 09:31:44 +0200
+ 
+ node (16.17.0-3~UNIVERSAL) UNIVERSAL; urgency=medium
 
   * Do not build with debug symbols
 
