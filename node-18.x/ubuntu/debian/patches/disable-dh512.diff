@@ -1,6 +1,6 @@
-Index: node-18.10.0/test/parallel/test-tls-dhe.js
+Index: node-18.12.0/test/parallel/test-tls-dhe.js
 ===================================================================
---- node-18.10.0.orig/test/parallel/test-tls-dhe.js
+--- node-18.12.0.orig/test/parallel/test-tls-dhe.js
 +++ /dev/null
 @@ -1,117 +0,0 @@
 -// Flags: --no-warnings
