@@ -1,6 +1,6 @@
-Index: node-16.17.1/test/parallel/test-repl-mode.js
+Index: node-16.18.1/test/parallel/test-repl-mode.js
 ===================================================================
---- node-16.17.1.orig/test/parallel/test-repl-mode.js
+--- node-16.18.1.orig/test/parallel/test-repl-mode.js
 +++ /dev/null
 @@ -1,88 +0,0 @@
 -'use strict';
@@ -91,9 +91,9 @@ Index: node-16.17.1/test/parallel/test-repl-mode.js
 -    ...options
 -  });
 -}
-Index: node-16.17.1/test/parallel/test-repl-strict-mode-previews.js
+Index: node-16.18.1/test/parallel/test-repl-strict-mode-previews.js
 ===================================================================
---- node-16.17.1.orig/test/parallel/test-repl-strict-mode-previews.js
+--- node-16.18.1.orig/test/parallel/test-repl-strict-mode-previews.js
 +++ /dev/null
 @@ -1,46 +0,0 @@
 -// Previews in strict mode should indicate ReferenceErrors.
