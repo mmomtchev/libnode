@@ -1,6 +1,6 @@
-Index: node-18.12.0/test/parallel/test-release-npm.js
+Index: node-18.12.1/test/parallel/test-release-npm.js
 ===================================================================
---- node-18.12.0.orig/test/parallel/test-release-npm.js
+--- node-18.12.1.orig/test/parallel/test-release-npm.js
 +++ /dev/null
 @@ -1,25 +0,0 @@
 -'use strict';

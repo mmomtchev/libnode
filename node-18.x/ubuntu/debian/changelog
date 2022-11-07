@@ -1,4 +1,10 @@
-node (18.12.0-1~UNIVERSAL) UNIVERSAL; urgency=medium
+node (18.12.1-1~UNIVERSAL) UNIVERSAL; urgency=medium
+
+  * Upgrade Node.js to 18.12.1
+
+ -- Momtchil Momtchev <momtchil@momtchev.com>  Mon, 07 Nov 2022 10:36:40 +0100
+ 
+ node (18.12.0-1~UNIVERSAL) UNIVERSAL; urgency=medium
 
   * Upgrade Node.js to 18.12.0
 
