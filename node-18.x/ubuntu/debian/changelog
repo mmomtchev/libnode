@@ -1,3 +1,9 @@
+node (18.13.0-2~UNIVERSAL) UNIVERSAL; urgency=medium
+
+  * Merge libnode with the recent Node.js 19 backports
+
+ -- Momtchil Momtchev <momtchil@momtchev.com>  Mon, 09 Jan 2023 23:08:48 +0100
+
 node (18.13.0-1~UNIVERSAL) UNIVERSAL; urgency=medium
 
   * Upgrade Node.js to 18.13.0
