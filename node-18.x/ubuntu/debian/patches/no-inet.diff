@@ -1,7 +1,7 @@
-Index: node-18.12.1/Makefile
+Index: node-18.13.0/Makefile
 ===================================================================
---- node-18.12.1.orig/Makefile
-+++ node-18.12.1/Makefile
+--- node-18.13.0.orig/Makefile
++++ node-18.13.0/Makefile
 @@ -1323,7 +1323,7 @@ bench-addons-clean:
  .PHONY: lint-md-rollup
  lint-md-rollup:
@@ -11,9 +11,9 @@ Index: node-18.12.1/Makefile
  
  .PHONY: lint-md-clean
  .NOTPARALLEL: lint-md-clean
-Index: node-18.12.1/test/parallel/test-dns-setserver-when-querying.js
+Index: node-18.13.0/test/parallel/test-dns-setserver-when-querying.js
 ===================================================================
---- node-18.12.1.orig/test/parallel/test-dns-setserver-when-querying.js
+--- node-18.13.0.orig/test/parallel/test-dns-setserver-when-querying.js
 +++ /dev/null
 @@ -1,29 +0,0 @@
 -'use strict';

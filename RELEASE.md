@@ -9,11 +9,11 @@
 4. `bash make-libnode-dist.sh`
     This will create the `-orig` tarballs
 
-5. `bash extract-libnode-dir.sh`
-    This will create the debian source directory, reapply and refresh the patches (patches will be modified after this step)
-
-6. `bash make-patch.sh ../node-napi-libnode-v18.x` (directory with the `napi-libnode-v18.x` checkout)
+5. `bash make-patch.sh ../node-napi-libnode-v18.x` (directory with the `napi-libnode-v18.x` checkout)
     This will create a new `libnode` patch with all the eventual modifications from the rebase in step 1
+
+6. `bash extract-libnode-dir.sh`
+    This will create the debian source directory, reapply and refresh the patches (patches will be modified after this step)
 
 7. `BIN_ONLY=1 bash build-libnode.sh`
     This will simply test building the new packages
