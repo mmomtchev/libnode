@@ -1,8 +1,8 @@
-Index: node-18.13.0/Makefile
+Index: node-18.14.0/Makefile
 ===================================================================
---- node-18.13.0.orig/Makefile
-+++ node-18.13.0/Makefile
-@@ -286,6 +286,8 @@ coverage-report-js:
+--- node-18.14.0.orig/Makefile
++++ node-18.14.0/Makefile
+@@ -287,6 +287,8 @@ coverage-report-js:
  cctest: all
  	@out/$(BUILDTYPE)/$@ --gtest_filter=$(GTEST_FILTER)
  	@out/$(BUILDTYPE)/embedtest "require('./test/embedding/test-embedding.js')"
@@ -11,7 +11,7 @@ Index: node-18.13.0/Makefile
  
  .PHONY: list-gtests
  list-gtests:
-@@ -551,6 +553,8 @@ test-ci: | clear-stalled bench-addons-bu
+@@ -552,6 +554,8 @@ test-ci: | clear-stalled bench-addons-bu
  		--mode=$(BUILDTYPE_LOWER) --flaky-tests=$(FLAKY_TESTS) \
  		$(TEST_CI_ARGS) $(CI_JS_SUITES) $(CI_NATIVE_SUITES) $(CI_DOC)
  	out/Release/embedtest 'require("./test/embedding/test-embedding.js")'
@@ -20,10 +20,10 @@ Index: node-18.13.0/Makefile
  	$(info Clean up any leftover processes, error if found.)
  	ps awwx | grep Release/node | grep -v grep | cat
  	@PS_OUT=`ps awwx | grep Release/node | grep -v grep | awk '{print $$1}'`; \
-Index: node-18.13.0/doc/api/embedding.md
+Index: node-18.14.0/doc/api/embedding.md
 ===================================================================
---- node-18.13.0.orig/doc/api/embedding.md
-+++ node-18.13.0/doc/api/embedding.md
+--- node-18.14.0.orig/doc/api/embedding.md
++++ node-18.14.0/doc/api/embedding.md
 @@ -166,8 +166,47 @@ int RunNodeInstance(MultiIsolatePlatform
  }
  ```
@@ -72,11 +72,11 @@ Index: node-18.13.0/doc/api/embedding.md
 +[napi_embedding.c]: https://github.com/nodejs/node/blob/HEAD/test/embedding/napi_embedding.c
 +[node-addon-api]: https://github.com/nodejs/node-addon-api
  [src/node.h]: https://github.com/nodejs/node/blob/HEAD/src/node.h
-Index: node-18.13.0/doc/api/n-api.md
+Index: node-18.14.0/doc/api/n-api.md
 ===================================================================
---- node-18.13.0.orig/doc/api/n-api.md
-+++ node-18.13.0/doc/api/n-api.md
-@@ -6310,6 +6310,136 @@ idempotent.
+--- node-18.14.0.orig/doc/api/n-api.md
++++ node-18.14.0/doc/api/n-api.md
+@@ -6290,6 +6290,136 @@ idempotent.
  
  This API may only be called from the main thread.
  
@@ -213,11 +213,11 @@ Index: node-18.13.0/doc/api/n-api.md
  ## Miscellaneous utilities
  
  ### `node_api_get_module_file_name`
-Index: node-18.13.0/node.gyp
+Index: node-18.14.0/node.gyp
 ===================================================================
---- node-18.13.0.orig/node.gyp
-+++ node-18.13.0/node.gyp
-@@ -1307,6 +1307,58 @@
+--- node-18.14.0.orig/node.gyp
++++ node-18.14.0/node.gyp
+@@ -1309,6 +1309,58 @@
          '<(node_lib_target_name)',
          'deps/histogram/histogram.gyp:histogram',
          'deps/uvwasi/uvwasi.gyp:uvwasi',
@@ -276,7 +276,7 @@ Index: node-18.13.0/node.gyp
          'node_dtrace_header',
          'node_dtrace_ustack',
          'node_dtrace_provider',
-@@ -1328,7 +1380,7 @@
+@@ -1330,7 +1382,7 @@
  
        'sources': [
          'src/node_snapshot_stub.cc',
@@ -285,7 +285,7 @@ Index: node-18.13.0/node.gyp
        ],
  
        'conditions': [
-@@ -1352,7 +1404,59 @@
+@@ -1354,7 +1406,59 @@
            ],
          }],
        ],
@@ -346,10 +346,10 @@ Index: node-18.13.0/node.gyp
  
      {
        'target_name': 'overlapped-checker',
-Index: node-18.13.0/src/api/embed_helpers.cc
+Index: node-18.14.0/src/api/embed_helpers.cc
 ===================================================================
---- node-18.13.0.orig/src/api/embed_helpers.cc
-+++ node-18.13.0/src/api/embed_helpers.cc
+--- node-18.14.0.orig/src/api/embed_helpers.cc
++++ node-18.14.0/src/api/embed_helpers.cc
 @@ -1,6 +1,6 @@
 -#include "node.h"
 -#include "env-inl.h"
@@ -497,10 +497,10 @@ Index: node-18.13.0/src/api/embed_helpers.cc
  uv_loop_t* CommonEnvironmentSetup::event_loop() const {
    return &impl_->loop;
  }
-Index: node-18.13.0/src/js_native_api.h
+Index: node-18.14.0/src/js_native_api.h
 ===================================================================
---- node-18.13.0.orig/src/js_native_api.h
-+++ node-18.13.0/src/js_native_api.h
+--- node-18.14.0.orig/src/js_native_api.h
++++ node-18.14.0/src/js_native_api.h
 @@ -102,6 +102,34 @@ node_api_symbol_for(napi_env env,
                      size_t length,
                      napi_value* result);
@@ -536,10 +536,10 @@ Index: node-18.13.0/src/js_native_api.h
  NAPI_EXTERN napi_status NAPI_CDECL napi_create_function(napi_env env,
                                                          const char* utf8name,
                                                          size_t length,
-Index: node-18.13.0/src/js_native_api_types.h
+Index: node-18.14.0/src/js_native_api_types.h
 ===================================================================
---- node-18.13.0.orig/src/js_native_api_types.h
-+++ node-18.13.0/src/js_native_api_types.h
+--- node-18.14.0.orig/src/js_native_api_types.h
++++ node-18.14.0/src/js_native_api_types.h
 @@ -28,6 +28,8 @@ typedef struct napi_handle_scope__* napi
  typedef struct napi_escapable_handle_scope__* napi_escapable_handle_scope;
  typedef struct napi_callback_info__* napi_callback_info;
@@ -549,10 +549,10 @@ Index: node-18.13.0/src/js_native_api_types.h
  
  typedef enum {
    napi_default = 0,
-Index: node-18.13.0/src/js_native_api_v8.cc
+Index: node-18.14.0/src/js_native_api_v8.cc
 ===================================================================
---- node-18.13.0.orig/src/js_native_api_v8.cc
-+++ node-18.13.0/src/js_native_api_v8.cc
+--- node-18.14.0.orig/src/js_native_api_v8.cc
++++ node-18.14.0/src/js_native_api_v8.cc
 @@ -2,9 +2,11 @@
  #include <climits>  // INT_MAX
  #include <cmath>
@@ -612,7 +612,7 @@ Index: node-18.13.0/src/js_native_api_v8.cc
  class HandleScopeWrapper {
   public:
    explicit HandleScopeWrapper(v8::Isolate* isolate) : scope(isolate) {}
-@@ -774,6 +816,185 @@ napi_status NAPI_CDECL napi_get_last_err
+@@ -692,6 +734,185 @@ napi_status NAPI_CDECL napi_get_last_err
    return napi_ok;
  }
  
@@ -798,10 +798,10 @@ Index: node-18.13.0/src/js_native_api_v8.cc
  napi_status NAPI_CDECL napi_create_function(napi_env env,
                                              const char* utf8name,
                                              size_t length,
-Index: node-18.13.0/src/node.h
+Index: node-18.14.0/src/node.h
 ===================================================================
---- node-18.13.0.orig/src/node.h
-+++ node-18.13.0/src/node.h
+--- node-18.14.0.orig/src/node.h
++++ node-18.14.0/src/node.h
 @@ -689,14 +689,26 @@ NODE_EXTERN struct uv_loop_s* GetCurrent
  
  // Runs the main loop for a given Environment. This roughly performs the
@@ -834,24 +834,24 @@ Index: node-18.13.0/src/node.h
  // This function only works if `env` has an associated `MultiIsolatePlatform`.
  NODE_EXTERN v8::Maybe<int> SpinEventLoop(Environment* env);
  
-Index: node-18.13.0/test/embedding/cjs.cjs
+Index: node-18.14.0/test/embedding/cjs.cjs
 ===================================================================
 --- /dev/null
-+++ node-18.13.0/test/embedding/cjs.cjs
++++ node-18.14.0/test/embedding/cjs.cjs
 @@ -0,0 +1,3 @@
 +module.exports = {
 +    value: "original"
 +};
-Index: node-18.13.0/test/embedding/es6.mjs
+Index: node-18.14.0/test/embedding/es6.mjs
 ===================================================================
 --- /dev/null
-+++ node-18.13.0/test/embedding/es6.mjs
++++ node-18.14.0/test/embedding/es6.mjs
 @@ -0,0 +1 @@
 +export const value = 'genuine';
-Index: node-18.13.0/test/embedding/napi_embedding.c
+Index: node-18.14.0/test/embedding/napi_embedding.c
 ===================================================================
 --- /dev/null
-+++ node-18.13.0/test/embedding/napi_embedding.c
++++ node-18.14.0/test/embedding/napi_embedding.c
 @@ -0,0 +1,260 @@
 +#define NAPI_EXPERIMENTAL
 +#define NAPI_EMBEDDING
@@ -1113,10 +1113,10 @@ Index: node-18.13.0/test/embedding/napi_embedding.c
 +fail:
 +  return -1;
 +}
-Index: node-18.13.0/test/embedding/test-napi-embedding.js
+Index: node-18.14.0/test/embedding/test-napi-embedding.js
 ===================================================================
 --- /dev/null
-+++ node-18.13.0/test/embedding/test-napi-embedding.js
++++ node-18.14.0/test/embedding/test-napi-embedding.js
 @@ -0,0 +1,75 @@
 +'use strict';
 +const common = require('../common');
@@ -1193,18 +1193,18 @@ Index: node-18.13.0/test/embedding/test-napi-embedding.js
 +                          ['0syntax_error'])
 +    .stderr.toString().trim(),
 +  /SyntaxError: Invalid or unexpected token/);
-Index: node-18.13.0/test/embedding/.eslintrc.yaml
+Index: node-18.14.0/test/embedding/.eslintrc.yaml
 ===================================================================
 --- /dev/null
-+++ node-18.13.0/test/embedding/.eslintrc.yaml
++++ node-18.14.0/test/embedding/.eslintrc.yaml
 @@ -0,0 +1,3 @@
 +rules:
 +  node-core/required-modules: off
 +  node-core/require-common-first: off
-Index: node-18.13.0/test/embedding/napi_modules.c
+Index: node-18.14.0/test/embedding/napi_modules.c
 ===================================================================
 --- /dev/null
-+++ node-18.13.0/test/embedding/napi_modules.c
++++ node-18.14.0/test/embedding/napi_modules.c
 @@ -0,0 +1,81 @@
 +#include <stdio.h>
 +#include <string.h>
@@ -1287,10 +1287,10 @@ Index: node-18.13.0/test/embedding/napi_modules.c
 +  CHECK(napi_destroy_platform(platform), "Failed destroying the platform");
 +  return 0;
 +}
-Index: node-18.13.0/deps/uv/src/unix/core.c
+Index: node-18.14.0/deps/uv/src/unix/core.c
 ===================================================================
---- node-18.13.0.orig/deps/uv/src/unix/core.c
-+++ node-18.13.0/deps/uv/src/unix/core.c
+--- node-18.14.0.orig/deps/uv/src/unix/core.c
++++ node-18.14.0/deps/uv/src/unix/core.c
 @@ -390,7 +390,6 @@ int uv_run(uv_loop_t* loop, uv_run_mode
  
    while (r != 0 && loop->stop_flag == 0) {
@@ -1324,10 +1324,10 @@ Index: node-18.13.0/deps/uv/src/unix/core.c
      r = uv__loop_alive(loop);
      if (mode == UV_RUN_ONCE || mode == UV_RUN_NOWAIT)
        break;
-Index: node-18.13.0/test/sequential/test-timers-block-eventloop.js
+Index: node-18.14.0/test/sequential/test-timers-block-eventloop.js
 ===================================================================
---- node-18.13.0.orig/test/sequential/test-timers-block-eventloop.js
-+++ node-18.13.0/test/sequential/test-timers-block-eventloop.js
+--- node-18.14.0.orig/test/sequential/test-timers-block-eventloop.js
++++ node-18.14.0/test/sequential/test-timers-block-eventloop.js
 @@ -7,6 +7,8 @@ const { sleep } = require('internal/util
  
  let called = false;
@@ -1337,10 +1337,10 @@ Index: node-18.13.0/test/sequential/test-timers-block-eventloop.js
    assert(!called);
    called = true;
    setImmediate(common.mustCall(() => {
-Index: node-18.13.0/lib/internal/bootstrap/switches/is_embedded_env.js
+Index: node-18.14.0/lib/internal/bootstrap/switches/is_embedded_env.js
 ===================================================================
 --- /dev/null
-+++ node-18.13.0/lib/internal/bootstrap/switches/is_embedded_env.js
++++ node-18.14.0/lib/internal/bootstrap/switches/is_embedded_env.js
 @@ -0,0 +1,21 @@
 +'use strict';
 +
@@ -1363,11 +1363,11 @@ Index: node-18.13.0/lib/internal/bootstrap/switches/is_embedded_env.js
 +const parent_path = require('url').pathToFileURL(path);
 +globalThis.import = (mod) => internalLoader.import(mod, parent_path, ObjectCreate(null));
 +globalThis.import.meta = { url: parent_path };
-Index: node-18.13.0/src/env-inl.h
+Index: node-18.14.0/src/env-inl.h
 ===================================================================
---- node-18.13.0.orig/src/env-inl.h
-+++ node-18.13.0/src/env-inl.h
-@@ -630,6 +630,10 @@ inline bool Environment::is_main_thread(
+--- node-18.14.0.orig/src/env-inl.h
++++ node-18.14.0/src/env-inl.h
+@@ -634,6 +634,10 @@ inline bool Environment::is_main_thread(
    return worker_context() == nullptr;
  }
  
@@ -1378,7 +1378,7 @@ Index: node-18.13.0/src/env-inl.h
  inline bool Environment::no_native_addons() const {
    return (flags_ & EnvironmentFlags::kNoNativeAddons) ||
            !options_->allow_native_addons;
-@@ -805,6 +809,13 @@ void Environment::set_process_exit_handl
+@@ -804,6 +808,13 @@ void Environment::set_process_exit_handl
    process_exit_handler_ = std::move(handler);
  }
  
@@ -1392,11 +1392,11 @@ Index: node-18.13.0/src/env-inl.h
  #define VP(PropertyName, StringValue) V(v8::Private, PropertyName)
  #define VY(PropertyName, StringValue) V(v8::Symbol, PropertyName)
  #define VS(PropertyName, StringValue) V(v8::String, PropertyName)
-Index: node-18.13.0/src/env.cc
+Index: node-18.14.0/src/env.cc
 ===================================================================
---- node-18.13.0.orig/src/env.cc
-+++ node-18.13.0/src/env.cc
-@@ -666,7 +666,8 @@ Environment::Environment(IsolateData* is
+--- node-18.14.0.orig/src/env.cc
++++ node-18.14.0/src/env.cc
+@@ -667,7 +667,8 @@ Environment::Environment(IsolateData* is
        flags_(flags),
        thread_id_(thread_id.id == static_cast<uint64_t>(-1)
                       ? AllocateEnvironmentThreadId().id
@@ -1406,11 +1406,11 @@ Index: node-18.13.0/src/env.cc
    // We'll be creating new objects so make sure we've entered the context.
    HandleScope handle_scope(isolate);
  
-Index: node-18.13.0/src/env.h
+Index: node-18.14.0/src/env.h
 ===================================================================
---- node-18.13.0.orig/src/env.h
-+++ node-18.13.0/src/env.h
-@@ -518,6 +518,8 @@ struct SnapshotData {
+--- node-18.14.0.orig/src/env.h
++++ node-18.14.0/src/env.h
+@@ -519,6 +519,8 @@ struct SnapshotData {
    ~SnapshotData();
  };
  
@@ -1419,7 +1419,7 @@ Index: node-18.13.0/src/env.h
  /**
   * Environment is a per-isolate data structure that represents an execution
   * environment. Each environment has a principal realm. An environment can
-@@ -757,6 +759,7 @@ class Environment : public MemoryRetaine
+@@ -759,6 +761,7 @@ class Environment : public MemoryRetaine
    inline void set_has_serialized_options(bool has_serialized_options);
  
    inline bool is_main_thread() const;
@@ -1427,7 +1427,7 @@ Index: node-18.13.0/src/env.h
    inline bool no_native_addons() const;
    inline bool should_not_register_esm_loader() const;
    inline bool should_create_inspector() const;
-@@ -952,6 +955,9 @@ class Environment : public MemoryRetaine
+@@ -954,6 +957,9 @@ class Environment : public MemoryRetaine
    inline void set_process_exit_handler(
        std::function<void(Environment*, int)>&& handler);
  
@@ -1437,7 +1437,7 @@ Index: node-18.13.0/src/env.h
    void RunAndClearNativeImmediates(bool only_refed = false);
    void RunAndClearInterrupts();
  
-@@ -1128,6 +1134,9 @@ class Environment : public MemoryRetaine
+@@ -1126,6 +1132,9 @@ class Environment : public MemoryRetaine
    // track of the BackingStore for a given pointer.
    std::unordered_map<char*, std::unique_ptr<v8::BackingStore>>
        released_allocated_buffers_;
@@ -1447,10 +1447,10 @@ Index: node-18.13.0/src/env.h
  };
  
  }  // namespace node
-Index: node-18.13.0/src/node_api.cc
+Index: node-18.14.0/src/node_api.cc
 ===================================================================
---- node-18.13.0.orig/src/node_api.cc
-+++ node-18.13.0/src/node_api.cc
+--- node-18.14.0.orig/src/node_api.cc
++++ node-18.14.0/src/node_api.cc
 @@ -1,6 +1,7 @@
  #include "async_wrap-inl.h"
  #include "env-inl.h"
@@ -1459,10 +1459,10 @@ Index: node-18.13.0/src/node_api.cc
  #include "js_native_api_v8.h"
  #include "memory_tracker-inl.h"
  #include "node_api.h"
-Index: node-18.13.0/src/node_api_internals.h
+Index: node-18.14.0/src/node_api_internals.h
 ===================================================================
---- node-18.13.0.orig/src/node_api_internals.h
-+++ node-18.13.0/src/node_api_internals.h
+--- node-18.14.0.orig/src/node_api_internals.h
++++ node-18.14.0/src/node_api_internals.h
 @@ -3,6 +3,7 @@
  
  #include "v8.h"
@@ -1471,10 +1471,10 @@ Index: node-18.13.0/src/node_api_internals.h
  #include "env-inl.h"
  #include "js_native_api_v8.h"
  #include "node_api.h"
-Index: node-18.13.0/src/node_binding.h
+Index: node-18.14.0/src/node_binding.h
 ===================================================================
---- node-18.13.0.orig/src/node_binding.h
-+++ node-18.13.0/src/node_binding.h
+--- node-18.14.0.orig/src/node_binding.h
++++ node-18.14.0/src/node_binding.h
 @@ -9,6 +9,7 @@
  
  #include "node.h"
@@ -1483,11 +1483,11 @@ Index: node-18.13.0/src/node_binding.h
  #include "node_api.h"
  #include "uv.h"
  
-Index: node-18.13.0/src/node_builtins.cc
+Index: node-18.14.0/src/node_builtins.cc
 ===================================================================
---- node-18.13.0.orig/src/node_builtins.cc
-+++ node-18.13.0/src/node_builtins.cc
-@@ -410,12 +410,13 @@ MaybeLocal<Function> BuiltinLoader::Look
+--- node-18.14.0.orig/src/node_builtins.cc
++++ node-18.14.0/src/node_builtins.cc
+@@ -411,12 +411,13 @@ MaybeLocal<Function> BuiltinLoader::Look
    } else if (strncmp(id,
                       "internal/bootstrap/",
                       strlen("internal/bootstrap/")) == 0) {
@@ -1502,10 +1502,10 @@ Index: node-18.13.0/src/node_builtins.cc
      };
    } else {
      // others: exports, require, module, process, internalBinding, primordials
-Index: node-18.13.0/test/parallel/test-http-client-response-timeout.js
+Index: node-18.14.0/test/parallel/test-http-client-response-timeout.js
 ===================================================================
---- node-18.13.0.orig/test/parallel/test-http-client-response-timeout.js
-+++ node-18.13.0/test/parallel/test-http-client-response-timeout.js
+--- node-18.14.0.orig/test/parallel/test-http-client-response-timeout.js
++++ node-18.14.0/test/parallel/test-http-client-response-timeout.js
 @@ -9,6 +9,6 @@ server.listen(common.mustCall(() => {
      http.get({ port: server.address().port }, common.mustCall((res) => {
        res.on('timeout', common.mustCall(() => req.destroy()));

@@ -1,7 +1,7 @@
-Index: node-18.13.0/node.pc
+Index: node-18.14.0/node.pc
 ===================================================================
 --- /dev/null
-+++ node-18.13.0/node.pc
++++ node-18.14.0/node.pc
 @@ -0,0 +1,10 @@
 +prefix=/usr
 +exec_prefix=/usr
