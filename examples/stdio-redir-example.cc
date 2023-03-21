@@ -1,6 +1,8 @@
 #include <stdio.h>
 #define NAPI_EXPERIMENTAL
 #define NAPI_EMBEDDING
+#include <node_api_embedding.h>
+
 #include <napi.h>
 
 // This example implements basic (no encoding) redirection
