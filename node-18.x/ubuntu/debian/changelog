@@ -1,3 +1,9 @@
+node (18.16.0-1~UNIVERSAL) UNIVERSAL; urgency=medium
+
+  * Upgrade Node.js to 18.16.0
+
+ -- Momtchil Momtchev <momtchil@momtchev.com>  Thu, 11 May 2023 19:48:08 +0200
+
 node (18.15.0-1~UNIVERSAL) UNIVERSAL; urgency=medium
 
   * Upgrade Node.js to 18.15.0
