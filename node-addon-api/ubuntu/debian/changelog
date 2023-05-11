@@ -1,4 +1,10 @@
-node-addon-api (5.0.0-4~UNIVERSAL) UNIVERSAL; urgency=medium
+node-addon-api (6.1.0-1~UNIVERSAL) UNIVERSAL; urgency=medium
+
+  * Update node-addon-api to 6.1.0
+
+ -- Momtchil Momtchev <momtchil@momtchev.com>  Thu, 11 May 2023 21:01:37 +0200
+ 
+ node-addon-api (5.0.0-4~UNIVERSAL) UNIVERSAL; urgency=medium
 
   * Add a C++ API for embedding Node.js through libnode
 

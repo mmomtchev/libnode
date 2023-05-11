@@ -1,7 +1,7 @@
-Index: node-addon-api-5.0.0/node-addon-api.pc.in
+Index: node-addon-api-6.1.0/node-addon-api.pc.in
 ===================================================================
 --- /dev/null
-+++ node-addon-api-5.0.0/node-addon-api.pc.in
++++ node-addon-api-6.1.0/node-addon-api.pc.in
 @@ -0,0 +1,9 @@
 +prefix=/usr
 +exec_prefix=/usr
