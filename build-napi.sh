@@ -35,6 +35,7 @@ for RELEASE in ${RELEASES}; do
         cd ..
         if [ -n "${PUBLISH}" ]; then
             dput --force ppa:mmomtchev/libnode node-addon-api_${PACKAGE_VERSION}~${RELEASE}_source.changes
+            dput --force ppa:mmomtchev/libnode-18.x node-addon-api_${PACKAGE_VERSION}~${RELEASE}_source.changes
         fi
     )
 done
