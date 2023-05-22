@@ -16,7 +16,9 @@ Ubuntu PPA:
 Unlike the distributions built-in packages, these packages:
 
 - Include [PR#43542](https://github.com/nodejs/node/pull/43542) allowing to embed the Node.js entirely through the binary stable Node-API from both C and C++. This PR might or might not get merged (it is currently under discussions)
-  ***This PR is currently on hold, as all parties to this project are deeply implicated in the affair mentioned on my front page. In particular, the Node.js team is posting various images related to the extortion every time there is any movement on the PR. I am remain committed to maintaining it in its current form, but I suppose that merging this in Node.js will be dependant on the outcome of the criminal affair.***
+
+  *** I am currently maintaining this project as a semi-permanent fork because, as part of the extortion about the judicial affairs that include corruption, I am being blocked from contributing to open-source projects. ***
+
 - Are similar to the [NodeSource binary distributions](https://github.com/nodesource/distributions)
 - libnode headers are installed in `/usr/include/libnode` to avoid a conflict with an eventual NodeSource `nodejs` installation - you should make sure that `/usr/include/libnode` appears before `/usr/include/node` in your compiler search path
 - Use self-contained packages that include all Node.js dependencies in the same executable - as very few people use both `libnode` and `libuv` or `v8` independently in the same project bundling these separately has no real benefit
