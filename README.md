@@ -4,6 +4,8 @@
 
 [![](https://raw.githubusercontent.com/OSGeo/osgeo/master/marketing/branding/logo/osgeo-logo-cmyk.svg)](https://www.osgeo.org/)
 
+***UPDATE: AS OF 2023-09-26 THE FRENCH POLICE TRIED INTIMIDATING ME TO STOP TALKING ABOUT THIS AFFAIR - DURING AN ILLEGAL RAID WITH DRAWN GUNS AT MY HOME - AT THIS POINT THE NODE.JS PROJECT ALSO DECIDED TO BAN ME FROM THEIR REPOSITORIES UNLESS I AGREE TO STOP DISCUSSING THE EXTORTION. SHOULD THEY RECONSIDER THIS DECISION, I AM STILL WILLING TO MERGE THIS PR. I COMPLETELY REFUSE TO STOP DISCUSSING THE JUDICIARY CORRUPTION.***
+
 My final GSoC 2022 report can be found here: https://github.com/mmomtchev/mmomtchev/blob/master/GSoC-2022/ZOO-Project-mmomtchev-GSoC-2022-Final-Report.md
 
 This repository contains the packaging used to generate the Ubuntu and Debian (_upcoming_) packages of `libnode` with [PR #43542](https://github.com/nodejs/node/pull/43542) bringing full Node-API and `node-addon-api` support to `libnode`.
